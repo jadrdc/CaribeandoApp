@@ -28,7 +28,7 @@ fun ProfileDetailItemSection(profileList: List<ProfileDataModel>, isLoading: Boo
         } else
         LazyColumn(
 
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(profileList) { item ->

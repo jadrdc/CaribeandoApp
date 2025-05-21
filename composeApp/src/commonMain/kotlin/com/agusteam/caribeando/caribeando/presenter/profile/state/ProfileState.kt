@@ -7,7 +7,9 @@ data class ProfileState(
     val isLoading: Boolean = false,
     val userProfileName: String = "",
     val name: String = "",
+    val profileImage: String = "",
     val lastname: String = "",
+    val avatarUrl: String = "",
     val email: String = "",
     val phone: String = "",
     val errorModel: ErrorModel? = null

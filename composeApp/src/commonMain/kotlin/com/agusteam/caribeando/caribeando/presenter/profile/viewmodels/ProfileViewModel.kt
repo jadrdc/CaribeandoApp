@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.model.Token
+import com.agusteam.caribeando.data.util.AVATAR
 import com.agusteam.caribeando.data.util.EMAIL
 import com.agusteam.caribeando.data.util.LAST_NAME
 import com.agusteam.caribeando.data.util.NAME
@@ -40,8 +41,10 @@ class ProfileViewModel(
             setState { copy(isLoading = true) }
 
             if (Token.isInformationLoaded) {
+                println("XAMTY LOCAL ${Token.token}")
                 loadLocalProfile()
             } else {
+                println("XAMTY REMOTE ${Token.token}")
                 loadRemoteProfile()
             }
 
@@ -56,9 +59,12 @@ class ProfileViewModel(
                 val lastName = preferences[stringPreferencesKey(LAST_NAME)] ?: ""
                 val email = preferences[stringPreferencesKey(EMAIL)] ?: ""
                 val phone = preferences[stringPreferencesKey(PHONE)] ?: ""
+                val profileImage = preferences[stringPreferencesKey(AVATAR)] ?: ""
+                println("CRUZ profileImage local ${profileImage}")
 
                 setState {
                     copy(
+                        profileImage = profileImage,
                         name = name,
                         lastname = lastName,
                         email = email,
@@ -74,13 +80,17 @@ class ProfileViewModel(
             is OperationResult.Success -> {
                 Token.isInformationLoaded = true
                 saveLocalDataUseCase(
-                    result.data.name,
-                    result.data.lastname,
-                    result.data.phone,
-                    result.data.email
+                    name = result.data.name,
+                    lastName = result.data.lastname,
+                    phone = result.data.phone,
+                    email = result.data.email,
+                    avatar = result.data.avatarUrl ?: ""
                 )
+                println("CRUZ profileImage remove $result")
+
                 setState {
                     copy(
+                        profileImage = result.data.avatarUrl ?: " ",
                         name = result.data.name,
                         lastname = result.data.lastname,
                         email = result.data.email,

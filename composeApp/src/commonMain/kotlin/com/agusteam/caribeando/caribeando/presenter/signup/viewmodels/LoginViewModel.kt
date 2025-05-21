@@ -83,6 +83,8 @@ class LoginViewModel(
 
             is OperationResult.Success -> {
                 val userModel = result.data
+                println("KARLA LOGIN ${result.data}")
+
                 saveTokenDataUseCase(userModel)
                 sendEvent(LoginEvent.OnUserLogon(userModel))
             }

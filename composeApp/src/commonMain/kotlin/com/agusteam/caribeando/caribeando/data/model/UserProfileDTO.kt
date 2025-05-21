@@ -12,5 +12,5 @@ data class UserDto(
     val phone: String,
     val password: String,
     val birthdate: String,
-    val avatarUrl: String = ""
+    val avatarUrl: String? = null
 )

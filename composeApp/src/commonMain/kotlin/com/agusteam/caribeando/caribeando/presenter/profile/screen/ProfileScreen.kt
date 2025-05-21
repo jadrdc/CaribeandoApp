@@ -29,7 +29,6 @@ import com.agusteam.caribeando.presenter.common.ErrorModal
 import com.agusteam.caribeando.presenter.common.ObserveAsEvents
 import com.agusteam.caribeando.presenter.common.effects.shimmerEffect
 import com.agusteam.caribeando.presenter.profile.composable.ProfileDetailItemSection
-import com.agusteam.caribeando.presenter.profile.composable.ProfileHeader
 import com.agusteam.caribeando.presenter.profile.viewmodels.ProfileEvent.LogoutUser
 import com.agusteam.caribeando.presenter.profile.viewmodels.ProfileEvent.OnErrorModalAccepted
 import com.agusteam.caribeando.presenter.profile.viewmodels.ProfileEvent.UserSessionClosed
@@ -43,6 +42,7 @@ import caribeando.composeapp.generated.resources.lastname
 import caribeando.composeapp.generated.resources.logout
 import caribeando.composeapp.generated.resources.name
 import caribeando.composeapp.generated.resources.phone
+import com.agusteam.caribeando.presenter.profile.composable.ProfileHeader
 
 @Composable
 fun ProfileScreen(
@@ -91,7 +91,10 @@ fun ProfileScreen(
         Modifier.padding(horizontal = 16.dp).fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        ProfileHeader(isLoading = state.isLoading, value = state.fullName)
+        ProfileHeader(
+            isLoading = state.isLoading, value = state.fullName,
+            imageUrl = state.profileImage
+        )
         ProfileDetailItemSection(isLoading = state.isLoading, profileList = profiles)
         if (state.isLoading) {
             Box(

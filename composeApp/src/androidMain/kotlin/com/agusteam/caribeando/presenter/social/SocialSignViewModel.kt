@@ -60,6 +60,7 @@ class SocialSignViewModel(
                     }
 
                     is OperationResult.Success -> {
+                        println("KARLA SOCIAL ${result.data}")
                         saveTokenDataUseCase(result.data)
                         sendEvent(SocialSignInEvent.Success(result.data))
                     }
