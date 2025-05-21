@@ -6,6 +6,7 @@ import com.agusteam.caribeando.presenter.orders.viewmodels.OrderHistoryViewModel
 import com.agusteam.caribeando.presenter.orders.viewmodels.WishListOrderDetailViewModel
 import com.agusteam.caribeando.presenter.profile.viewmodels.ProfileViewModel
 import com.agusteam.caribeando.presenter.profile.viewmodels.TripProviderViewModel
+import com.agusteam.caribeando.presenter.shopping.viewmodels.RatingOrderViewModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ReportOrderViewModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingItemDetailsViewModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingOrderDetailViewModel
@@ -32,6 +33,7 @@ val viewModelModule = module {
     viewModel<ShoppingOrderDetailViewModel> { ShoppingOrderDetailViewModel() }
     viewModel<WishListItemViewModel> { WishListItemViewModel(get()) }
     viewModel<HomeViewModel> { HomeViewModel() }
+    viewModel<RatingOrderViewModel> { RatingOrderViewModel(get()) }
     viewModel<ReportOrderViewModel> { ReportOrderViewModel(get()) }
     viewModel<PaymentViewModel> { PaymentViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel<TripProviderViewModel> { TripProviderViewModel(get(), get()) }

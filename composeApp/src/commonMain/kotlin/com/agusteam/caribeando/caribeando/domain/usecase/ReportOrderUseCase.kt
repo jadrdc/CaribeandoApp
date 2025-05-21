@@ -9,3 +9,4 @@ class ReportOrderUseCase(val repository: OrderRepository) {
         return repository.reportOrder(ReportOrder(order = orderId, message = message))
     }
 }
+

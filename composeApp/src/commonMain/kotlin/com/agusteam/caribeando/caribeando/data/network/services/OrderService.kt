@@ -4,6 +4,7 @@ import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.ReportOrder
+import com.agusteam.caribeando.data.model.TripScheduleRatingRequest
 import com.agusteam.caribeando.data.model.UpcomingOrderTripModelResponse
 import com.agusteam.caribeando.presenter.URL
 import io.ktor.client.HttpClient
@@ -17,6 +18,20 @@ class OrderService(
     private val httpClient: HttpClient
 ) {
 
+    suspend fun rateOrder(model: TripScheduleRatingRequest): OperationResult<Any> {
+        return try {
+            val response = httpClient.post(
+                urlString = "${URL}rating"
+            ) {
+                setBody(model)
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+            }
+            mapResponse<Boolean>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
     suspend fun reportOrder(model: ReportOrder): OperationResult<Boolean> {
         return try {
             val response = httpClient.post(
@@ -27,7 +42,7 @@ class OrderService(
             }
             mapResponse<Boolean>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -40,7 +55,7 @@ class OrderService(
             }
             mapResponse<List<UpcomingOrderTripModelResponse>>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -53,7 +68,7 @@ class OrderService(
             }
             mapResponse<List<UpcomingOrderTripModelResponse>>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 }
