@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.google
 import caribeando.composeapp.generated.resources.google_button
+import com.agusteam.caribeando.domain.models.TokenMode
+import com.agusteam.caribeando.presenter.signup.viewmodels.LoginEvent.OnUserLogon
 import com.agusteam.caribeando.presenter.social.SocialSignInEvent
 import com.agusteam.caribeando.presenter.social.SocialSignViewModel
 import com.agusteam.caribeando.presenter.theme.secondary
@@ -34,9 +36,17 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-actual fun SocialButton() {
+actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
     val viewModel: SocialSignViewModel = koinViewModel()
     val context = LocalContext.current
+
+    val event = viewModel.events
+
+    ObserveAsEvents(event) { event ->
+        if (event is SocialSignInEvent.Success) {
+            onLogin(event.data)
+        }
+    }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -45,9 +55,9 @@ actual fun SocialButton() {
             RESULT_OK -> {
                 result.data?.let { intentData ->
                     viewModel.handleEvent(SocialSignInEvent.SignInSuccessful(intentData))
-                    showToast(context, "Sign-in successful")
                 } ?: showToast(context, "Sign-in successful but no data found")
             }
+
             else -> showToast(context, "Sign-in failed")
         }
     }

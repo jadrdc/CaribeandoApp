@@ -7,13 +7,16 @@ import com.agusteam.caribeando.core.auth.GoogleAuthUiClient
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.usecase.GoogleSignInUseCase
+import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
 import com.agusteam.caribeando.presenter.social.state.SocialSignState
 import kotlinx.coroutines.launch
 
 class SocialSignViewModel(
     private val googleServiceProvider: GoogleAuthUiClient,
-    private val googleSignInUseCase: GoogleSignInUseCase
-) :
+    private val googleSignInUseCase: GoogleSignInUseCase,
+    private val saveTokenDataUseCase: SaveTokenDataUseCase,
+
+    ) :
     GenericViewModel<SocialSignState, SocialSignInEvent>(SocialSignState()) {
 
 
@@ -52,11 +55,13 @@ class SocialSignViewModel(
                 val result = googleSignInUseCase(signInResult.data?.googleIdToken ?: "")
                 when (result) {
                     is OperationResult.Error -> {
+                        println("CRUZ ${result.exception.message}")
 
                     }
 
                     is OperationResult.Success -> {
-                        println("CRUZ ${result.data}")
+                        saveTokenDataUseCase(result.data)
+                        sendEvent(SocialSignInEvent.Success(result.data))
                     }
                 }
 

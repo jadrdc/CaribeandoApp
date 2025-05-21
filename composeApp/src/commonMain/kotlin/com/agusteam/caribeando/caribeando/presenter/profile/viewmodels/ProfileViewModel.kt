@@ -30,6 +30,8 @@ class ProfileViewModel(
 ) : GenericViewModel<ProfileState, ProfileEvent>(ProfileState()) {
 
     init {
+        println("CRUZ TOKEN ${Token.token}")
+        println("CRUZ REFRESH ${Token.refreshToken}")
         loadUserProfile()
     }
 

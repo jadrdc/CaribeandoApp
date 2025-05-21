@@ -24,7 +24,7 @@ actual val dataStorageDIModule: Module
     get() = module {
         single<SignInClient> { Identity.getSignInClient(androidContext()) }
         single<GoogleAuthUiClient> { GoogleAuthUiClient(androidContext(), get()) }
-        viewModel<SocialSignViewModel> { SocialSignViewModel(get(),get()) }
+        viewModel<SocialSignViewModel> { SocialSignViewModel(get(),get(), get()) }
         single { PlatformContext(androidContext()) }
         single<DataStore<Preferences>> {
             createDataStore(androidContext())

@@ -153,7 +153,9 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            SocialButton()
+            SocialButton { token ->
+                onLogin(token)
+            }
 
             Spacer(modifier = Modifier.height(32.dp))
         }
