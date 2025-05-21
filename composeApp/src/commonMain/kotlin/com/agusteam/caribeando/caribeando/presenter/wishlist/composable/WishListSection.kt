@@ -16,6 +16,7 @@ import com.agusteam.caribeando.domain.models.TripModel
 import org.jetbrains.compose.resources.stringResource
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.favorite
+import com.agusteam.caribeando.caribeando.presenter.common.EmptyState
 
 @Composable
 fun WishListSection(favoriteItems: List<TripModel>, goDetails: (TripModel) -> Unit) {
@@ -25,16 +26,23 @@ fun WishListSection(favoriteItems: List<TripModel>, goDetails: (TripModel) -> Un
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
         )
-        LazyVerticalGrid(
-            modifier = Modifier.padding(top = 16.dp),
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            items(favoriteItems) { item ->
-                WishItem(item) {
-                    goDetails(item)
+        if (favoriteItems.isNotEmpty()){
+            LazyVerticalGrid(
+                modifier = Modifier.padding(top = 16.dp),
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                items(favoriteItems) { item ->
+                    WishItem(item) {
+                        goDetails(item)
+                    }
                 }
             }
-        }
+    } else{
+        EmptyState(
+            message = "No hay viajes que mostrar",
+            actionText = "Intente nuevamente"
+        )
+    }
     }
 }

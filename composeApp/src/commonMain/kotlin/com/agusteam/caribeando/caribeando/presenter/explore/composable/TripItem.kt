@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.agusteam.caribeando.caribeando.presenter.common.RatingAndReviews
 import com.agusteam.caribeando.domain.models.TripModel
 import com.agusteam.caribeando.presenter.common.FavoriteButton
 import com.agusteam.caribeando.presenter.explore.viewmodels.ExploreEvent
@@ -88,6 +89,7 @@ fun TripItem(
                     }
                 }
             }
+            RatingAndReviews(averageRating = 3.5, reviewCount = 23)
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
