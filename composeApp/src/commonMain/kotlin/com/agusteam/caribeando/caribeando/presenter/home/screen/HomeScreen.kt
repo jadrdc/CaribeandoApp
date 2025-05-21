@@ -61,7 +61,7 @@ fun HomeScreen(
                         viewModel.handleEvent(HomeViewModel.HomeEvent.ChangeHomeTab(HomeOption.EXPLORE))
                         ExploreScreen { tripModel ->
 
-                            if (Token.isValid) {
+                            if (Token.isValid && Token.isConfirmed) {
                                 onNavigateDetails(
                                     TripDetailScreenRoute(
                                         destiny = tripModel.destiny,
@@ -91,7 +91,7 @@ fun HomeScreen(
                         }
                     }
                     composable(NavigationRoutes.ProfileScreen.route) {
-                        if (Token.isValid) {
+                        if (Token.isValid && Token.isConfirmed) {
                             viewModel.handleEvent(HomeViewModel.HomeEvent.ChangeHomeTab(HomeOption.PROFILE))
                             ProfileScreen(logout = logout)
                         } else {
@@ -99,7 +99,7 @@ fun HomeScreen(
                         }
                     }
                     composable(NavigationRoutes.WishListScreen.route) {
-                        if (Token.isValid) {
+                        if (Token.isValid && Token.isConfirmed) {
                             viewModel.handleEvent(HomeViewModel.HomeEvent.ChangeHomeTab(HomeOption.WISHLIST))
                             WishListNavigationFlow()
                         } else {
@@ -108,7 +108,7 @@ fun HomeScreen(
                     }
 
                     composable(NavigationRoutes.OrderHistoryScreen.route) {
-                        if (Token.isValid) {
+                        if (Token.isValid && Token.isConfirmed) {
                             OrderHistoryNavigationFlow(showBottomNav = {
                                 if (it)
                                     viewModel.handleEvent(

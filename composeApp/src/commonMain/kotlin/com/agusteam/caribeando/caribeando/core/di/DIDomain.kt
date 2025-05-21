@@ -20,6 +20,7 @@ import com.agusteam.caribeando.domain.interfaces.TripRepository
 import com.agusteam.caribeando.domain.interfaces.UserProfileRepository
 import com.agusteam.caribeando.domain.usecase.CancelPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.CreatePendingPaymentOrderUseCase
+import com.agusteam.caribeando.domain.usecase.FillUserInfoUseCase
 import com.agusteam.caribeando.domain.usecase.GetCategoryUseCase
 import com.agusteam.caribeando.domain.usecase.GetPaginatedTripsUseCase
 import com.agusteam.caribeando.domain.usecase.GetPastTripOrderUseCase
@@ -57,6 +58,7 @@ val diDomainModule = module {
     single<SignUpUseCase> { SignUpUseCase(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
     single<TripProviderRepository> { TripProviderRepositoryImp(get()) }
+    single<FillUserInfoUseCase> { FillUserInfoUseCase(get()) }
     single<GetCategoryUseCase> { GetCategoryUseCase(get()) }
     single<SaveTokenDataUseCase> { SaveTokenDataUseCase(get()) }
     single<GetLocalProfileUseCase> { GetLocalProfileUseCase(get()) }

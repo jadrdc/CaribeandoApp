@@ -29,10 +29,10 @@ fun MainNavigationFlow() {
         ) {
             composable(SignupNavigationRoutes.LoginScreen.route) {
                 LoginScreen(onLogin = { model ->
-                    if (!(model.isPhoneConfigured || model.isBirthdateConfigured)) {
+                    if ((!model.isPhoneConfigured || !model.isBirthdateConfigured)) {
                         navController.navigate(SignupNavigationRoutes.FillUserInfo.route)
                     } else {
-                        navController.navigate(SignupNavigationRoutes.HomeScreen.route)
+                        navController.navigate(SignupNavigationRoutes.HomeScreen)
                     }
                 }, onSignUp = {
                     navController.navigate(SignupNavigationRoutes.SignUpCreateScreen.route)
@@ -42,7 +42,11 @@ fun MainNavigationFlow() {
                 SignUpAccountScreen(onBackPressed = { navController.popBackStack() })
             }
             composable(SignupNavigationRoutes.FillUserInfo.route) {
-                FillSignUpAccountScreen(onBackPressed = { navController.popBackStack() })
+                FillSignUpAccountScreen(
+                    onBackPressed = { navController.popBackStack() },
+                    onLogin = {
+                        navController.navigate(SignupNavigationRoutes.HomeScreen)
+                    })
             }
             composable<SignupNavigationRoutes.HomeScreen> {
                 HomeScreen(onNavigateDetails = { route ->

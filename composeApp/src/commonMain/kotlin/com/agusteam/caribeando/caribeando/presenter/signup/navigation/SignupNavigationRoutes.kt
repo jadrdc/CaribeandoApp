@@ -11,5 +11,5 @@ sealed class SignupNavigationRoutes(val route: String) {
     data object HomeScreen : SignupNavigationRoutes("home_screen")
 
     @Serializable
-    data object FillUserInfo : SignupNavigationRoutes("home_screen")
+    data object FillUserInfo : SignupNavigationRoutes("fill_user")
 }

@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class TokenResponse(
     val accessToken: String,
     val refreshToken: String,
-    val isPhoneConfigured: Boolean = false,
-    val isBirthdateConfigured: Boolean = false,
+    val phoneConfigured: Boolean = false,
+    val birthdateConfigured: Boolean = false,
 )

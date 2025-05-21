@@ -7,10 +7,12 @@ import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.TokenResponse
 import com.agusteam.caribeando.data.model.RequestPasswordChangeModel
+import com.agusteam.caribeando.data.model.UpdatePhoneAndBirthdateRequest
 import com.agusteam.caribeando.data.model.UserSignUpRequest
 import com.agusteam.caribeando.presenter.URL
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
@@ -18,6 +20,20 @@ import io.ktor.http.contentType
 class SignUpService(
     private val httpClient: HttpClient
 ) {
+
+    suspend fun fillUserInformation(model: UpdatePhoneAndBirthdateRequest): OperationResult<TokenResponse> {
+        return try {
+            val response = httpClient.put(
+                urlString = "${URL}auth/updatePhoneAndBirthdate"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+                setBody(model)
+            }
+            return mapResponse<TokenResponse>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
 
     suspend fun googleSignIn(model: GoogleTokenRequest): OperationResult<TokenResponse> {
         return try {
@@ -29,7 +45,7 @@ class SignUpService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -43,7 +59,7 @@ class SignUpService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -57,7 +73,7 @@ class SignUpService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -71,7 +87,7 @@ class SignUpService(
             }
             return mapResponse<String>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 

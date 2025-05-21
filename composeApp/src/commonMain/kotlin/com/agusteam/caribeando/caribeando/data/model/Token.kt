@@ -6,7 +6,7 @@ object Token {
     var refreshToken: String = ""
     val isValid: Boolean
         get() = token.isNotBlank() && refreshToken.isNotBlank()
-
+    var isConfirmed: Boolean = false
     fun logout() {
         refreshToken = ""
         token = ""

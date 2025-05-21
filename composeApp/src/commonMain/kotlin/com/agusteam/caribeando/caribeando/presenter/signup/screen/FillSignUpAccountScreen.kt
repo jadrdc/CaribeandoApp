@@ -35,6 +35,7 @@ import caribeando.composeapp.generated.resources.password
 import caribeando.composeapp.generated.resources.phone
 import caribeando.composeapp.generated.resources.signup
 import caribeando.composeapp.generated.resources.terms
+import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.presenter.common.ActionButton
 import com.agusteam.caribeando.presenter.common.EditInputField
 import com.agusteam.caribeando.presenter.common.ErrorModal
@@ -53,11 +54,16 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun FillSignUpAccountScreen(
     viewModel: SignUpViewModel = koinViewModel(),
+    onLogin:()->Unit,
     onBackPressed: () -> Unit = {}
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
-    ObserveAsEvents(event) { event -> }
+    ObserveAsEvents(event) { event ->
+        if (event is SignUpViewModel.SignUpEvent.GoHome) {
+            onLogin()
+        }
+    }
 
     ErrorModal(
         title = state.errorModel?.title ?: "",
@@ -136,7 +142,7 @@ fun FillSignUpAccountScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                viewModel.onEventHandler(SignUpViewModel.SignUpEvent.SignUp)
+                viewModel.onEventHandler(SignUpViewModel.SignUpEvent.FillRemainingInfo)
             }
             Spacer(modifier = Modifier.height(24.dp))
         }

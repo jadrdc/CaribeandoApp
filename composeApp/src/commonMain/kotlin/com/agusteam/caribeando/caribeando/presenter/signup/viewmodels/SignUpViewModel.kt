@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
+import com.agusteam.caribeando.domain.usecase.FillUserInfoUseCase
+import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
 import com.agusteam.caribeando.domain.usecase.SignUpUseCase
 import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
@@ -14,7 +16,9 @@ import kotlinx.datetime.Instant
 
 class SignUpViewModel(
     private val validator: FieldValidator,
+    private val fillUserInfoUseCase: FillUserInfoUseCase,
     private val signUpUseCase: SignUpUseCase,
+    private val saveTokenDataUseCase: SaveTokenDataUseCase,
 ) : GenericViewModel<SignupState, SignUpViewModel.SignUpEvent>(SignupState()) {
 
     private suspend fun signUp() {
@@ -153,6 +157,24 @@ class SignUpViewModel(
                     onPasswordConfirmChanged(event.value)
                 }
 
+                is SignUpEvent.FillRemainingInfo -> {
+                    setState { copy(isLoading = true) }
+                    val result =
+                        fillUserInfoUseCase(state.value.phone, state.value.birthdate.toString())
+                    when (result) {
+                        is OperationResult.Error -> {
+                            setState { copy(isLoading = false) }
+
+                        }
+
+                        is OperationResult.Success -> {
+                            setState { copy(isLoading = false) }
+                            saveTokenDataUseCase(result.data)
+                            sendEvent(SignUpEvent.GoHome)
+                        }
+                    }
+                }
+
                 is SignUpEvent.OnEmailChanged -> {
                     onEmailChanged(event.value)
                 }
@@ -194,6 +216,7 @@ class SignUpViewModel(
 
     sealed interface SignUpEvent {
         data object SignUp : SignUpEvent
+        data object FillRemainingInfo : SignUpEvent
         data object ClearError : SignUpEvent
         data object GoHome : SignUpEvent
         data class OnBirthdateChanged(val data: Instant) : SignUpEvent

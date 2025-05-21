@@ -5,6 +5,9 @@ import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.RequestPasswordChangeModel
+import com.agusteam.caribeando.data.model.Token
+import com.agusteam.caribeando.data.model.TokenResponse
+import com.agusteam.caribeando.data.model.UpdatePhoneAndBirthdateRequest
 import com.agusteam.caribeando.data.model.UserSignUpRequest
 import com.agusteam.caribeando.data.network.services.SignUpService
 import com.agusteam.caribeando.domain.interfaces.LoginRepository
@@ -18,15 +21,47 @@ import kotlinx.datetime.toLocalDateTime
 
 class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository {
 
+    override suspend fun fillUserInformation(
+        phone: String,
+        birthdate: String
+    ): OperationResult<TokenMode> {
+        return try {
+            when (val result = service.fillUserInformation(
+                UpdatePhoneAndBirthdateRequest(
+                    phone = phone,
+                    birthdate = birthdate
+                )
+            )) {
+                is OperationResult.Success -> {
+                    Token.isConfirmed =
+                        result.data.phoneConfigured && result.data.birthdateConfigured
+                    OperationResult.Success(
+                        TokenMode(
+                            isPhoneConfigured = result.data.phoneConfigured,
+                            isBirthdateConfigured = result.data.birthdateConfigured,
+                            accessToken = result.data.accessToken,
+                            refreshToken = result.data.refreshToken
+                        )
+                    )
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
 
     override suspend fun login(email: String, password: String): OperationResult<TokenMode> {
         return try {
             when (val result = service.login(LoginRequest(email, password))) {
                 is OperationResult.Success -> {
+                    Token.isConfirmed =
+                        result.data.phoneConfigured && result.data.birthdateConfigured
                     OperationResult.Success(
                         TokenMode(
-                            isPhoneConfigured = result.data.isPhoneConfigured,
-                            isBirthdateConfigured = result.data.isBirthdateConfigured,
+                            isPhoneConfigured = result.data.phoneConfigured,
+                            isBirthdateConfigured = result.data.birthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
@@ -44,10 +79,12 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
         return try {
             when (val result = service.googleSignIn(GoogleTokenRequest(token))) {
                 is OperationResult.Success -> {
+                    Token.isConfirmed =
+                        result.data.phoneConfigured && result.data.birthdateConfigured
                     OperationResult.Success(
                         TokenMode(
-                            isPhoneConfigured = result.data.isPhoneConfigured,
-                            isBirthdateConfigured = result.data.isBirthdateConfigured,
+                            isPhoneConfigured = result.data.phoneConfigured,
+                            isBirthdateConfigured = result.data.birthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
@@ -84,8 +121,12 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                     )
                 )) {
                 is OperationResult.Success -> {
+                    Token.isConfirmed =
+                        result.data.phoneConfigured && result.data.birthdateConfigured
                     OperationResult.Success(
                         TokenMode(
+                            isPhoneConfigured = result.data.phoneConfigured,
+                            isBirthdateConfigured = result.data.birthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
