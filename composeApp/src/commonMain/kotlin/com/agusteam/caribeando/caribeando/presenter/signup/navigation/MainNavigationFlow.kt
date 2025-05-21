@@ -14,6 +14,7 @@ import androidx.navigation.toRoute
 import com.agusteam.caribeando.presenter.home.navigation.TripDetailScreenRoute
 import com.agusteam.caribeando.presenter.home.screen.HomeScreen
 import com.agusteam.caribeando.presenter.shopping.navigation.ShoppingFlowNavigation
+import com.agusteam.caribeando.presenter.signup.screen.FillSignUpAccountScreen
 import com.agusteam.caribeando.presenter.signup.screen.LoginScreen
 import com.agusteam.caribeando.presenter.signup.screen.SignUpAccountScreen
 import com.agusteam.caribeando.presenter.theme.backGround
@@ -27,8 +28,11 @@ fun MainNavigationFlow() {
             navController = navController, startDestination = SignupNavigationRoutes.HomeScreen
         ) {
             composable(SignupNavigationRoutes.LoginScreen.route) {
-                LoginScreen(onLogin = {
-                    navController.navigate(SignupNavigationRoutes.HomeScreen) {
+                LoginScreen(onLogin = { model ->
+                    if (!(model.isPhoneConfigured || model.isBirthdateConfigured)) {
+                        navController.navigate(SignupNavigationRoutes.FillUserInfo.route)
+                    } else {
+                        navController.navigate(SignupNavigationRoutes.HomeScreen.route)
                     }
                 }, onSignUp = {
                     navController.navigate(SignupNavigationRoutes.SignUpCreateScreen.route)
@@ -36,6 +40,9 @@ fun MainNavigationFlow() {
             }
             composable(SignupNavigationRoutes.SignUpCreateScreen.route) {
                 SignUpAccountScreen(onBackPressed = { navController.popBackStack() })
+            }
+            composable(SignupNavigationRoutes.FillUserInfo.route) {
+                FillSignUpAccountScreen(onBackPressed = { navController.popBackStack() })
             }
             composable<SignupNavigationRoutes.HomeScreen> {
                 HomeScreen(onNavigateDetails = { route ->

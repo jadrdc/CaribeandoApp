@@ -2,6 +2,11 @@ package com.agusteam.caribeando.presenter.signup.state
 
 import com.agusteam.caribeando.core.base.ViewModelState
 import com.agusteam.caribeando.domain.models.ErrorModel
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.ZoneOffset
+import kotlin.time.Duration.Companion.days
 
 data class SignupState(
     val name: String = "",
@@ -19,6 +24,7 @@ data class SignupState(
     val phoneError: String = "",
     val isPhoneError: Boolean = false,
     val isLoading: Boolean = false,
+    val birthdate: Instant = Clock.System.now().minus((18 * 365).days),
     val errorModel: ErrorModel? = null
 ) : ViewModelState {
     fun isValid(): Boolean {

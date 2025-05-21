@@ -25,6 +25,8 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                 is OperationResult.Success -> {
                     OperationResult.Success(
                         TokenMode(
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
@@ -44,6 +46,8 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                 is OperationResult.Success -> {
                     OperationResult.Success(
                         TokenMode(
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )

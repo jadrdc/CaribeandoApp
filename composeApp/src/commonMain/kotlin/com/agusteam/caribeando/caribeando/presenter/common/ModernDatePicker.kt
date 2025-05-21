@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
@@ -96,6 +97,7 @@ val Month.daysIn: (Int) -> Int
 
 @Composable
 fun ModernDatePicker(
+    startDate: String,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
