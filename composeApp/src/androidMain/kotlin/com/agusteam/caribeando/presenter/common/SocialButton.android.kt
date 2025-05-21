@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -41,55 +41,49 @@ actual fun SocialButton() {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            result.data?.let { intentData ->
-                viewModel.handleEvent(SocialSignInEvent.SignInSuccessful(intentData))
-                Toast.makeText(
-                    context,
-                    "Sign-successfull",
-                    Toast.LENGTH_LONG
-                ).show()
-            } ?: run {
-                Toast.makeText(
-                    context,
-                    "Sign-successfull but not data found : ${result.resultCode}",
-                    Toast.LENGTH_LONG
-                ).show()
+        when (result.resultCode) {
+            RESULT_OK -> {
+                result.data?.let { intentData ->
+                    viewModel.handleEvent(SocialSignInEvent.SignInSuccessful(intentData))
+                    showToast(context, "Sign-in successful")
+                } ?: showToast(context, "Sign-in successful but no data found")
             }
-        } else {
-            Toast.makeText(
-                context,
-                "Sign-in failed with result code: ${result.resultCode}",
-                Toast.LENGTH_LONG
-            ).show()
+            else -> showToast(context, "Sign-in failed")
         }
     }
 
+    GoogleSignInButton(
+        onClick = { viewModel.handleEvent(SocialSignInEvent.Login(launcher)) }
+    )
+}
 
+@Composable
+private fun GoogleSignInButton(onClick: () -> Unit) {
     Row(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(top = 32.dp, bottom = 16.dp)
             .border(1.dp, secondary, RoundedCornerShape(8.dp))
             .height(52.dp)
-            .clickable {
-                viewModel.handleEvent(SocialSignInEvent.Login(launcher))
-            }, horizontalArrangement = Arrangement.Center
+            .clickable(onClick = onClick),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(Res.drawable.google),
-            contentDescription = "google",
-            modifier = Modifier
-                .size(24.dp)
-                .align(CenterVertically)
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
         )
+
         Text(
             text = stringResource(Res.string.google_button),
             style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 16.sp),
             color = secondary,
-            modifier = Modifier
-                .padding(start = 20.dp)
-                .align(CenterVertically)
+            modifier = Modifier.padding(start = 20.dp)
         )
     }
+}
+
+private fun showToast(context: android.content.Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
