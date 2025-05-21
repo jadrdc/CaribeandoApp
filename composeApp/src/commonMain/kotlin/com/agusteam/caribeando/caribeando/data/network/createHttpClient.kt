@@ -47,7 +47,7 @@ fun createHttpClient(
                     val result =
                         tokenProvider.refresh(RefreshTokenRequest(tokenProvider.getRefresh()))
                     when (result) {
-                        is OperationResult.Error -> null
+                        is  mapExceptions(e) -> null
                         is OperationResult.Success -> {
                             BearerTokens(
                                 accessToken = result.data.accessToken,

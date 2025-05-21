@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.network.services
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.RefreshTokenRequest
 import com.agusteam.caribeando.data.model.TokenResponse
@@ -24,7 +25,7 @@ class RefreshService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 }

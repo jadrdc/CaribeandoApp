@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.network.services
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
@@ -28,7 +29,7 @@ class SignUpService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -42,7 +43,7 @@ class SignUpService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -56,7 +57,7 @@ class SignUpService(
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -70,7 +71,7 @@ class SignUpService(
             }
             return mapResponse<String>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 

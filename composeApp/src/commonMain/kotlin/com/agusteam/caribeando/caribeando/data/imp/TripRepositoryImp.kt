@@ -2,6 +2,7 @@ package com.agusteam.caribeando.data.imp
 
 import PaginationManager
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.TripFavoriteRequest
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.data.model.TripsAvailablePaginationRequest
@@ -51,7 +52,7 @@ class TripRepositoryImp(private val service: TripService) : TripRepository {
                 onFailure = { OperationResult.Error(Exception(it.message)) }
             )
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 

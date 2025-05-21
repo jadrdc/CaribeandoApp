@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.network.services
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.PaymentFailureRequest
 import com.agusteam.caribeando.data.model.PaymentPendingOrderRequest
@@ -31,7 +32,7 @@ class PaymentService(
             mapResponse<StripePaymentIntentResponse>(response)
 
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -46,7 +47,7 @@ class PaymentService(
             val res = mapResponse<PaymentPendingOrderResponse>(response)
             res
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -60,7 +61,7 @@ class PaymentService(
             }
             mapResponse<Boolean>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -74,7 +75,7 @@ class PaymentService(
             }
             mapResponse<Boolean>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 }

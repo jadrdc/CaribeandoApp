@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.imp
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.RequestPasswordChangeModel
@@ -33,7 +34,7 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                 is OperationResult.Error -> result
             }
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 
@@ -52,7 +53,7 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                 is OperationResult.Error -> result
             }
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 
@@ -91,7 +92,7 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
             }
 
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 
@@ -106,7 +107,7 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
             }
 
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 }

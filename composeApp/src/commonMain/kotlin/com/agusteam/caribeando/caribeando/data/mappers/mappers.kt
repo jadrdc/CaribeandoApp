@@ -1,11 +1,10 @@
 package com.agusteam.caribeando.data.mappers
 
+import coil3.network.HttpException
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.model.CategoryResponse
-import com.agusteam.caribeando.data.model.ErrorResponse
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.data.model.TripProviderUpcomingTripsResponseItem
-import com.agusteam.caribeando.data.model.TripWishListResponse
 import com.agusteam.caribeando.domain.models.CategoryModel
 import com.agusteam.caribeando.domain.models.TripModel
 import com.agusteam.caribeando.domain.models.UpcomingOrders
@@ -13,8 +12,7 @@ import com.agusteam.caribeando.presenter.formatDateRange
 import com.agusteam.caribeando.presenter.formatInstant
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.bodyAsText
-import io.ktor.utils.io.InternalAPI
+import kotlinx.io.IOException
 
 fun UpcomingOrders.toDomain(): TripModel {
     return TripModel(id = "", name = tripName, images = listOf(tripImage), date = date)
@@ -83,9 +81,34 @@ suspend inline fun <reified T> mapResponse(response: HttpResponse): OperationRes
 
         else -> {
             // Handle error response and map it to the ErrorResponse type
-            println("CRUSEL ${response.bodyAsText()}")
-            val error = response.body<ErrorResponse>()
-            OperationResult.Error(Exception(error.error))
+            val errorMessage = getErrorCode(response.status.value)
+            OperationResult.Error(Exception(errorMessage))
         }
     }
+}
+
+fun mapExceptions(e: Exception): OperationResult<Nothing> {
+    return when (e) {
+        is IOException -> OperationResult.Error(Exception("Error de conexión: No se pudo conectar al servidor"))
+        is HttpException -> {
+            val mensajeError = getErrorCode(e.response.code)
+            OperationResult.Error(Exception(mensajeError))
+        }
+
+        else -> OperationResult.Error(Exception("Error inesperado: ${e.message ?: e.message ?: "Error desconocido"}"))
+    }
+}
+
+fun getErrorCode(
+    code: Int
+): String {
+    return when (code) {
+        400 -> "Solicitud incorrecta: Los datos enviados son inválidos"
+        401 -> "No autorizado: Credenciales incorrectas"
+        403 -> "Prohibido: No tienes permisos para esta acción"
+        404 -> "No encontrado: El recurso solicitado no existe"
+        500 -> "Error del servidor: Problema interno del servidor"
+        else -> "Error HTTP ${code}: Error desconocido"
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.imp
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.ReportOrder
 import com.agusteam.caribeando.data.model.UpcomingOrderTripModelResponse
 import com.agusteam.caribeando.data.network.services.OrderService
@@ -12,7 +13,7 @@ class OrderRepositoryImp(private val orderService: OrderService) : OrderReposito
             val orders = orderService.getUpcomingTripOrders()
             orders
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -21,7 +22,7 @@ class OrderRepositoryImp(private val orderService: OrderService) : OrderReposito
             val orders = orderService.getPastTrips()
             orders
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -30,7 +31,7 @@ class OrderRepositoryImp(private val orderService: OrderService) : OrderReposito
             val result = orderService.reportOrder(model)
             result
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 }

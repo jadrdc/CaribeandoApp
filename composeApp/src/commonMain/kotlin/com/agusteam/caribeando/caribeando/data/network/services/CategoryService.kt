@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.network.services
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.CategoryResponse
 import com.agusteam.caribeando.presenter.URL
@@ -21,7 +22,7 @@ class CategoryService(
             }
             return mapResponse<List<CategoryResponse>>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 }

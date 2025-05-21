@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.imp
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.toDomainModel
 import com.agusteam.caribeando.data.network.services.CategoryService
 import com.agusteam.caribeando.domain.interfaces.CategoryRepository
@@ -20,7 +21,7 @@ class CategoryRepositoryImpl(private val service: CategoryService):CategoryRepos
                 is OperationResult.Error -> result
             }
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 }

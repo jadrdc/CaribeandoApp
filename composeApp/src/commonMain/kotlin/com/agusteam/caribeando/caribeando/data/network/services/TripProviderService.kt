@@ -2,6 +2,7 @@ package com.agusteam.caribeando.data.network.services
 
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.data.model.TripProviderUpcomingTripsResponseItem
@@ -24,7 +25,7 @@ class TripProviderService(
             }
             mapResponse<List<TripProviderUpcomingTripsResponseItem>>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -37,7 +38,7 @@ class TripProviderService(
             }
             mapResponse<List<TripListPaginationResponseItem>>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+             mapExceptions(e)
         }
     }
 
@@ -51,7 +52,7 @@ class TripProviderService(
             }
             mapResponse<TripProviderModel>(response)
         } catch (e: Exception) {
-            OperationResult.Error(e)
+            mapExceptions(e)
         }
     }
 
