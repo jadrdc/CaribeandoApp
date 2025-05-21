@@ -2,17 +2,10 @@ package com.agusteam.caribeando.presenter.signup.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,14 +17,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import caribeando.composeapp.generated.resources.Res
-import caribeando.composeapp.generated.resources.caribeandoapp
-import caribeando.composeapp.generated.resources.create_account
-import caribeando.composeapp.generated.resources.email
-import caribeando.composeapp.generated.resources.forgot_password
-import caribeando.composeapp.generated.resources.loading
-import caribeando.composeapp.generated.resources.login
-import caribeando.composeapp.generated.resources.password
+import caribeando.composeapp.generated.resources.*
 import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.presenter.common.ActionButton
 import com.agusteam.caribeando.presenter.common.EditInputField
@@ -46,7 +32,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
@@ -55,39 +40,55 @@ fun LoginScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
+
     ObserveAsEvents(event) { event ->
         if (event is OnUserLogon) {
             onLogin(event.user)
         }
     }
 
-    ErrorModal(title = state.errorModel?.title ?: "",
+    ErrorModal(
+        title = state.errorModel?.title ?: "",
         message = state.errorModel?.message ?: "",
         showError = state.errorModel != null,
         onDismiss = {
             viewModel.onEventHandler(LoginEvent.ClearErrorLogin)
-        })
-
+        }
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.Center,
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
         ) {
-            item {
-                Box(
-                    Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp).size(180.dp)
-                        .clip(CircleShape), contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        modifier = Modifier.size(180.dp),
-                        painter = painterResource(Res.drawable.caribeandoapp),
-                        contentDescription = null
-                    )
-                }
+            Spacer(modifier = Modifier.height(60.dp))
+
+            // Logo centrado
+            Box(
+                modifier = Modifier
+                    .size(180.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(Res.drawable.ic_caribeando_logo),
+                    contentDescription = null,
+                    modifier = Modifier.size(180.dp)
+                )
             }
-            item {
-                Box(Modifier.padding(top = 16.dp)) {
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Inputs scrollables
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                item {
                     EditInputField(
                         query = state.email,
                         errorText = state.emailError,
@@ -95,31 +96,28 @@ fun LoginScreen(
                         labelText = stringResource(Res.string.email),
                         onQueryChange = {
                             viewModel.onEventHandler(LoginEvent.OnEmailChanged(it))
-                        },
-                        modifier = Modifier
+                        }
                     )
                 }
-            }
-            item {
-                Box(Modifier.padding(top = 16.dp)) {
+                item {
                     EditInputField(
                         keyboardType = KeyboardType.Password,
                         query = state.password,
                         labelText = stringResource(Res.string.password),
                         error = state.isPasswordError,
+                        errorText = state.passwordError,
                         onQueryChange = {
                             viewModel.onEventHandler(LoginEvent.OnPasswordChanged(it))
-                        },
-                        modifier = Modifier,
-                        errorText = state.passwordError,
+                        }
                     )
                 }
-            }
-            item {
-                Box(Modifier.padding(top = 24.dp).clickable {
-                    viewModel.onEventHandler(LoginEvent.OnClickPasswordForgot)
-                }) {
+                item {
                     Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                viewModel.onEventHandler(LoginEvent.OnClickPasswordForgot)
+                            },
                         fontWeight = FontWeight.Normal,
                         fontSize = 14.sp,
                         textAlign = TextAlign.End,
@@ -127,11 +125,11 @@ fun LoginScreen(
                         textDecoration = TextDecoration.Underline
                     )
                 }
-            }
-            item {
-                Box(Modifier.padding(top = 24.dp)) {
+                item {
                     Text(
-                        modifier = Modifier.clickable { onSignUp() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onSignUp() },
                         fontWeight = FontWeight.Normal,
                         fontSize = 14.sp,
                         textAlign = TextAlign.End,
@@ -140,27 +138,32 @@ fun LoginScreen(
                     )
                 }
             }
-            item {
-                Box(Modifier.padding(top = 40.dp)) {
-                    ActionButton(
-                        isValid = state.isValid(),
-                        text = stringResource(Res.string.login),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        viewModel.onEventHandler(LoginEvent.OnLoginProcess)
-                    }
-                }
+
+            // Zona fija inferior
+            Spacer(modifier = Modifier.height(24.dp))
+
+            ActionButton(
+                isValid = state.isValid(),
+                text = stringResource(Res.string.login),
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                viewModel.onEventHandler(LoginEvent.OnLoginProcess)
             }
-            item {
-                SocialButton()
-            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            SocialButton()
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
 
         // Loading overlay
         if (state.isLoading) {
             Box(
-                modifier = Modifier.fillMaxSize()
-                    .clickable(enabled = false) {}, // Prevents interaction
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(enabled = false) {},
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(color = primary)
