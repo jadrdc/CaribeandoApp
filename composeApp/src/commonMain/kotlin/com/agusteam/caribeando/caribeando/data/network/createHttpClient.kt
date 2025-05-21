@@ -1,8 +1,12 @@
 package com.agusteam.caribeando.data.network
 
 
+import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.model.RefreshTokenRequest
 import com.agusteam.caribeando.data.model.Token
+import com.agusteam.caribeando.data.network.services.RefreshService
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
@@ -15,16 +19,49 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.contentType
 import io.ktor.http.encodedPath
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+
+@Serializable
+data class RefreshTokenRequest(val refreshToken: String)
+
+@Serializable
+data class TokenResponse(
+    val accessToken: String,
+    val refreshToken: String,
+    val isPhoneConfigured: Boolean,
+    val isBirthdateConfigured: Boolean
+)
 
 fun createHttpClient(
     engine: HttpClientEngine,
+    baseUrl: String = "https://your-api-base-url.com" // Add your actual base URL
 ): HttpClient {
+    // Create a separate client for token refresh to avoid circular dependencies
+    val refreshClient = HttpClient(engine) {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+                encodeDefaults = true
+            })
+        }
+        install(HttpTimeout) {
+            socketTimeoutMillis = 30_000
+            requestTimeoutMillis = 30_000
+        }
+    }
+
     return HttpClient(engine) {
-        // Configuración de logging
+        // Logging configuration
         install(Logging) {
             level = LogLevel.ALL
             logger = object : Logger {
@@ -34,16 +71,16 @@ fun createHttpClient(
             }
         }
 
-        // Configuración por defecto para todas las solicitudes
+        // Default configuration for all requests
         defaultRequest {
-            // Asegurarse de que el token se envía en cada solicitud
+            // Make sure token is sent in each request
             if (Token.token.isNotBlank()) {
                 header(HttpHeaders.Authorization, "Bearer ${Token.token}")
                 println("➡️ ADDING AUTH HEADER: Bearer ${Token.token}")
             }
         }
 
-        // Observador para loguear detalles de respuestas
+        // Response observer for logging response details
         install(ResponseObserver) {
             onResponse { response ->
                 println("⬅ RESPONSE: ${response.status.value} ${response.status.description}")
@@ -52,7 +89,7 @@ fun createHttpClient(
                     println("   $name: ${values.joinToString()}")
                 }
 
-                // Verificar si hay problemas de autenticación
+                // Check for authentication problems
                 if (response.status.value == 401) {
                     println("❌ AUTHENTICATION ERROR: Token may be invalid or expired")
                     println("🔑 CURRENT TOKEN: ${Token.token}")
@@ -60,13 +97,13 @@ fun createHttpClient(
             }
         }
 
-        // Configuración de timeout
+        // Timeout configuration
         install(HttpTimeout) {
             socketTimeoutMillis = 60_000
             requestTimeoutMillis = 60_000
         }
 
-        // Configuración de serialización
+        // Serialization configuration
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -75,10 +112,10 @@ fun createHttpClient(
             })
         }
 
-        // Configuración de autenticación
+        // Authentication configuration
         install(Auth) {
             bearer {
-                // Cargar tokens
+                // Load tokens
                 loadTokens {
                     println("🔄 LOADING TOKENS - Access: ${Token.token.take(15)}...")
                     BearerTokens(
@@ -87,34 +124,55 @@ fun createHttpClient(
                     )
                 }
 
-                // Configuración para refrescar tokens
+                // Token refresh configuration
                 refreshTokens {
+
                     println("🔄 ATTEMPTING TO REFRESH TOKEN")
-                    // Aquí deberías implementar la lógica para refrescar el token
-                    // Por ejemplo, llamar a tu API de autenticación
 
-                    // Si el refresco es exitoso:
+                    // Only attempt refresh if we have a refresh token
+                    if (Token.refreshToken.isBlank()) {
+                        println("❌ NO REFRESH TOKEN AVAILABLE")
+                        return@refreshTokens null
+                    }
+
                     try {
-                        // Ejemplo: val newTokens = authRepository.refreshToken(Token.refreshToken)
-                        // Token.token = newTokens.accessToken
-                        // Token.refreshToken = newTokens.refreshToken
+                        val service = RefreshService(refreshClient)
+                        // Make the actual refresh token API call
+                        val response = service.refresh(RefreshTokenRequest(Token.refreshToken))
+                        when (response) {
+                            is OperationResult.Error -> {
+                                println("❌ TOKEN REFRESH FAILED: $response")
+                                null
+                            }
 
-                        println("✅ TOKEN REFRESHED SUCCESSFULLY")
-                        BearerTokens(
-                            accessToken = Token.token,
-                            refreshToken = Token.refreshToken
-                        )
+                            is OperationResult.Success -> {
+                                Token.token = response.data.accessToken
+                                Token.refreshToken = response.data.refreshToken
+
+                                println("✅ TOKEN REFRESHED SUCCESSFULLY")
+                                println("🔑 NEW ACCESS TOKEN: ${Token.token.take(15)}...")
+
+                                // Return the new tokens
+                                BearerTokens(
+                                    accessToken = Token.token,
+                                    refreshToken = Token.refreshToken
+                                )
+                            }
+                        }
+
                     } catch (e: Exception) {
                         println("❌ TOKEN REFRESH FAILED: ${e.message}")
-                        null // Devolver null si el refresco falla
+                        e.printStackTrace()
+                        null // Return null if refresh fails
                     }
                 }
 
-                // Configuración para determinar cuándo refrescar
+                // Configuration to determine when to refresh
                 sendWithoutRequest { request ->
-                    // Solo enviar el token para ciertas rutas (opcional)
-                    // Por ejemplo, no enviar para rutas de login/registro
-                    !request.url.encodedPath.startsWith("/auth/login")
+                    // Only send token for certain routes (optional)
+                    !request.url.encodedPath.startsWith("/auth/login") &&
+                            !request.url.encodedPath.startsWith("/auth/signup") &&
+                            !request.url.encodedPath.startsWith("/auth/refresh")
                 }
             }
         }

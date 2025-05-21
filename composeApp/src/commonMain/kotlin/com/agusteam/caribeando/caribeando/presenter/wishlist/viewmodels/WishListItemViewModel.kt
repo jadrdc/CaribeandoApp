@@ -32,6 +32,7 @@ class WishListItemViewModel(
         setState { copy(isLoading = true) }
         when (val result = getTripFavoriteListUseCase()) {
             is OperationResult.Error -> {
+                println("CRUSEL ${result.exception}")
                 setState { copy(errorState = true) }
             }
 

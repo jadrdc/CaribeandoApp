@@ -12,6 +12,7 @@ import com.agusteam.caribeando.domain.models.UpcomingOrders
 import org.jetbrains.compose.resources.stringResource
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.old
+import com.agusteam.caribeando.caribeando.presenter.common.EmptyState
 import com.agusteam.caribeando.data.mappers.toDomain
 
 @Composable
@@ -25,8 +26,15 @@ fun PreviousTripItemSection(
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
         )
-        oldItems.forEach { item ->
-            PreviousTripItem(item.toDomain()) { goDetails(item) }
+        if (oldItems.isNotEmpty()) {
+            oldItems.forEach { item ->
+                PreviousTripItem(item.toDomain()) { goDetails(item) }
+            }
+        } else {
+            EmptyState(
+                message = "No hay viajes que mostrar",
+                actionText = "Intente nuevamente"
+            )
         }
     }
 }

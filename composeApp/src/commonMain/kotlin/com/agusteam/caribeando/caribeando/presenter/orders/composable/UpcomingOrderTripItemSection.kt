@@ -15,6 +15,7 @@ import com.agusteam.caribeando.domain.models.UpcomingOrders
 import org.jetbrains.compose.resources.stringResource
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.upcoming
+import com.agusteam.caribeando.caribeando.presenter.common.EmptyState
 
 @Composable
 fun UpcomingOrderTripItemSection(
@@ -29,22 +30,29 @@ fun UpcomingOrderTripItemSection(
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
         )
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth() // Ensures proper alignment and space for the pager
-        ) { page ->
-            Column(
+        if (upcomingTripItemList.isNotEmpty()) {
+            HorizontalPager(
+                state = pagerState,
                 modifier = Modifier
-                    .padding(end = 16.dp) // Adds spacing between pages
-                    .fillMaxWidth()
-            ) {
-                UpcomingTripItem(
-                    item = upcomingTripItemList[page],
-                    goDetails = { goDetails(upcomingTripItemList[page]) }
-                )
+                    .padding(top = 16.dp)
+                    .fillMaxWidth() // Ensures proper alignment and space for the pager
+            ) { page ->
+                Column(
+                    modifier = Modifier
+                        .padding(end = 16.dp) // Adds spacing between pages
+                        .fillMaxWidth()
+                ) {
+                    UpcomingTripItem(
+                        item = upcomingTripItemList[page],
+                        goDetails = { goDetails(upcomingTripItemList[page]) }
+                    )
+                }
             }
+        } else {
+            EmptyState(
+                message = "No hay viajes que mostrar",
+                actionText = "Intente nuevamente"
+            )
         }
     }
 }
