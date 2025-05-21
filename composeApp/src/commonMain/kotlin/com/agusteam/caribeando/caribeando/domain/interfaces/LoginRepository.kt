@@ -14,4 +14,5 @@ interface LoginRepository {
         password: String
     ): OperationResult<TokenMode>
 
+    suspend fun google(token: String): OperationResult<TokenMode>
 }

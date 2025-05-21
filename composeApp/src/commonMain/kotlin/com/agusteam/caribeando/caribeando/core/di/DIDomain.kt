@@ -31,6 +31,7 @@ import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
 import com.agusteam.caribeando.domain.usecase.GetUpcomingTripByProviderUseCase
 import com.agusteam.caribeando.domain.usecase.GetUpcomingTripOrderUseCase
 import com.agusteam.caribeando.domain.usecase.GetUserProfileUseCase
+import com.agusteam.caribeando.domain.usecase.GoogleSignInUseCase
 import com.agusteam.caribeando.domain.usecase.LoginUseCase
 import com.agusteam.caribeando.domain.usecase.LogoutUseCase
 import com.agusteam.caribeando.domain.usecase.MarkFavoriteTripUseCase
@@ -73,6 +74,7 @@ val diDomainModule = module {
     single<CreatePendingPaymentOrderUseCase> { CreatePendingPaymentOrderUseCase(get()) }
     single<PaymentRepository> { PaymentRepositoryImp(get()) }
     single<StartStripeUseCase> { StartStripeUseCase(get()) }
+    single<GoogleSignInUseCase> { GoogleSignInUseCase(get()) }
     single<ProcessSuccessPaymentOrderUseCase> { ProcessSuccessPaymentOrderUseCase(get()) }
     single<CancelPaymentOrderUseCase> { CancelPaymentOrderUseCase(get()) }
     single<GetUpcomingTripOrderUseCase> { GetUpcomingTripOrderUseCase(get()) }
@@ -81,7 +83,7 @@ val diDomainModule = module {
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }
     single<GetUserProfileUseCase> { GetUserProfileUseCase(get()) }
     single<SaveLocalDataUseCase> { SaveLocalDataUseCase(get()) }
-  /*  single<TokenRepository> {
-        TokenRepositoryImp( get())
-    }*/
+    /*  single<TokenRepository> {
+          TokenRepositoryImp( get())
+      }*/
 }

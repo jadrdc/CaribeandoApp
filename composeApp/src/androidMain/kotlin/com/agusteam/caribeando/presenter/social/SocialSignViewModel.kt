@@ -5,10 +5,15 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.core.auth.GoogleAuthUiClient
 import com.agusteam.caribeando.core.base.GenericViewModel
+import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.domain.usecase.GoogleSignInUseCase
 import com.agusteam.caribeando.presenter.social.state.SocialSignState
 import kotlinx.coroutines.launch
 
-class SocialSignViewModel(private val googleServiceProvider: GoogleAuthUiClient) :
+class SocialSignViewModel(
+    private val googleServiceProvider: GoogleAuthUiClient,
+    private val googleSignInUseCase: GoogleSignInUseCase
+) :
     GenericViewModel<SocialSignState, SocialSignInEvent>(SocialSignState()) {
 
 
@@ -28,6 +33,10 @@ class SocialSignViewModel(private val googleServiceProvider: GoogleAuthUiClient)
                     }
                 }
 
+                is SocialSignInEvent.SignInSuccessful -> {
+                    onSignInResult(event.data)
+                }
+
                 else -> {
 
                 }
@@ -36,16 +45,26 @@ class SocialSignViewModel(private val googleServiceProvider: GoogleAuthUiClient)
         }
     }
 
-    fun onSignInResult(data: Intent) {
+    private fun onSignInResult(data: Intent) {
         viewModelScope.launch {
             try {
                 val signInResult = googleServiceProvider.signInWithIntent(data)
+                val result = googleSignInUseCase(signInResult.data?.googleIdToken ?: "")
+                when (result) {
+                    is OperationResult.Error -> {
+
+                    }
+
+                    is OperationResult.Success -> {
+                        println("CRUZ ${result.data}")
+                    }
+                }
+
                 // Maneja el resultado aquí
             } catch (e: Exception) {
 
             }
         }
     }
-
 
 }

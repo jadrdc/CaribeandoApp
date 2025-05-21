@@ -2,6 +2,7 @@ package com.agusteam.caribeando.data.network.services
 
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapResponse
+import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.TokenResponse
 import com.agusteam.caribeando.data.model.RequestPasswordChangeModel
@@ -16,6 +17,21 @@ import io.ktor.http.contentType
 class SignUpService(
     private val httpClient: HttpClient
 ) {
+
+    suspend fun googleSignIn(model: GoogleTokenRequest): OperationResult<TokenResponse> {
+        return try {
+            val response = httpClient.post(
+                urlString = "${URL}auth/google"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+                setBody(model)
+            }
+            return mapResponse<TokenResponse>(response)
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+
     suspend fun login(model: LoginRequest): OperationResult<TokenResponse> {
         return try {
             val response = httpClient.post(

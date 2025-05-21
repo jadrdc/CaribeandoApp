@@ -43,6 +43,7 @@ class GoogleAuthUiClient(
             SignInResult(
                 data = user?.run {
                     UserData(
+                        googleIdToken=googleIdToken,
                         userId = uid,
                         username = displayName,
                         profilePictureUrl = photoUrl?.toString()
@@ -74,7 +75,8 @@ class GoogleAuthUiClient(
         UserData(
             userId = uid,
             username = displayName,
-            profilePictureUrl = photoUrl?.toString()
+            profilePictureUrl = photoUrl?.toString(),
+            googleIdToken = ""
         )
     }
 

@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.imp
 
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.RequestPasswordChangeModel
 import com.agusteam.caribeando.data.model.UserSignUpRequest
@@ -16,9 +17,29 @@ import kotlinx.datetime.toLocalDateTime
 
 class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository {
 
+
     override suspend fun login(email: String, password: String): OperationResult<TokenMode> {
         return try {
             when (val result = service.login(LoginRequest(email, password))) {
+                is OperationResult.Success -> {
+                    OperationResult.Success(
+                        TokenMode(
+                            accessToken = result.data.accessToken,
+                            refreshToken = result.data.refreshToken
+                        )
+                    )
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+
+    override suspend fun google(token: String): OperationResult<TokenMode> {
+        return try {
+            when (val result = service.googleSignIn(GoogleTokenRequest(token))) {
                 is OperationResult.Success -> {
                     OperationResult.Success(
                         TokenMode(

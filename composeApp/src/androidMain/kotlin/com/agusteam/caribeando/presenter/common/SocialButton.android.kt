@@ -23,7 +23,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.google
 import caribeando.composeapp.generated.resources.google_button
@@ -44,6 +43,7 @@ actual fun SocialButton() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             result.data?.let { intentData ->
+                viewModel.handleEvent(SocialSignInEvent.SignInSuccessful(intentData))
                 Toast.makeText(
                     context,
                     "Sign-successfull",
@@ -54,7 +54,8 @@ actual fun SocialButton() {
                     context,
                     "Sign-successfull but not data found : ${result.resultCode}",
                     Toast.LENGTH_LONG
-                ).show()            }
+                ).show()
+            }
         } else {
             Toast.makeText(
                 context,
