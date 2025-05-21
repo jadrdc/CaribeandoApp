@@ -24,7 +24,7 @@ data class SignupState(
     val phoneError: String = "",
     val isPhoneError: Boolean = false,
     val isLoading: Boolean = false,
-    val birthdate: Instant = Clock.System.now().minus((18 * 365).days),
+    val birthdate: Instant?=null,
     val errorModel: ErrorModel? = null
 ) : ViewModelState {
     fun isValid(): Boolean {
@@ -35,4 +35,6 @@ data class SignupState(
                 confirmPassword == password &&
                 phone.isNotBlank() && phone.length == 10
     }
+
+    fun isFillingInfoCompleted() = phone.isNotBlank() && birthdate!=null
 }

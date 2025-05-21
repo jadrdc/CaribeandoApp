@@ -2,7 +2,9 @@ package com.agusteam.caribeando.presenter
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.roundToInt
@@ -142,6 +144,13 @@ fun timeUntil(targetDate: Instant): String {
         else -> ""
     }
 }
+
+fun localDateToInstant(localDate: LocalDate, timeZone: TimeZone): Instant {
+    val localDateTime = localDate.atStartOfDayIn(timeZone)
+    return localDateTime
+}
+
+
 
 
 const val URL1 = "http://127.0.0.1:8081/"

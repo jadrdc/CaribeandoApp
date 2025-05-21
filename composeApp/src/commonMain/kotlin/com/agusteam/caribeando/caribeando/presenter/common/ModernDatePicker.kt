@@ -36,12 +36,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
+import kotlin.time.Duration.Companion.days
 
 // Spanish month name extension
 val Month.spanishName: String
@@ -97,11 +101,16 @@ val Month.daysIn: (Int) -> Int
 
 @Composable
 fun ModernDatePicker(
-    startDate: String,
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedDate by remember { mutableStateOf(Clock.System.todayIn(TimeZone.currentSystemDefault())) }
+    var selectedDate by remember {
+        mutableStateOf(
+            Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                .date
+                .minus(DatePeriod(years = 18))
+        )
+    }
     var selectedMonth by remember {
         mutableStateOf(
             YearMonth(

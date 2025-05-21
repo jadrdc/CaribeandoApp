@@ -1,18 +1,24 @@
 package com.agusteam.caribeando.presenter.signup.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -22,6 +28,7 @@ import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.confirm_password
 import caribeando.composeapp.generated.resources.email
 import caribeando.composeapp.generated.resources.finish_signup
+import caribeando.composeapp.generated.resources.ic_caribeando_logo
 import caribeando.composeapp.generated.resources.lastname
 import caribeando.composeapp.generated.resources.name
 import caribeando.composeapp.generated.resources.password
@@ -34,8 +41,11 @@ import com.agusteam.caribeando.presenter.common.ErrorModal
 import com.agusteam.caribeando.presenter.common.ModernDatePicker
 import com.agusteam.caribeando.presenter.common.NavigationBar
 import com.agusteam.caribeando.presenter.common.ObserveAsEvents
+import com.agusteam.caribeando.presenter.localDateToInstant
 import com.agusteam.caribeando.presenter.signup.viewmodels.SignUpViewModel
 import com.agusteam.caribeando.presenter.theme.primary
+import kotlinx.datetime.TimeZone
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -47,24 +57,45 @@ fun FillSignUpAccountScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
-    ObserveAsEvents(event) { event ->
+    ObserveAsEvents(event) { event -> }
 
-    }
-    ErrorModal(title = state.errorModel?.title ?: "",
+    ErrorModal(
+        title = state.errorModel?.title ?: "",
         message = state.errorModel?.message ?: "",
-        showError = state.errorModel != null, onDismiss = {
-            viewModel.onEventHandler(SignUpViewModel.SignUpEvent.ClearError)
-        })
-    Box {
+        showError = state.errorModel != null,
+        onDismiss = { viewModel.onEventHandler(SignUpViewModel.SignUpEvent.ClearError) }
+    )
+
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyColumn(
+                modifier = Modifier.weight(1f, fill = false),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
                     NavigationBar(title = stringResource(Res.string.finish_signup)) { onBackPressed() }
+                }
+                item {
+                    // Center the logo horizontally
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.ic_caribeando_logo),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(180.dp)
+                                .clip(CircleShape)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
                 item {
                     EditInputField(
@@ -76,21 +107,20 @@ fun FillSignUpAccountScreen(
                         labelText = stringResource(Res.string.phone),
                         onQueryChange = {
                             viewModel.onEventHandler(
-                                SignUpViewModel.SignUpEvent.OnPhoneNumberChanged(
-                                    it
-                                )
+                                SignUpViewModel.SignUpEvent.OnPhoneNumberChanged(it)
                             )
-                        }, modifier = Modifier
-                    )
-                }
-                item {
-                    ModernDatePicker(
-                        startDate = state.birthdate.toString(), onDateSelected = {
-
                         }
                     )
                 }
-
+                item {
+                    ModernDatePicker(onDateSelected = {
+                        viewModel.onEventHandler(
+                            SignUpViewModel.SignUpEvent.OnBirthdateChanged(
+                                localDateToInstant(it, TimeZone.currentSystemDefault())
+                            )
+                        )
+                    })
+                }
                 item {
                     Text(
                         text = stringResource(Res.string.terms),
@@ -99,20 +129,24 @@ fun FillSignUpAccountScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(24.dp))
             ActionButton(
-                isValid = state.isValid(),
+                isValid = state.isFillingInfoCompleted(),
                 text = stringResource(Res.string.signup),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
                 viewModel.onEventHandler(SignUpViewModel.SignUpEvent.SignUp)
             }
+            Spacer(modifier = Modifier.height(24.dp))
         }
+
         // Loading overlay
         if (state.isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable(enabled = false) {}, // Prevents interaction
+                    .clickable(enabled = false) {},
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(color = primary)
@@ -120,4 +154,3 @@ fun FillSignUpAccountScreen(
         }
     }
 }
-

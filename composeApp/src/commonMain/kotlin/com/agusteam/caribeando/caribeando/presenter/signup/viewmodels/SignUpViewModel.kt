@@ -9,6 +9,7 @@ import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
 import com.agusteam.caribeando.presenter.signup.state.SignupState
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
 
 
 class SignUpViewModel(
@@ -125,6 +126,12 @@ class SignUpViewModel(
         setValidationError(ValidatorType.EMAIL, value)
     }
 
+    private suspend fun onBirthdateChanged(value: Instant) {
+        setState {
+            copy(birthdate = value)
+        }
+    }
+
     private suspend fun onPasswordChanged(value: String) {
         setState {
             copy(password = value)
@@ -174,6 +181,10 @@ class SignUpViewModel(
                     onErrorHappened(false)
                 }
 
+                is SignUpEvent.OnBirthdateChanged -> {
+                    onBirthdateChanged(event.data)
+                }
+
                 SignUpEvent.GoHome -> {
 
                 }
@@ -185,6 +196,7 @@ class SignUpViewModel(
         data object SignUp : SignUpEvent
         data object ClearError : SignUpEvent
         data object GoHome : SignUpEvent
+        data class OnBirthdateChanged(val data: Instant) : SignUpEvent
         class OnNameChanged(val value: String) : SignUpEvent
         class OnLastNameChanged(val value: String) : SignUpEvent
         class OnPhoneNumberChanged(val value: String) : SignUpEvent
