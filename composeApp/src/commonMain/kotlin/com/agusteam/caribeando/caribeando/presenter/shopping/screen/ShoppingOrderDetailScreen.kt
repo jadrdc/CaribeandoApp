@@ -46,6 +46,7 @@ import caribeando.composeapp.generated.resources.ready
 import caribeando.composeapp.generated.resources.report_issue
 import caribeando.composeapp.generated.resources.reservation_details
 import caribeando.composeapp.generated.resources.trip_details
+import com.agusteam.caribeando.caribeando.presenter.common.PendingReview
 
 @Composable
 fun ShoppingOrderDetailScreen(
@@ -84,6 +85,10 @@ fun ShoppingOrderDetailScreen(
                 )
             }
         }
+        if (model.hasItBeenEvaluated)
+            item {
+                PendingReview()
+            }
         item {
             DateTripRowInformation(model.dateFrom, model.dateTo)
         }

@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpcomingOrders(
+    val hasBeenEvaluated:Boolean=true,
     val transactionId: String,
     val tripName: String,
     val tripDestiny: String,

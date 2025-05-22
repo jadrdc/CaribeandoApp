@@ -62,7 +62,6 @@ fun OrderHistoryScreen(
                     item {
                         PreviousTripItemSection(oldItems = state.oldItems, goDetails = { item ->
                             goDetails(item)
-
                         })
                     }
                 }

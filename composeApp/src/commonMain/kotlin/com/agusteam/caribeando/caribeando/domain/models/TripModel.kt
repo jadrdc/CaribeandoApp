@@ -24,9 +24,9 @@ data class TripModel(
     val leavingTime: String = "",
     val meetingPoint: String = "",
     val price: Double = 0.0,
-    val initialPayment:Double = 0.0,
+    val initialPayment: Double = 0.0,
     val businessModel: SummaryBusinessModel? = null,
-
+    val hasBeenEvaluated: Boolean = true,
     val date: String = "",
     val tripScheduleId: String = ""
 )

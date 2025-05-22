@@ -15,7 +15,13 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.io.IOException
 
 fun UpcomingOrders.toDomain(): TripModel {
-    return TripModel(id = "", name = tripName, images = listOf(tripImage), date = date)
+    return TripModel(
+        id = "",
+        name = tripName,
+        images = listOf(tripImage),
+        date = date,
+        hasBeenEvaluated = hasBeenEvaluated
+    )
 }
 
 fun TripListPaginationResponseItem.toDomain(): TripModel {

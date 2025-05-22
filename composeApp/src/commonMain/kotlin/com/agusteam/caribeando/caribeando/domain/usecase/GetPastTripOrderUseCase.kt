@@ -14,6 +14,7 @@ class GetPastTripOrderUseCase(private val orderRepository: OrderRepository) {
             is OperationResult.Success -> {
                 val results = result.data.map {
                     UpcomingOrders(
+                        hasBeenEvaluated = it.evaluated,
                         transactionId = it.id,
                         totalPayment = it.tripScheduleModel.total_payment,
                         tripImages = it.tripScheduleModel.tripModel.images,

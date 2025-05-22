@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.orders.composable
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.agusteam.caribeando.caribeando.presenter.common.PendingReview
 import com.agusteam.caribeando.domain.models.TripModel
 import com.agusteam.caribeando.presenter.theme.CustomFontFamily
 import com.agusteam.caribeando.presenter.theme.grey500
@@ -30,43 +32,54 @@ import com.agusteam.caribeando.presenter.theme.secondary
 fun PreviousTripItem(
     item: TripModel, goDetails: () -> Unit
 ) {
+
     Row(
-        modifier = Modifier.padding(top = 16.dp).clickable { goDetails() }.fillMaxWidth(),
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        AsyncImage(
-            modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)),
-            model = item.images.firstOrNull() ?: "",
-            contentScale = ContentScale.FillBounds,
-            contentDescription = null
-        )
-        Column {
-            Text(
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier,
-                text = item.name,
-                color = secondary,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+        Row(
+            modifier = Modifier.padding(top = 16.dp).clickable { goDetails() },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            AsyncImage(
+                modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)),
+                model = item.images.firstOrNull() ?: "",
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null
             )
-            if (item.price > 0)
+            Column {
                 Text(
-                    text = "$${item.price}",
-                    color = primary,
-                    textDecoration = TextDecoration.Underline,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = CustomFontFamily(),
-                    fontSize = 14.sp
+                    text = item.name,
+                    color = secondary,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
                 )
-            Text(
-                modifier = Modifier,
-                text = item.date,
-                color = grey500,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal
-            )
+                if (item.price > 0)
+                    Text(
+                        text = "$${item.price}",
+                        color = primary,
+                        textDecoration = TextDecoration.Underline,
+                        modifier = Modifier,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = CustomFontFamily(),
+                        fontSize = 14.sp
+                    )
+                Text(
+                    modifier = Modifier,
+                    text = item.date,
+                    color = grey500,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal
+                )
+            }
+        }
+        println("XAMTY $item")
+        if (!item.hasBeenEvaluated) {
+            PendingReview()
         }
     }
 }

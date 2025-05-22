@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.agusteam.caribeando.caribeando.presenter.orders.screen.ReviewOrderScreen
 import com.agusteam.caribeando.presenter.orders.screen.OrderHistoryScreen
 import com.agusteam.caribeando.presenter.orders.screen.ReportOrderIssueScreen
+import com.agusteam.caribeando.presenter.shopping.navigation.RatingTripRoute
 import com.agusteam.caribeando.presenter.shopping.navigation.ShoppingOrderDetailScreenRoute
 import com.agusteam.caribeando.presenter.shopping.screen.ShoppingOrderDetailScreen
 
@@ -22,6 +24,13 @@ fun OrderHistoryNavigationFlow(
         navController = navController,
         startDestination = OrderHistoryNavigation.OrderHistoryScreen.route
     ) {
+        composable<RatingTripRoute> { backStackEntry ->
+            val model = backStackEntry.toRoute<RatingTripRoute>()
+
+            ReviewOrderScreen(tripScheduleId = model.tripScheduled){
+
+            }
+        }
         composable(OrderHistoryNavigation.OrderHistoryScreen.route) {
             OrderHistoryScreen { order ->
                 showBottomNav(false)
