@@ -7,7 +7,6 @@ import com.agusteam.caribeando.core.base.ViewModelState
 import com.agusteam.caribeando.domain.models.ErrorModel
 import com.agusteam.caribeando.domain.usecase.RatingOrderUseCase
 import com.agusteam.caribeando.presenter.shopping.state.ModalType
-import com.agusteam.caribeando.presenter.shopping.viewmodels.ReportOrderViewModel.ReportOrderEvent
 import kotlinx.coroutines.launch
 
 class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
@@ -39,7 +38,7 @@ class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
                 }
 
                 is RatingOrderEvents.OnOrderLoad -> {
-                    setState { copy(tripScheduleId = event.tripScheduleId) }
+                    setState { copy(orderId = event.orderId) }
                 }
 
                 is RatingOrderEvents.OnRatingChanged -> {
@@ -54,14 +53,14 @@ class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
                     val result = ratingOrderUseCase(
                         rating = state.value.rating,
                         comment = state.value.comment,
-                        tripScheduleId = state.value.tripScheduleId
+                        orderId = state.value.orderId
                     )
                     when (result) {
                         is OperationResult.Success -> {
                             onErrorHappened(
                                 true,
-                                "Orden reportada",
-                                "Se ha reportado un inconveniente con la orden por parte del usuario. Nuestro equipo está en ello y nos comunicaremos contigo para ofrecer una solución."
+                                "¡Gracias por tu evaluación!",
+                                "Tu reseña ha sido enviada exitosamente. Agradecemos tus comentarios sobre la orden."
                             )
                             setState { copy(modalType = ModalType.SUCCESS) }
                         }
@@ -70,14 +69,14 @@ class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
                             setState { copy(modalType = ModalType.ERROR) }
                             onErrorHappened(
                                 true,
-                                "Error reportando orden",
-                                "No se pudo enviar el reporte. Intenta nuevamente más tarde."
+                                "Error al enviar la reseña",
+                                "No se pudo enviar tu evaluación. Por favor, intenta nuevamente más tarde."
                             )
                         }
                     }
                 }
 
-                RatingOrderEvents.RatedOrder ->{
+                RatingOrderEvents.RatedOrder -> {
 
                 }
             }
@@ -98,7 +97,7 @@ class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
         data class OnCommentChanged(val comment: String) : RatingOrderEvents
         data object CommentOrder : RatingOrderEvents
         data object RatedOrder : RatingOrderEvents
-        data class OnOrderLoad(val tripScheduleId: String) : RatingOrderEvents
+        data class OnOrderLoad(val orderId: String) : RatingOrderEvents
         data class ErrorCleared(val modalType: ModalType) : RatingOrderEvents
 
 
@@ -106,7 +105,7 @@ class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
 
     data class RatingOrderState(
         val rating: Int,
-        val tripScheduleId: String = "",
+        val orderId: String = "",
         val comment: String,
         val errorModel: ErrorModel? = null,
         val isLoading: Boolean = false,

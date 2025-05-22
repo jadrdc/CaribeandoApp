@@ -28,5 +28,6 @@ data class TripModel(
     val businessModel: SummaryBusinessModel? = null,
     val hasBeenEvaluated: Boolean = true,
     val date: String = "",
-    val tripScheduleId: String = ""
+    val tripScheduleId: String = "",
+    val transactionId: String = ""
 )

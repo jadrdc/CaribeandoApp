@@ -53,6 +53,7 @@ fun ShoppingOrderDetailScreen(
     model: ShoppingOrderDetailScreenRoute,
     reportOrder: () -> Unit,
     onBackPressed: () -> Unit,
+    rateOrder: (String) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = {
         model.galleryPhoto.size
@@ -87,7 +88,9 @@ fun ShoppingOrderDetailScreen(
         }
         if (model.hasItBeenEvaluated)
             item {
-                PendingReview()
+                PendingReview() {
+                    rateOrder(model.transactionId)
+                }
             }
         item {
             DateTripRowInformation(model.dateFrom, model.dateTo)

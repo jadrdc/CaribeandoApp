@@ -16,6 +16,8 @@ import kotlinx.io.IOException
 
 fun UpcomingOrders.toDomain(): TripModel {
     return TripModel(
+        tripScheduleId = scheduledId,
+        transactionId = transactionId,
         id = "",
         name = tripName,
         images = listOf(tripImage),

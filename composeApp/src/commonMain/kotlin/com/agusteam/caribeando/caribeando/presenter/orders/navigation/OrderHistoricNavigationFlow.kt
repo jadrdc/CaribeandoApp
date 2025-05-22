@@ -26,31 +26,36 @@ fun OrderHistoryNavigationFlow(
     ) {
         composable<RatingTripRoute> { backStackEntry ->
             val model = backStackEntry.toRoute<RatingTripRoute>()
-
-            ReviewOrderScreen(tripScheduleId = model.tripScheduled){
-
+            showBottomNav(false)
+            ReviewOrderScreen(orderId = model.orderId) {
+                navController.popBackStack()
             }
         }
         composable(OrderHistoryNavigation.OrderHistoryScreen.route) {
-            OrderHistoryScreen { order ->
-                showBottomNav(false)
-                orderRoute = ShoppingOrderDetailScreenRoute(
-                    tripTitle = order.tripName,
-                    amount = order.totalPayment.toInt(),
-                    transactionId = order.transactionId,
-                    dateFrom = order.dateFrom,
-                    dateTo = order.dateTo,
-                    businessMonth = order.providerMonth.toString(),
-                    businessName = order.providerName,
-                    businessPhoto = order.providerImage,
-                    galleryPhoto = order.tripImages
-                )
-                orderRoute?.let {
-                    navController.navigate(
-                        it
+            OrderHistoryScreen(
+                rateOrderTrip = { orderId ->
+                    navController.navigate(RatingTripRoute(orderId))
+                },
+                goDetails = { order ->
+                    showBottomNav(false)
+                    orderRoute = ShoppingOrderDetailScreenRoute(
+                        scheduledId = order.scheduledId,
+                        tripTitle = order.tripName,
+                        amount = order.totalPayment.toInt(),
+                        transactionId = order.transactionId,
+                        dateFrom = order.dateFrom,
+                        dateTo = order.dateTo,
+                        businessMonth = order.providerMonth.toString(),
+                        businessName = order.providerName,
+                        businessPhoto = order.providerImage,
+                        galleryPhoto = order.tripImages
                     )
-                }
-            }
+                    orderRoute?.let {
+                        navController.navigate(
+                            it
+                        )
+                    }
+                })
         }
         composable<ShoppingOrderDetailScreenRoute> { backStackEntry ->
             val model = backStackEntry.toRoute<ShoppingOrderDetailScreenRoute>()
@@ -59,7 +64,10 @@ fun OrderHistoryNavigationFlow(
                 navController.navigate(OrderHistoryNavigation.OrderHistoryScreen.route)
             }, reportOrder = {
                 navController.navigate(OrderHistoryNavigation.ReportOrderIssuesScreen(orderId = model.transactionId))
-            })
+            }, rateOrder = { orderId ->
+                navController.navigate(RatingTripRoute(orderId))
+            }
+            )
         }
         composable<OrderHistoryNavigation.ReportOrderIssuesScreen> { backStackEntry ->
             val model = backStackEntry.toRoute<OrderHistoryNavigation.ReportOrderIssuesScreen>()

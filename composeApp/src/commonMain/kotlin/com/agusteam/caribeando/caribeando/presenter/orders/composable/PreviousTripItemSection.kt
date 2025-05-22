@@ -18,7 +18,10 @@ import com.agusteam.caribeando.data.mappers.toDomain
 @Composable
 fun PreviousTripItemSection(
     modifier: Modifier = Modifier.padding(top = 32.dp),
-    oldItems: List<UpcomingOrders>, goDetails: (UpcomingOrders) -> Unit
+    oldItems: List<UpcomingOrders>,
+    goDetails: (UpcomingOrders) -> Unit,
+    rateOrderTrip: (String) -> Unit
+
 ) {
     Column(modifier) {
         Text(
@@ -28,7 +31,8 @@ fun PreviousTripItemSection(
         )
         if (oldItems.isNotEmpty()) {
             oldItems.forEach { item ->
-                PreviousTripItem(item.toDomain()) { goDetails(item) }
+                PreviousTripItem(item = item.toDomain(), goDetails = { goDetails(item) },
+                    rateOrderTrip = { transactionId -> rateOrderTrip(transactionId) })
             }
         } else {
             EmptyState(

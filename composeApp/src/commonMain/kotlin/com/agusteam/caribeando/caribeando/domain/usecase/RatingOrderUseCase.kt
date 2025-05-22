@@ -7,9 +7,9 @@ import com.agusteam.caribeando.domain.interfaces.OrderRepository
 class RatingOrderUseCase(val repository: OrderRepository) {
     suspend operator fun invoke(
         rating: Int,
-        tripScheduleId: String,
+        orderId: String,
         comment: String
     ): OperationResult<Any> {
-        return repository.rateOrder(rating = rating.toDouble(), tripScheduleId, comment)
+        return repository.rateOrder(rating = rating.toDouble(), orderId = orderId, comment)
     }
 }
