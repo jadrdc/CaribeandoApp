@@ -64,6 +64,7 @@ fun ShoppingFlowNavigation(
                 }, onPaymentSuccessFull = { order ->
                     navController.navigate(
                         ShoppingOrderDetailScreenRoute(
+                            scheduledId = "",
                             tripTitle = order.tripTitle,
                             amount = order.amount.toInt(),
                             transactionId = order.transactionId,
@@ -81,6 +82,9 @@ fun ShoppingFlowNavigation(
             val model = backStackEntry.toRoute<ShoppingOrderDetailScreenRoute>()
             ShoppingOrderDetailScreen(
                 model = model,
+                rateOrder = {
+
+                },
                 onBackPressed = { onBackPressed() },
                 reportOrder = {
                     navController.navigate(OrderHistoryNavigation.ReportOrderIssuesScreen(orderId = model.transactionId))

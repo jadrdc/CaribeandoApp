@@ -3,7 +3,7 @@ package com.agusteam.caribeando.data.imp
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.ReportOrder
-import com.agusteam.caribeando.data.model.TripScheduleRatingRequest
+import com.agusteam.caribeando.data.model.OrderRatingRequest
 import com.agusteam.caribeando.data.model.UpcomingOrderTripModelResponse
 import com.agusteam.caribeando.data.network.services.OrderService
 import com.agusteam.caribeando.domain.interfaces.OrderRepository
@@ -20,15 +20,15 @@ class OrderRepositoryImp(private val orderService: OrderService) : OrderReposito
 
     override suspend fun rateOrder(
         rating: Double,
-        tripScheduleId: String,
+        orderId: String,
         comment: String
     ): OperationResult<Any> {
         return try {
             val orders = orderService.rateOrder(
-                TripScheduleRatingRequest(
+                OrderRatingRequest(
                     rating = rating,
                     comment = comment,
-                    tripScheduleId = tripScheduleId
+                    orderId = orderId
                 )
             )
             orders

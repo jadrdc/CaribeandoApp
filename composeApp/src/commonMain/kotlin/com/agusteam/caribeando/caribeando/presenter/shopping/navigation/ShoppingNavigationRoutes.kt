@@ -44,8 +44,10 @@ data class ShoppingOrderDetailScreenRoute(
     val businessPhoto: String,
     val businessMonth: String,
     val hasItBeenEvaluated: Boolean = true,
-    val galleryPhoto: List<String> = listOf()
+    val galleryPhoto: List<String> = listOf(),
+    val scheduledId: String,
+    var isPending: Boolean = false
 )
 
 @Serializable
-data class RatingTripRoute(val tripScheduled:String)
+data class RatingTripRoute(val orderId: String)

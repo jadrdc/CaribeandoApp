@@ -87,12 +87,14 @@ fun ReportOrderIssueScreen(
                 }
             }
             item {
+                Box(Modifier.padding(vertical = 16.dp)) {
                 ActionButton(
                     isValid = state.isValid(),
                     text = stringResource(Res.string.report),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     viewModel.handlerEvent(ReportOrderViewModel.ReportOrderEvent.ReportOrder)
+                }
                 }
             }
         }

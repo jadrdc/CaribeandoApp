@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpcomingOrders(
-    val hasBeenEvaluated:Boolean=true,
+    val hasBeenEvaluated: Boolean = true,
     val transactionId: String,
     val tripName: String,
     val tripDestiny: String,
@@ -19,4 +19,5 @@ data class UpcomingOrders(
     val dateFrom: String,
     val dateTo: String,
     val totalPayment: Double,
+    val scheduledId: String,
 )

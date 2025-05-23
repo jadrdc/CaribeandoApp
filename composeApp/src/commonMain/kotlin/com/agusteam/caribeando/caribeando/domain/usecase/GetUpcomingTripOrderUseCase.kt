@@ -15,21 +15,22 @@ class GetUpcomingTripOrderUseCase(private val orderRepository: OrderRepository) 
                 val results = result.data.map {
                     UpcomingOrders(
                         transactionId = it.id,
-                        totalPayment = it.tripScheduleModel.total_payment,
-                        tripImages = it.tripScheduleModel.tripModel.images,
-                        timeUntilTrip = timeUntil(it.tripScheduleModel.leaving_time),
-                        providerMonth = it.tripScheduleModel.tripModel.businessModel.month,
-                        tripImage = it.tripScheduleModel.tripModel.images.firstOrNull() ?: "",
-                        tripDestiny = it.tripScheduleModel.tripModel.destiny,
                         tripName = it.tripScheduleModel.tripModel.name,
-                        providerImage = it.tripScheduleModel.tripModel.businessModel.image,
+                        tripDestiny = it.tripScheduleModel.tripModel.destiny,
+                        tripImage = it.tripScheduleModel.tripModel.images.firstOrNull() ?: "",
                         providerName = it.tripScheduleModel.tripModel.businessModel.name,
-                        dateFrom = formatInstant(it.tripScheduleModel.leaving_time),
-                        dateTo = formatInstant(it.tripScheduleModel.returning_time),
+                        providerImage = it.tripScheduleModel.tripModel.businessModel.image,
                         date = formatDateRange(
                             it.tripScheduleModel.leaving_time,
                             it.tripScheduleModel.returning_time
-                        )
+                        ),
+                        providerMonth = it.tripScheduleModel.tripModel.businessModel.month,
+                        timeUntilTrip = timeUntil(it.tripScheduleModel.leaving_time),
+                        tripImages = it.tripScheduleModel.tripModel.images,
+                        dateFrom = formatInstant(it.tripScheduleModel.leaving_time),
+                        dateTo = formatInstant(it.tripScheduleModel.returning_time),
+                        totalPayment = it.tripScheduleModel.total_payment,
+                        scheduledId = it.scheduledId
                     )
                 }
                 OperationResult.Success(results)

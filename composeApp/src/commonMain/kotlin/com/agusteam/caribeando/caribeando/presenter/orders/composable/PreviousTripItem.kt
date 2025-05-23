@@ -30,7 +30,9 @@ import com.agusteam.caribeando.presenter.theme.secondary
 
 @Composable
 fun PreviousTripItem(
-    item: TripModel, goDetails: () -> Unit
+    item: TripModel,
+    rateOrderTrip: (String) -> Unit,
+    goDetails: () -> Unit
 ) {
 
     Row(
@@ -79,7 +81,9 @@ fun PreviousTripItem(
         }
         println("XAMTY $item")
         if (!item.hasBeenEvaluated) {
-            PendingReview()
+            PendingReview {
+                rateOrderTrip(item.transactionId)
+            }
         }
     }
 }

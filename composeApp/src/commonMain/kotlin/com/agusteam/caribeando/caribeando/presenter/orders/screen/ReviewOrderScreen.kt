@@ -2,6 +2,7 @@ package com.agusteam.caribeando.caribeando.presenter.orders.screen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +43,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ReviewOrderScreen(
     viewModel: RatingOrderViewModel = koinViewModel(),
-    tripScheduleId: String,
+    orderId: String,
     onBackPressed: () -> Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
@@ -55,7 +57,7 @@ fun ReviewOrderScreen(
     LaunchedEffect(Unit) {
         viewModel.handlerEvent(
             RatingOrderViewModel.RatingOrderEvents.OnOrderLoad(
-                tripScheduleId
+                orderId
             )
         )
     }
@@ -133,12 +135,14 @@ fun ReviewOrderScreen(
                 }
             }
             item {
-                ActionButton(
-                    isValid = state.isValid(),
-                    text = "Enviar reseña",
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    viewModel.handlerEvent(RatingOrderViewModel.RatingOrderEvents.CommentOrder)
+                Box(Modifier.padding(vertical = 16.dp)) {
+                    ActionButton(
+                        isValid = state.isValid(),
+                        text = "Enviar reseña",
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        viewModel.handlerEvent(RatingOrderViewModel.RatingOrderEvents.CommentOrder)
+                    }
                 }
             }
         }
@@ -176,7 +180,11 @@ fun StarSelector(
                 tint = if (i <= rating) Color(0xFFFFC107) else Color(0xFFBDBDBD),
                 modifier = Modifier
                     .size(36.dp)
-                    .clickable { onRatingSelected(i) }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,  // This removes the ripple effect
+                        onClick = { onRatingSelected(i) }
+                    )
             )
             Spacer(modifier = Modifier.width(4.dp))
         }

@@ -20,7 +20,9 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun OrderHistoryScreen(
-    viewModel: OrderHistoryViewModel = koinViewModel(), goDetails: (UpcomingOrders) -> Unit
+    viewModel: OrderHistoryViewModel = koinViewModel(),
+    goDetails: (UpcomingOrders) -> Unit,
+    rateOrderTrip: (String) -> Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
@@ -62,6 +64,8 @@ fun OrderHistoryScreen(
                     item {
                         PreviousTripItemSection(oldItems = state.oldItems, goDetails = { item ->
                             goDetails(item)
+                        }, rateOrderTrip = { tripScheduled ->
+                            rateOrderTrip(tripScheduled)
                         })
                     }
                 }

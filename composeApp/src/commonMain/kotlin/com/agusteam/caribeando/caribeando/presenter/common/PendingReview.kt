@@ -2,6 +2,7 @@ package com.agusteam.caribeando.caribeando.presenter.common
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,10 +26,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
-fun PendingReview() {
+fun PendingReview(onClick:()->Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = Modifier.clickable { onClick() }
             .background(Color(0xFFFFF3E0), shape = RoundedCornerShape(16.dp))
             .padding(start = 10.dp, top = 4.dp, bottom = 4.dp, end = 2.dp)
     ) {
