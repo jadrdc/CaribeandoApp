@@ -32,7 +32,7 @@ class SocialSignViewModel(
                             ).build()
                         )
                     } catch (e: Exception) {
-                        val w = e.message
+                        e.message
                     }
                 }
 
@@ -55,19 +55,17 @@ class SocialSignViewModel(
                 val result = googleSignInUseCase(signInResult.data?.googleIdToken ?: "")
                 when (result) {
                     is OperationResult.Error -> {
-                        println("CRUZ ${result.exception.message}")
 
                     }
 
                     is OperationResult.Success -> {
-                        println("KARLA SOCIAL ${result.data}")
                         saveTokenDataUseCase(result.data)
                         sendEvent(SocialSignInEvent.Success(result.data))
                     }
                 }
 
                 // Maneja el resultado aquí
-            } catch (e: Exception) {
+            } catch (_: Exception) {
 
             }
         }
