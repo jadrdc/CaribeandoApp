@@ -11,6 +11,8 @@ import com.agusteam.caribeando.data.model.UpdatePhoneAndBirthdateRequest
 import com.agusteam.caribeando.data.model.UserSignUpRequest
 import com.agusteam.caribeando.presenter.URL
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.authProvider
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -43,6 +45,9 @@ class SignUpService(
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
             }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
+            }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
             mapExceptions(e)
@@ -56,6 +61,10 @@ class SignUpService(
             ) {
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
+
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
@@ -70,6 +79,9 @@ class SignUpService(
             ) {
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {

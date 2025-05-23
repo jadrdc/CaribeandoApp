@@ -89,7 +89,7 @@ fun TripItem(
                     }
                 }
             }
-            RatingAndReviews(averageRating = 3.5, reviewCount = 23)
+            RatingAndReviews(averageRating = item.rating, reviewCount = item.reviewCount.toLong())
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,

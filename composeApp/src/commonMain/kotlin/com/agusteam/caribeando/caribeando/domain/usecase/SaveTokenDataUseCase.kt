@@ -10,6 +10,7 @@ class SaveTokenDataUseCase(private val localStorageDataStore: LocalStoragePrefer
     suspend operator fun invoke(model: TokenMode) {
         Token.token = model.accessToken
         Token.refreshToken = model.refreshToken
+
         localStorageDataStore.save(REFRESH_TOKEN, model.refreshToken)
         localStorageDataStore.save(TOKEN, model.accessToken)
     }

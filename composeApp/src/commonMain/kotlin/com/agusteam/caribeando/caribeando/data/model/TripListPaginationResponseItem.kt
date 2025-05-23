@@ -17,4 +17,6 @@ data class TripListPaginationResponseItem(
     val isFavorite: Boolean,
     val businessModel: SummaryBusinessModel = SummaryBusinessModel("", "", "", 0),
     val details: TripDetails = TripDetails(id = ""),
+    val reviewCount: Int = 0,
+    val rating: Double = 0.0
 )

@@ -29,5 +29,7 @@ data class TripModel(
     val hasBeenEvaluated: Boolean = true,
     val date: String = "",
     val tripScheduleId: String = "",
-    val transactionId: String = ""
+    val transactionId: String = "",
+    val reviewCount: Int = 0,
+    val rating: Double = 0.0
 )
