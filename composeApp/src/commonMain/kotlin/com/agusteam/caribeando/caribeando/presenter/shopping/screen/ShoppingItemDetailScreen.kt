@@ -1,6 +1,5 @@
 package com.agusteam.caribeando.presenter.shopping.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,7 +46,6 @@ import com.agusteam.caribeando.presenter.shopping.composable.ShoppingItemOvervie
 import com.agusteam.caribeando.presenter.shopping.composable.ShoppingitemContent
 import com.agusteam.caribeando.presenter.shopping.model.ShoppingDetailModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingItemDetailsViewModel
-import com.agusteam.caribeando.presenter.theme.backGround
 import com.agusteam.caribeando.presenter.theme.primary
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -95,6 +93,8 @@ fun ShoppingItemDetailScreen(
                 }
                 item {
                     ShoppingItemOverview(
+                        reviewCount = model.reviewCount,
+                        rating = model.rating.toDouble(),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         title = state.title,
                         description = state.description
@@ -220,7 +220,7 @@ fun ShoppingItemDetailScreen(
                             businessName = state.itemProviderState.businessName,
                             businessMonth = state.itemProviderState.month.toString(),
                             businessPhoto = state.itemProviderState.businessImage,
-                            galleryPhoto=state.galleryPhotos
+                            galleryPhoto = state.galleryPhotos
                         )
                     )
                 }

@@ -31,6 +31,8 @@ data class TripDetailScreenRoute(
     val initialPayment: Int,
     val destiny: String,
     val tripScheduleId: String,
+    val reviewCount: Int = 0,
+    val rating: Float = 0f
 
 )
 

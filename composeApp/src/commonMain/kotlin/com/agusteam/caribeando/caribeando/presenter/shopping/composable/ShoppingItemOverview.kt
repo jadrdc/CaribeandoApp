@@ -15,12 +15,16 @@ import com.agusteam.caribeando.presenter.common.ReadMoreText
 import com.agusteam.caribeando.presenter.theme.secondary
 
 @Composable
-fun ShoppingItemOverview(title: String, description: String, modifier: Modifier) {
+fun ShoppingItemOverview(
+    title: String, description: String,
+    rating: Double = 0.0, reviewCount: Int = 0,
+    modifier: Modifier
+) {
 
     Column(modifier) {
         Text(text = title, color = secondary, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
         Box(Modifier.padding(vertical = 8.dp)) {
-            RatingAndReviews(averageRating = 3.5, reviewCount = 23)
+            RatingAndReviews(averageRating = rating, reviewCount = reviewCount.toLong())
         }
         if (description.isNotEmpty()) {
             ReadMoreText(
