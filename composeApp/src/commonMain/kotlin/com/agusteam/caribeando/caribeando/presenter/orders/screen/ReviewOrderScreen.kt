@@ -44,13 +44,13 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ReviewOrderScreen(
     viewModel: RatingOrderViewModel = koinViewModel(),
     orderId: String,
-    onBackPressed: () -> Unit
+    onAction: (Boolean) -> Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
     ObserveAsEvents(event) { event ->
         if (event is RatingOrderViewModel.RatingOrderEvents.RatedOrder) {
-            onBackPressed()
+            onAction(true)
         }
     }
 
@@ -88,7 +88,7 @@ fun ReviewOrderScreen(
                 ) {
                     NavigationBar(
                         title = "Reseña del pedido",
-                        onBackPressed = { onBackPressed() }
+                        onBackPressed = { onAction(false) }
                     )
 
                     // Star Selector

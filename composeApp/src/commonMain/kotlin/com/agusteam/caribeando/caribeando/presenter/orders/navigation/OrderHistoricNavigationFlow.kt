@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.orders.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,23 +21,30 @@ fun OrderHistoryNavigationFlow(
     val navController = rememberNavController()
     var orderRoute: ShoppingOrderDetailScreenRoute? = remember { null }
 
+
     NavHost(
         navController = navController,
         startDestination = OrderHistoryNavigation.OrderHistoryScreen.route
     ) {
         composable<RatingTripRoute> { backStackEntry ->
             val model = backStackEntry.toRoute<RatingTripRoute>()
-            showBottomNav(false)
             ReviewOrderScreen(orderId = model.orderId) {
-                navController.popBackStack()
+                if (model.isFromList) {
+                    navController.popBackStack()
+                } else {
+                    orderRoute?.hasItBeenEvaluated = it
+                    orderRoute?.let {
+                        navController.navigate(it)
+                    }
+                }
             }
         }
         composable(OrderHistoryNavigation.OrderHistoryScreen.route) {
             OrderHistoryScreen(
                 rateOrderTrip = { orderId ->
-                    navController.navigate(RatingTripRoute(orderId))
+                    navController.navigate(RatingTripRoute(orderId, true))
                 },
-                goDetails = { order ->
+                goDetails = { order, hasItBeenEvaluted ->
                     showBottomNav(false)
                     orderRoute = ShoppingOrderDetailScreenRoute(
                         scheduledId = order.scheduledId,
@@ -48,7 +56,8 @@ fun OrderHistoryNavigationFlow(
                         businessMonth = order.providerMonth.toString(),
                         businessName = order.providerName,
                         businessPhoto = order.providerImage,
-                        galleryPhoto = order.tripImages
+                        galleryPhoto = order.tripImages,
+                        hasItBeenEvaluated = hasItBeenEvaluted
                     )
                     orderRoute?.let {
                         navController.navigate(
@@ -59,14 +68,16 @@ fun OrderHistoryNavigationFlow(
         }
         composable<ShoppingOrderDetailScreenRoute> { backStackEntry ->
             val model = backStackEntry.toRoute<ShoppingOrderDetailScreenRoute>()
-            ShoppingOrderDetailScreen(model = model, onBackPressed = {
-                showBottomNav(true)
-                navController.navigate(OrderHistoryNavigation.OrderHistoryScreen.route)
-            }, reportOrder = {
-                navController.navigate(OrderHistoryNavigation.ReportOrderIssuesScreen(orderId = model.transactionId))
-            }, rateOrder = { orderId ->
-                navController.navigate(RatingTripRoute(orderId))
-            }
+            ShoppingOrderDetailScreen(model = model,
+                hasItBeenEvaluted = model.hasItBeenEvaluated,
+                onBackPressed = {
+                    showBottomNav(true)
+                    navController.navigate(OrderHistoryNavigation.OrderHistoryScreen.route)
+                }, reportOrder = {
+                    navController.navigate(OrderHistoryNavigation.ReportOrderIssuesScreen(orderId = model.transactionId))
+                }, rateOrder = { orderId ->
+                    navController.navigate(RatingTripRoute(orderId, false))
+                }
             )
         }
         composable<OrderHistoryNavigation.ReportOrderIssuesScreen> { backStackEntry ->

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,7 +22,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun OrderHistoryScreen(
     viewModel: OrderHistoryViewModel = koinViewModel(),
-    goDetails: (UpcomingOrders) -> Unit,
+    goDetails: (UpcomingOrders, Boolean) -> Unit,
     rateOrderTrip: (String) -> Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
@@ -36,6 +37,7 @@ fun OrderHistoryScreen(
 
         }
     }
+
     PullToRefreshContainer(modifier = Modifier, isRefreshing = state.isRefreshing, onRefresh = {
         viewModel.handlerEvent(OrderHistoryViewModel.OrderHistoryEvent.RefreshContent)
     }) {
@@ -54,7 +56,7 @@ fun OrderHistoryScreen(
                     item {
                         UpcomingOrderTripItemSection(upcomingTripItemList = state.upcomingItems,
                             goDetails = { item ->
-                                goDetails(item)
+                                goDetails(item, true)
                             })
                     }
                 }
@@ -63,7 +65,7 @@ fun OrderHistoryScreen(
                 ) {
                     item {
                         PreviousTripItemSection(oldItems = state.oldItems, goDetails = { item ->
-                            goDetails(item)
+                            goDetails(item, item.hasBeenEvaluated)
                         }, rateOrderTrip = { tripScheduled ->
                             rateOrderTrip(tripScheduled)
                         })
