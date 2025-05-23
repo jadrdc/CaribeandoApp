@@ -30,8 +30,6 @@ class TripRepositoryImp(private val service: TripService) : TripRepository {
     ): OperationResult<List<TripListPaginationResponseItem>> {
         return try {
             paginationManager.loadNextPage { page ->
-                println("CRUSEL 00 $page")
-
                 // You may need to adjust the request to include the page number
                 val result = service.getTrips(
                     TripsAvailablePaginationRequest(

@@ -22,7 +22,6 @@ class PaginationManager<T> {
         fetch: suspend (page: Int) -> PaginationDTO<T>
     ): Result<List<T>> {
         return try {
-            println("CRUSEL $currentPage")
             if (isLoading || isLastPage) {
                 return Result.success(items)
             }
@@ -36,8 +35,6 @@ class PaginationManager<T> {
             } else {
                 isLastPage = true
             }
-            println("CRUSEL 1 $currentPage")
-
             isLoading = false
             Result.success(items)
         } catch (e: Exception) {

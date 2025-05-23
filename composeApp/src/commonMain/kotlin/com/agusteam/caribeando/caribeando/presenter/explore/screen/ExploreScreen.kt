@@ -51,6 +51,10 @@ fun ExploreScreen(
     val bottomState = rememberModalBottomSheetState(true)
     val listState = rememberLazyListState()
 
+    LaunchedEffect(Unit) {
+        println("CRUZ ANTONIO")
+        viewModel.onExploreEventChanged(ExploreEvent.InitLoad)
+    }
     // Enhanced Pagination Trigger
     LaunchedEffect(listState, state.value.items.size, state.value.isLoading) {
         snapshotFlow {

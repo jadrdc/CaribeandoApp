@@ -58,7 +58,6 @@ class OrderHistoryViewModel(
             }
 
             is OperationResult.Success -> {
-                println("XAMTY 2 ${result.data}")
                 setState { copy(oldItems = result.data) }
             }
         }

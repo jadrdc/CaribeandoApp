@@ -31,8 +31,6 @@ class ProfileViewModel(
 ) : GenericViewModel<ProfileState, ProfileEvent>(ProfileState()) {
 
     init {
-        println("CRUZ TOKEN ${Token.token}")
-        println("CRUZ REFRESH ${Token.refreshToken}")
         loadUserProfile()
     }
 
@@ -41,10 +39,8 @@ class ProfileViewModel(
             setState { copy(isLoading = true) }
 
             if (Token.isInformationLoaded) {
-                println("XAMTY LOCAL ${Token.token}")
                 loadLocalProfile()
             } else {
-                println("XAMTY REMOTE ${Token.token}")
                 loadRemoteProfile()
             }
 
@@ -60,8 +56,6 @@ class ProfileViewModel(
                 val email = preferences[stringPreferencesKey(EMAIL)] ?: ""
                 val phone = preferences[stringPreferencesKey(PHONE)] ?: ""
                 val profileImage = preferences[stringPreferencesKey(AVATAR)] ?: ""
-                println("CRUZ profileImage local ${profileImage}")
-
                 setState {
                     copy(
                         profileImage = profileImage,
@@ -86,8 +80,6 @@ class ProfileViewModel(
                     email = result.data.email,
                     avatar = result.data.avatarUrl ?: ""
                 )
-                println("CRUZ profileImage remove $result")
-
                 setState {
                     copy(
                         profileImage = result.data.avatarUrl ?: " ",

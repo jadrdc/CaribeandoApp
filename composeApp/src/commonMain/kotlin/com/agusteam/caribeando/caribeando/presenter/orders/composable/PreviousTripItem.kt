@@ -79,7 +79,6 @@ fun PreviousTripItem(
                 )
             }
         }
-        println("XAMTY $item")
         if (!item.hasBeenEvaluated) {
             PendingReview {
                 rateOrderTrip(item.transactionId)

@@ -1,11 +1,13 @@
 package com.agusteam.caribeando.presenter.explore.viewmodels
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.toDomain
 import com.agusteam.caribeando.data.model.Token
+import com.agusteam.caribeando.data.util.IS_CONFIRMED
 import com.agusteam.caribeando.data.util.POPULAR
 import com.agusteam.caribeando.data.util.REFRESH_TOKEN
 import com.agusteam.caribeando.data.util.TOKEN
@@ -74,24 +76,17 @@ class ExploreViewModel(
         }
     }
 
-    init {
-        viewModelScope.launch {
-            loadToken()
-            initialLoad()
-        }
-    }
 
     private suspend fun loadToken() {
-        println("CRUSEL ${Token.token}")
-        println("CRUSEL ${Token.refreshToken}")
-        println("CRUSEL ${Token.isValid}")
         if (!Token.isValid) {
             getLocalUserProfile()
                 .mapLatest { preferences ->
                     val refresh = preferences[stringPreferencesKey(REFRESH_TOKEN)] ?: ""
                     val token = preferences[stringPreferencesKey(TOKEN)] ?: ""
+                    val isConfirmed = preferences[booleanPreferencesKey(IS_CONFIRMED)] ?: false
                     Token.token = token
                     Token.refreshToken = refresh
+                    Token.isConfirmed = isConfirmed
                 }
                 .launchIn(viewModelScope)
         }
@@ -224,8 +219,6 @@ class ExploreViewModel(
     }
 
     private suspend fun clearFilter() {
-        println("crusel ${state.value.filterState.leavingTimeStart}")
-        println("crusel ${state.value.filterState.returningTimeEnd}")
         setState {
             copy(
                 filterState = filterState.copy(
@@ -314,6 +307,11 @@ class ExploreViewModel(
     fun onExploreEventChanged(event: ExploreEvent) {
         viewModelScope.launch {
             when (event) {
+                is ExploreEvent.InitLoad -> {
+                    loadToken()
+                    initialLoad()
+                }
+
                 is ExploreEvent.RefreshContent -> {
                     setState {
                         copy(
@@ -420,6 +418,7 @@ class ExploreViewModel(
 }
 
 sealed interface ExploreEvent {
+    data object InitLoad : ExploreEvent
     data object OnErrorModalAccepted : ExploreEvent
     class OnCategorySelected(val categoryModel: CategoryModel) : ExploreEvent
     class OnShoppingItemMarked(val item: TripModel) : ExploreEvent
