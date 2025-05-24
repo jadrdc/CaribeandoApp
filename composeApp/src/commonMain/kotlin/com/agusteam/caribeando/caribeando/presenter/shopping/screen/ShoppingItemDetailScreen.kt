@@ -3,12 +3,14 @@ package com.agusteam.caribeando.presenter.shopping.screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -30,6 +32,7 @@ import caribeando.composeapp.generated.resources.leaving_time
 import caribeando.composeapp.generated.resources.pay
 import caribeando.composeapp.generated.resources.starting_place
 import caribeando.composeapp.generated.resources.total_payment
+import com.agusteam.caribeando.caribeando.presenter.common.CommentsSection
 import com.agusteam.caribeando.domain.models.PayItemModel
 import com.agusteam.caribeando.presenter.common.ActionButton
 import com.agusteam.caribeando.presenter.common.AnimationLoading
@@ -170,6 +173,13 @@ fun ShoppingItemDetailScreen(
                         title = stringResource(Res.string.included_services),
                         items = state.includedServices
                     )
+                }
+                item {
+                    if (state.comments.isNotEmpty()) {
+                        Column {
+                            CommentsSection(state.comments)
+                        }
+                    }
                 }
 
             }

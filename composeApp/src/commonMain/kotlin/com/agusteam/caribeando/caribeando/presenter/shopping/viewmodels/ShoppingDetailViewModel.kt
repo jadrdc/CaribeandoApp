@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
+import com.agusteam.caribeando.domain.usecase.GetCommentsTripUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
 import com.agusteam.caribeando.domain.usecase.MarkFavoriteTripUseCase
 import com.agusteam.caribeando.domain.usecase.UnmarkedFavoriteTripUseCase
@@ -16,6 +17,7 @@ class ShoppingItemDetailsViewModel(
     val getTripsIncludedServicesUseCase: GetTripsIncludedServicesUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
     val unmarkedFavoriteTripUseCase: UnmarkedFavoriteTripUseCase,
+    val getCommentsTripUseCase: GetCommentsTripUseCase
 ) : GenericViewModel<TripDetailState, ShoppingItemDetailsViewModel.ShoppingDetailEvent>(
     TripDetailState()
 ) {
@@ -105,7 +107,12 @@ class ShoppingItemDetailsViewModel(
                         )
                     }
                     getIncludedServices()
-
+                    when (val result = getCommentsTripUseCase(event.tripId)) {
+                        is OperationResult.Error -> {}
+                        is OperationResult.Success -> {
+                            setState { copy(comments = result.data) }
+                        }
+                    }
                 }
 
             }
