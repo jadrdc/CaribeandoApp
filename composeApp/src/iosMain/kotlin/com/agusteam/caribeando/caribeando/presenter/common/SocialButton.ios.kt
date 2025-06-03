@@ -13,16 +13,13 @@ import com.agusteam.caribeando.domain.models.TokenMode
 actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
     val factory = LocalNativeViewFactory.current
 
-    Column() {
-        Text("TEST")
-        UIKitViewController(
-            modifier = Modifier.fillMaxWidth(),
-            factory = {
-                factory.createSocialButton(
-                    onToken = { token -> onLogin(TokenMode(token, "apple")) },
-                    onError = { error -> println("Apple Sign-In Error: $error") }
-                )
-            }
-        )
-    }
+    UIKitViewController(
+        modifier = Modifier.fillMaxWidth(),
+        factory = {
+            factory.createSocialButton(
+                onToken = { token -> onLogin(TokenMode(token, "apple")) },
+                onError = { error -> println("Apple Sign-In Error: $error") }
+            )
+        }
+    )
 }
