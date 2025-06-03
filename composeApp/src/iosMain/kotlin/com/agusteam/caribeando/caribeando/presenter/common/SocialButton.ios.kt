@@ -18,7 +18,7 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
 
     ObserveAsEvents(event) { event ->
         if (event is AppleEvent.Success) {
-            // onLogin(event.data)
+            onLogin(event.data)
         }
     }
     UIKitViewController(
@@ -26,7 +26,7 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
         factory = {
             factory.createSocialButton(
                 onToken = { token, name, lastName ->
-
+                    viewModel.onEventHandler(AppleEvent.SignUp(token, name, lastName))
                 },
                 onError = { error -> println("Apple Sign-In Error: $error") }
             )
