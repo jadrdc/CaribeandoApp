@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "230221683441",
+    "project_id": "caribeando-952d9",
+    "storage_bucket": "caribeando-952d9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230221683441:android:c0ef7ba0b1c917316d6750",
+        "android_client_info": {
+          "package_name": "com.agusteam.caribeando"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230221683441-a00k7s5p2ronpm1s24j7qf67etovrbhq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.agusteam.caribeando",
+            "certificate_hash": "25db13b5493c7e9fddaddc4500647fcd78694cc9"
+          }
+        },
+        {
+          "client_id": "230221683441-s7cfldtndj3uhctlqc67gsvtc0bbsqlc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdW5q1W_RoTqiAV6uhft6rW6Zb1fMCdEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230221683441-s7cfldtndj3uhctlqc67gsvtc0bbsqlc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

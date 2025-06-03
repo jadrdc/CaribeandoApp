@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Caribeando</string>
+    <string name="firebase_project_id">caribeando-952d9</string>
+    <string name="firebase_app_id">1:230221683441:android:c0ef7ba0b1c917316d6750</string>
+    <string name="firebase_auth">230221683441-s7cfldtndj3uhctlqc67gsvtc0bbsqlc.apps.googleusercontent.com</string>
+    <string name="firebase_api_key">AIzaSyCdW5q1W_RoTqiAV6uhft6rW6Zb1fMCdEY</string>
+</resources>
