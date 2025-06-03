@@ -11,7 +11,7 @@ class IOSNativeViewFactory: NativeViewFactory {
         let view = AppleMapContainer(lat: lat, lng: lng)
                return UIHostingController(rootView: view)
         }
-    public func createSocialButton( onToken: @escaping (String) -> Void,
+    public func createSocialButton( onToken: @escaping (String,String,String) -> Void,
                                     onError: @escaping (String) -> Void)->UIViewController{
         
         let hostingController = UIHostingController(
