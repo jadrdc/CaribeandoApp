@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 actual val networkModule: Module
     get() = module {
-        single<HttpClient> { createHttpClient(Darwin.create(),) }
+        single<HttpClient> { createHttpClient(Darwin.create()) }
     }
 actual val dataStorageDIModule: Module
     get() = module {
