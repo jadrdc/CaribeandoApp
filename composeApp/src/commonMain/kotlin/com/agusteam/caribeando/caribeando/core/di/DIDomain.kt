@@ -18,6 +18,7 @@ import com.agusteam.caribeando.domain.interfaces.TokenRepository
 import com.agusteam.caribeando.domain.interfaces.TripProviderRepository
 import com.agusteam.caribeando.domain.interfaces.TripRepository
 import com.agusteam.caribeando.domain.interfaces.UserProfileRepository
+import com.agusteam.caribeando.domain.usecase.AppleSignUpUseCase
 import com.agusteam.caribeando.domain.usecase.CancelPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.CreatePendingPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.FillUserInfoUseCase
@@ -81,6 +82,7 @@ val diDomainModule = module {
     single<PaymentRepository> { PaymentRepositoryImp(get()) }
     single<StartStripeUseCase> { StartStripeUseCase(get()) }
     single<GoogleSignInUseCase> { GoogleSignInUseCase(get()) }
+    single<AppleSignUpUseCase> { AppleSignUpUseCase(get()) }
     single<ProcessSuccessPaymentOrderUseCase> { ProcessSuccessPaymentOrderUseCase(get()) }
     single<CancelPaymentOrderUseCase> { CancelPaymentOrderUseCase(get()) }
     single<GetUpcomingTripOrderUseCase> { GetUpcomingTripOrderUseCase(get()) }

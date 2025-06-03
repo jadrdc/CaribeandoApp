@@ -3,6 +3,7 @@ package com.agusteam.caribeando.data.network.services
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
+import com.agusteam.caribeando.data.model.AppleSignUpRequest
 import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.TokenResponse
@@ -37,10 +38,28 @@ class SignUpService(
         }
     }
 
+
     suspend fun googleSignIn(model: GoogleTokenRequest): OperationResult<TokenResponse> {
         return try {
             val response = httpClient.post(
                 urlString = "${URL}auth/google"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+                setBody(model)
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
+            }
+            return mapResponse<TokenResponse>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
+    suspend fun appleSignUp(model: AppleSignUpRequest): OperationResult<TokenResponse> {
+        return try {
+            val response = httpClient.post(
+                urlString = "${URL}auth/apple"
             ) {
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
