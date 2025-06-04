@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		054D34BB2DEFABC800AD47D4 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 054D34BA2DEFABC800AD47D4 /* FirebaseCore */; };
+		054D34BD2DEFABC800AD47D4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 054D34BC2DEFABC800AD47D4 /* FirebaseCrashlytics */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B9DA97B12DC1472C00A4DA20 /* Caribeando.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caribeando.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -41,6 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				054D34BB2DEFABC800AD47D4 /* FirebaseCore in Frameworks */,
+				054D34BD2DEFABC800AD47D4 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +92,8 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
+				054D34BA2DEFABC800AD47D4 /* FirebaseCore */,
+				054D34BC2DEFABC800AD47D4 /* FirebaseCrashlytics */,
 			);
 			productName = iosApp;
 			productReference = B9DA97B12DC1472C00A4DA20 /* Caribeando.app */;
@@ -114,6 +123,9 @@
 			);
 			mainGroup = B9DA97A82DC1472C00A4DA20;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				054D34B92DEFABC800AD47D4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9DA97B22DC1472C00A4DA20 /* Products */;
 			projectDirPath = "";
@@ -374,6 +386,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		054D34B92DEFABC800AD47D4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		054D34BA2DEFABC800AD47D4 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 054D34B92DEFABC800AD47D4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		054D34BC2DEFABC800AD47D4 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 054D34B92DEFABC800AD47D4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B9DA97A92DC1472C00A4DA20 /* Project object */;
 }
