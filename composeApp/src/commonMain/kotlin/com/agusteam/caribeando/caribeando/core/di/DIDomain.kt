@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.core.di
 
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.data.imp.CategoryRepositoryImpl
 import com.agusteam.caribeando.data.imp.LocalStorageDataStore
 import com.agusteam.caribeando.data.imp.LoginRepositoryImpl
@@ -91,7 +92,4 @@ val diDomainModule = module {
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }
     single<GetUserProfileUseCase> { GetUserProfileUseCase(get()) }
     single<SaveLocalDataUseCase> { SaveLocalDataUseCase(get()) }
-    /*  single<TokenRepository> {
-          TokenRepositoryImp( get())
-      }*/
 }

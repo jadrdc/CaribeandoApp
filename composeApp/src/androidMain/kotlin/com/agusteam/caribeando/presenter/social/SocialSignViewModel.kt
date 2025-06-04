@@ -3,6 +3,7 @@ package com.agusteam.caribeando.presenter.social
 import android.content.Intent
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.auth.GoogleAuthUiClient
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
@@ -12,6 +13,7 @@ import com.agusteam.caribeando.presenter.social.state.SocialSignState
 import kotlinx.coroutines.launch
 
 class SocialSignViewModel(
+    private val logger:CrashReporter,
     private val googleServiceProvider: GoogleAuthUiClient,
     private val googleSignInUseCase: GoogleSignInUseCase,
     private val saveTokenDataUseCase: SaveTokenDataUseCase,
@@ -55,7 +57,7 @@ class SocialSignViewModel(
                 val result = googleSignInUseCase(signInResult.data?.googleIdToken ?: "")
                 when (result) {
                     is OperationResult.Error -> {
-
+                        logger.recordException(result.exception)
                     }
 
                     is OperationResult.Success -> {

@@ -1,22 +1,19 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
 import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.domain.usecase.AppleSignUpUseCase
-import com.agusteam.caribeando.domain.usecase.LoginUseCase
-import com.agusteam.caribeando.domain.usecase.RequestResetPasswordEmailUseCase
 import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
-import com.agusteam.caribeando.domain.validators.FieldValidator
-import com.agusteam.caribeando.domain.validators.ValidatorType
 import com.agusteam.caribeando.presenter.signup.state.AppleState
-import com.agusteam.caribeando.presenter.signup.state.LoginState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class AppleSignUpViewModel(
+    private val logger:CrashReporter,
     private val useCase: AppleSignUpUseCase,
     private val saveTokenDataUseCase: SaveTokenDataUseCase,
 ) : GenericViewModel<AppleState, AppleEvent>(AppleState()) {
@@ -41,6 +38,7 @@ class AppleSignUpViewModel(
         setState { copy(isLoading = true) }
         when (val result = useCase(token, firstName, lastName)) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error de Inicio de Sesión",

@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.shopping.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
@@ -9,7 +10,8 @@ import com.agusteam.caribeando.presenter.shopping.state.ModalType
 import com.agusteam.caribeando.presenter.shopping.state.ReportOrderState
 import kotlinx.coroutines.launch
 
-class ReportOrderViewModel(val useCase: ReportOrderUseCase) :
+class ReportOrderViewModel(val useCase: ReportOrderUseCase,
+    private val logger:CrashReporter) :
     GenericViewModel<ReportOrderState, ReportOrderViewModel.ReportOrderEvent>(ReportOrderState()) {
 
 
@@ -31,6 +33,7 @@ class ReportOrderViewModel(val useCase: ReportOrderUseCase) :
 
                         is OperationResult.Error -> {
                             setState { copy(modalType = ModalType.ERROR) }
+                            logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
                                 "Error reportando orden",

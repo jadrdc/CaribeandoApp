@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.profile.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.usecase.GetTripProviderDetailsUseCase
@@ -9,6 +10,7 @@ import com.agusteam.caribeando.presenter.profile.state.TripProviderState
 import kotlinx.coroutines.launch
 
 class TripProviderViewModel(
+    private val logger:CrashReporter,
     private val getTripProviderDetailsUseCase: GetTripProviderDetailsUseCase,
     val getUpcomingTripByProviderUseCase: GetUpcomingTripByProviderUseCase,
 ) :
@@ -30,7 +32,7 @@ class TripProviderViewModel(
     private suspend fun getDetails(id: String) {
         when (val result = getTripProviderDetailsUseCase(id)) {
             is OperationResult.Error -> {
-
+                logger.recordException(result.exception)
             }
 
             is OperationResult.Success -> {
@@ -43,7 +45,7 @@ class TripProviderViewModel(
     private suspend fun getUpcomingTrips(id: String) {
         when (val result = getUpcomingTripByProviderUseCase(id)) {
             is OperationResult.Error -> {
-
+                logger.recordException(result.exception)
             }
 
             is OperationResult.Success -> {

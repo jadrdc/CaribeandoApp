@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.wishlist.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.usecase.GetTripFavoriteListUseCase
@@ -8,6 +9,7 @@ import com.agusteam.caribeando.presenter.wishlist.state.WishListState
 import kotlinx.coroutines.launch
 
 class WishListItemViewModel(
+    val logger:CrashReporter,
     val getTripFavoriteListUseCase: GetTripFavoriteListUseCase,
 ) :
     GenericViewModel<WishListState, WishListItemViewModel.WishListEvent>(WishListState()) {
@@ -32,6 +34,7 @@ class WishListItemViewModel(
         setState { copy(isLoading = true) }
         when (val result = getTripFavoriteListUseCase()) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 setState { copy(errorState = true) }
             }
 

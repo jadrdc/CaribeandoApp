@@ -3,6 +3,7 @@ package com.agusteam.caribeando.presenter.explore.viewmodels
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.toDomain
@@ -36,6 +37,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExploreViewModel(
+    private val logger: CrashReporter,
     val getCategoryUseCase: GetCategoryUseCase,
     private val getPaginatedTripsUseCase: GetPaginatedTripsUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
@@ -64,6 +66,7 @@ class ExploreViewModel(
         )) {
             is OperationResult.Error -> {
                 setState { copy(showUIError = true) }
+                logger.recordException(paginationResult.exception)
             }
 
             is OperationResult.Success -> {
@@ -109,6 +112,7 @@ class ExploreViewModel(
         when (val result = getCategoryUseCase()) {
             is OperationResult.Error -> {
                 setState { copy(showUIError = true) }
+                logger.recordException(result.exception)
             }
 
             is OperationResult.Success -> {
@@ -269,6 +273,7 @@ class ExploreViewModel(
         }
         when (result) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error cambiando el estado de viaje",

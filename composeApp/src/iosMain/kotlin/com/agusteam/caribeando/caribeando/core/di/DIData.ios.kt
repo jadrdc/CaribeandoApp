@@ -2,6 +2,7 @@ package com.agusteam.caribeando.core.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.data.database.createDataStore
 import com.agusteam.caribeando.data.network.createHttpClient
 import io.ktor.client.HttpClient
@@ -17,6 +18,9 @@ actual val dataStorageDIModule: Module
     get() = module {
         single<DataStore<Preferences>> {
             createDataStore()
+        }
+        single<CrashReporter> {
+            CrashReporter()
         }
 
     }

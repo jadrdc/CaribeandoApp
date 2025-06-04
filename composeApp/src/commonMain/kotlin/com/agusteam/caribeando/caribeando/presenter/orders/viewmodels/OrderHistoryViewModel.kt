@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.orders.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.usecase.GetPastTripOrderUseCase
@@ -9,6 +10,7 @@ import com.agusteam.caribeando.presenter.orders.state.OrderHistoryState
 import kotlinx.coroutines.launch
 
 class OrderHistoryViewModel(
+    private val logger: CrashReporter,
     private val useCase: GetUpcomingTripOrderUseCase,
     private val getPastTripOrderUseCase: GetPastTripOrderUseCase
 ) :
@@ -41,7 +43,7 @@ class OrderHistoryViewModel(
         setState { copy(upcomingTripSkeletonView = true, oldItemsTripSkeletonView = true) }
         when (val result = useCase()) {
             is OperationResult.Error -> {
-                val e = 1
+                logger.recordException(result.exception)
             }
 
             is OperationResult.Success -> {
@@ -54,7 +56,7 @@ class OrderHistoryViewModel(
     private suspend fun getPastTrip() {
         when (val result = getPastTripOrderUseCase()) {
             is OperationResult.Error -> {
-                val e = 1
+                logger.recordException(result.exception)
             }
 
             is OperationResult.Success -> {

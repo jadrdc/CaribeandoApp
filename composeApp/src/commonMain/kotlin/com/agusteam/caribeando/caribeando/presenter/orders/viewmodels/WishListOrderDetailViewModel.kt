@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.orders.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
@@ -8,6 +9,7 @@ import com.agusteam.caribeando.presenter.wishlist.state.WishListOrderDetailState
 import kotlinx.coroutines.launch
 
 class WishListOrderDetailViewModel(
+    private val logger:CrashReporter,
     val getTripsIncludedServicesUseCase: GetTripsIncludedServicesUseCase,
 ) : GenericViewModel<WishListOrderDetailState, WishListOrderDetailViewModel.OrderDetailsEvent>(
     WishListOrderDetailState()
@@ -41,7 +43,8 @@ class WishListOrderDetailViewModel(
                 }
 
                 is OperationResult.Error -> {
-                    val e = result.exception
+                    logger.recordException(result.exception)
+
                 }
             }
             setState { copy(isLoadingContent = false) }

@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.shopping.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
 class ShoppingItemDetailsViewModel(
+    val logger:CrashReporter,
     val getTripsIncludedServicesUseCase: GetTripsIncludedServicesUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
     val unmarkedFavoriteTripUseCase: UnmarkedFavoriteTripUseCase,
@@ -63,7 +65,7 @@ class ShoppingItemDetailsViewModel(
                 }
 
                 is OperationResult.Error -> {
-                    val e = result.exception
+                    logger.recordException(result.exception)
                 }
             }
             setState { copy(isLoadingContent = false) }
@@ -108,7 +110,9 @@ class ShoppingItemDetailsViewModel(
                     }
                     getIncludedServices()
                     when (val result = getCommentsTripUseCase(event.tripId)) {
-                        is OperationResult.Error -> {}
+                        is OperationResult.Error -> {
+                            logger.recordException(result.exception)
+                        }
                         is OperationResult.Success -> {
                             setState { copy(comments = result.data) }
                         }
@@ -131,6 +135,7 @@ class ShoppingItemDetailsViewModel(
         }
         when (result) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error cambiando el estado de viaje",
