@@ -16,7 +16,8 @@ val LocalNativeViewFactory = staticCompositionLocalOf<NativeViewFactory> {
     error("No view factory provided.")
 }
 
-fun MainViewController(    nativeViewFactory: NativeViewFactory
+fun MainViewController(
+    nativeViewFactory: NativeViewFactory
 ) = ComposeUIViewController(configure = {
     startKoin {
         modules(
