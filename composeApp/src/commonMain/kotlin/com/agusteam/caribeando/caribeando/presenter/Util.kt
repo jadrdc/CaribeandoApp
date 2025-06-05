@@ -159,6 +159,5 @@ fun formatDouble(value: Double, decimals: Int = 1): String {
 }
 
 
-const val URL = "http://127.0.0.1:8081/"
-const val URL1 = "http://10.0.2.2:8081/"
+const val URL = "https://caribeando-backend-production.up.railway.app/"
 
