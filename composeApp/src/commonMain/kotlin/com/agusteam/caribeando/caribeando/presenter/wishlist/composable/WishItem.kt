@@ -48,7 +48,8 @@ fun WishItem(
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            modifier = Modifier.padding(top = 4.dp),
+            maxLines = 1,
+            modifier = Modifier.padding(top = 4.dp).width(150.dp),
             text = item.destiny,
             color = grey500,
             fontSize = 14.sp,

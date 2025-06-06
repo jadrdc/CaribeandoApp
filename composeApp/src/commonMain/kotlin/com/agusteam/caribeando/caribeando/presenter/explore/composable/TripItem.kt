@@ -47,7 +47,7 @@ fun TripItem(
             AsyncImage(
                 modifier = Modifier.fillMaxWidth().height(250.dp).clip(RoundedCornerShape(16.dp)),
                 model = item.images.firstOrNull() ?: "",
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 contentDescription = null
             )
             Box(
