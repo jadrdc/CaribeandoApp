@@ -27,6 +27,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            freeCompilerArgs += listOf("-Xdebug") // Enable debug symbols
         }
     }
     sourceSets {
