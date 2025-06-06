@@ -49,7 +49,7 @@ fun UpcomingTripItem(
                     modifier = Modifier.height(200.dp).fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp)),
                     model = item.tripImage,
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
                 if (item.timeUntilTrip.isNotBlank())

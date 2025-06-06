@@ -35,7 +35,7 @@ fun WishItem(
         AsyncImage(
             modifier = Modifier.size(150.dp).clip(RoundedCornerShape(8.dp)),
             model = item.images.firstOrNull() ?: "",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             contentDescription = null
         )
         Text(
@@ -59,7 +59,7 @@ fun WishItem(
             AsyncImage(
                 modifier = Modifier.size(24.dp).clip(CircleShape),
                 model = item.businessImage,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 contentDescription = null
             )
             Text(

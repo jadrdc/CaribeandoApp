@@ -82,7 +82,7 @@ fun ShoppingOrderDetailScreen(
                     modifier = Modifier.fillMaxWidth().height(250.dp)
                         .clip(RoundedCornerShape(16.dp)),
                     model = model.galleryPhoto[page],
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
             }

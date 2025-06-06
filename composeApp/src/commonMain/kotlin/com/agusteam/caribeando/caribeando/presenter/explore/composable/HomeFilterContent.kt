@@ -83,7 +83,7 @@ fun HomeFilterContent(
                     }, label = { Text(text = category.description) }, leadingIcon = {
                         AsyncImage(
                             model = category.image,
-                            contentScale = ContentScale.FillBounds,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier.size(32.dp),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(primary)

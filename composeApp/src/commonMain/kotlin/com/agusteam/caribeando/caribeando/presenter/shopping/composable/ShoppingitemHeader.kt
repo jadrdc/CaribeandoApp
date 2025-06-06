@@ -35,7 +35,7 @@ fun ShoppingItemHeader(
                 AsyncImage(
                     modifier = Modifier.fillMaxWidth().height(250.dp),
                     model = images[page],
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
             }

@@ -81,7 +81,7 @@ fun TripItem(
                     items(item.categoryList) { category ->
                         AsyncImage(
                             model = category.image,
-                            contentScale = ContentScale.FillBounds,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier.size(32.dp),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(primary)
@@ -106,7 +106,7 @@ fun TripItem(
                     AsyncImage(
                         modifier = Modifier.size(24.dp).clip(CircleShape),
                         model = item.businessImage,
-                        contentScale = ContentScale.FillBounds,
+                        contentScale = ContentScale.Crop,
                         contentDescription = null
                     )
                     Text(

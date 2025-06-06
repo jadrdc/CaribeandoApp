@@ -57,7 +57,7 @@ fun UpcomingTripItem(
                     modifier = Modifier.height(180.dp).fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp)),
                     model = item.images.firstOrNull() ?: "",
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
                 Box(Modifier.padding(8.dp)) {
