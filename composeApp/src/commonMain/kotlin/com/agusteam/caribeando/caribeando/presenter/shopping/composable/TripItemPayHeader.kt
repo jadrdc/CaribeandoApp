@@ -40,7 +40,7 @@ fun TripItemPayHeader(
             AsyncImage(
                 modifier = Modifier.size(120.dp).clip(RoundedCornerShape(8.dp)),
                 model = state.profilePhoto,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 contentDescription = null
             )
             Column(

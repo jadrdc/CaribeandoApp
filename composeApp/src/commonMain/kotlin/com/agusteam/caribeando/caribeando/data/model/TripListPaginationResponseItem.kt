@@ -13,8 +13,9 @@ data class TripListPaginationResponseItem(
     val lng: Float,
     val images: List<String>,
     val cancellation_policy: String,
-    @SerialName("favorite")
     val isFavorite: Boolean,
     val businessModel: SummaryBusinessModel = SummaryBusinessModel("", "", "", 0),
     val details: TripDetails = TripDetails(id = ""),
+    val reviewCount: Int = 0,
+    val rating: Double = 0.0
 )

@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.core.di
 
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.data.imp.CategoryRepositoryImpl
 import com.agusteam.caribeando.data.imp.LocalStorageDataStore
 import com.agusteam.caribeando.data.imp.LoginRepositoryImpl
@@ -18,10 +19,12 @@ import com.agusteam.caribeando.domain.interfaces.TokenRepository
 import com.agusteam.caribeando.domain.interfaces.TripProviderRepository
 import com.agusteam.caribeando.domain.interfaces.TripRepository
 import com.agusteam.caribeando.domain.interfaces.UserProfileRepository
+import com.agusteam.caribeando.domain.usecase.AppleSignUpUseCase
 import com.agusteam.caribeando.domain.usecase.CancelPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.CreatePendingPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.FillUserInfoUseCase
 import com.agusteam.caribeando.domain.usecase.GetCategoryUseCase
+import com.agusteam.caribeando.domain.usecase.GetCommentsTripUseCase
 import com.agusteam.caribeando.domain.usecase.GetPaginatedTripsUseCase
 import com.agusteam.caribeando.domain.usecase.GetPastTripOrderUseCase
 import com.agusteam.caribeando.domain.usecase.GetLocalProfileUseCase
@@ -54,6 +57,7 @@ val diDomainModule = module {
     single<FieldValidator> { FieldValidator() }
     single<LoginRepository> { LoginRepositoryImpl(get()) }
     single<LoginUseCase> { LoginUseCase(get()) }
+    single<GetCommentsTripUseCase> { GetCommentsTripUseCase(get()) }
     single<RatingOrderUseCase> { RatingOrderUseCase(get()) }
     single<LogoutUseCase> { LogoutUseCase(get()) }
     single<RequestResetPasswordEmailUseCase> { RequestResetPasswordEmailUseCase(get()) }
@@ -77,8 +81,8 @@ val diDomainModule = module {
     single<GetStripePaymentIntentUseCase> { GetStripePaymentIntentUseCase(get()) }
     single<CreatePendingPaymentOrderUseCase> { CreatePendingPaymentOrderUseCase(get()) }
     single<PaymentRepository> { PaymentRepositoryImp(get()) }
-    single<StartStripeUseCase> { StartStripeUseCase(get()) }
     single<GoogleSignInUseCase> { GoogleSignInUseCase(get()) }
+    single<AppleSignUpUseCase> { AppleSignUpUseCase(get()) }
     single<ProcessSuccessPaymentOrderUseCase> { ProcessSuccessPaymentOrderUseCase(get()) }
     single<CancelPaymentOrderUseCase> { CancelPaymentOrderUseCase(get()) }
     single<GetUpcomingTripOrderUseCase> { GetUpcomingTripOrderUseCase(get()) }
@@ -87,7 +91,4 @@ val diDomainModule = module {
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }
     single<GetUserProfileUseCase> { GetUserProfileUseCase(get()) }
     single<SaveLocalDataUseCase> { SaveLocalDataUseCase(get()) }
-    /*  single<TokenRepository> {
-          TokenRepositoryImp( get())
-      }*/
 }

@@ -1,11 +1,14 @@
 package com.agusteam.caribeando.presenter.explore.viewmodels
 
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.toDomain
 import com.agusteam.caribeando.data.model.Token
+import com.agusteam.caribeando.data.util.IS_CONFIRMED
 import com.agusteam.caribeando.data.util.POPULAR
 import com.agusteam.caribeando.data.util.REFRESH_TOKEN
 import com.agusteam.caribeando.data.util.TOKEN
@@ -24,7 +27,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -35,6 +37,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExploreViewModel(
+    private val logger: CrashReporter,
     val getCategoryUseCase: GetCategoryUseCase,
     private val getPaginatedTripsUseCase: GetPaginatedTripsUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
@@ -63,6 +66,7 @@ class ExploreViewModel(
         )) {
             is OperationResult.Error -> {
                 setState { copy(showUIError = true) }
+                logger.recordException(paginationResult.exception)
             }
 
             is OperationResult.Success -> {
@@ -75,24 +79,17 @@ class ExploreViewModel(
         }
     }
 
-    init {
-        viewModelScope.launch {
-            loadToken()
-            initialLoad()
-        }
-    }
 
     private suspend fun loadToken() {
-        println("CRUSEL ${Token.token}")
-        println("CRUSEL ${Token.refreshToken}")
-        println("CRUSEL ${Token.isValid}")
         if (!Token.isValid) {
             getLocalUserProfile()
                 .mapLatest { preferences ->
                     val refresh = preferences[stringPreferencesKey(REFRESH_TOKEN)] ?: ""
                     val token = preferences[stringPreferencesKey(TOKEN)] ?: ""
+                    val isConfirmed = preferences[booleanPreferencesKey(IS_CONFIRMED)] ?: false
                     Token.token = token
                     Token.refreshToken = refresh
+                    Token.isConfirmed = isConfirmed
                 }
                 .launchIn(viewModelScope)
         }
@@ -115,6 +112,7 @@ class ExploreViewModel(
         when (val result = getCategoryUseCase()) {
             is OperationResult.Error -> {
                 setState { copy(showUIError = true) }
+                logger.recordException(result.exception)
             }
 
             is OperationResult.Success -> {
@@ -225,8 +223,6 @@ class ExploreViewModel(
     }
 
     private suspend fun clearFilter() {
-        println("crusel ${state.value.filterState.leavingTimeStart}")
-        println("crusel ${state.value.filterState.returningTimeEnd}")
         setState {
             copy(
                 filterState = filterState.copy(
@@ -277,6 +273,7 @@ class ExploreViewModel(
         }
         when (result) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error cambiando el estado de viaje",
@@ -315,6 +312,11 @@ class ExploreViewModel(
     fun onExploreEventChanged(event: ExploreEvent) {
         viewModelScope.launch {
             when (event) {
+                is ExploreEvent.InitLoad -> {
+                    loadToken()
+                    initialLoad()
+                }
+
                 is ExploreEvent.RefreshContent -> {
                     setState {
                         copy(
@@ -421,6 +423,7 @@ class ExploreViewModel(
 }
 
 sealed interface ExploreEvent {
+    data object InitLoad : ExploreEvent
     data object OnErrorModalAccepted : ExploreEvent
     class OnCategorySelected(val categoryModel: CategoryModel) : ExploreEvent
     class OnShoppingItemMarked(val item: TripModel) : ExploreEvent

@@ -31,7 +31,7 @@ fun CategoryItem(
     }, horizontalAlignment = Alignment.CenterHorizontally) {
         AsyncImage(
             model = item.image,
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             modifier = Modifier.size(32.dp),
             contentDescription = null,
             colorFilter = ColorFilter.tint(color)

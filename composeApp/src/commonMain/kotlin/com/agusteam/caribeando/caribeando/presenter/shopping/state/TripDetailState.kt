@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter.shopping.state
 
+import com.agusteam.caribeando.caribeando.data.model.CommentModelResponse
 import com.agusteam.caribeando.core.base.ViewModelState
 import com.agusteam.caribeando.domain.models.ErrorModel
 import com.agusteam.caribeando.domain.models.TripProviderModel
@@ -28,6 +29,7 @@ data class TripDetailState(
     val totalPayment: Int = 0,
     val tripProviderModel: TripProviderModel? = null,
     val itemProviderState: ItemProviderState = ItemProviderState("", "", 0),
+    val comments: List<CommentModelResponse> = listOf()
 
 ) : ViewModelState
 

@@ -28,6 +28,8 @@ fun UpcomingOrders.toDomain(): TripModel {
 
 fun TripListPaginationResponseItem.toDomain(): TripModel {
     return TripModel(
+        reviewCount = reviewCount,
+        rating = rating,
         cancellation_policy = cancellation_policy,
         id = id,
         businessId = businessModel.id,

@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
+    private val logger:CrashReporter,
     private val validator: FieldValidator,
     private val useCase: LoginUseCase,
     private val saveTokenDataUseCase: SaveTokenDataUseCase,
@@ -74,6 +76,7 @@ class LoginViewModel(
         setState { copy(isLoading = true) }
         when (val result = useCase(state.value.email, state.value.password)) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error de Inicio de Sesión",
@@ -83,8 +86,6 @@ class LoginViewModel(
 
             is OperationResult.Success -> {
                 val userModel = result.data
-                println("KARLA LOGIN ${result.data}")
-
                 saveTokenDataUseCase(userModel)
                 sendEvent(LoginEvent.OnUserLogon(userModel))
             }
@@ -94,8 +95,9 @@ class LoginViewModel(
 
     private suspend fun requestEmail() {
         setState { copy(isLoading = true) }
-        when (requestResetPasswordEmailUseCase(state.value.email)) {
+        when (val result=requestResetPasswordEmailUseCase(state.value.email)) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error al reiniciar la contraseña",

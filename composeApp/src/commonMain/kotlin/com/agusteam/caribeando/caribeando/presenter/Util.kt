@@ -7,7 +7,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
+import kotlin.math.pow
 import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 fun formatMoney(amount: String): String {
     return try {
@@ -150,8 +152,12 @@ fun localDateToInstant(localDate: LocalDate, timeZone: TimeZone): Instant {
     return localDateTime
 }
 
+fun formatDouble(value: Double, decimals: Int = 1): String {
+    val factor = 10.0.pow(decimals)
+    val rounded = (value * factor).roundToLong() / factor
+    return rounded.toString()
+}
 
 
+const val URL = "https://caribeando-backend-production.up.railway.app/"
 
-const val URL1 = "http://127.0.0.1:8081/"
-const val URL = "http://10.0.2.2:8081/"

@@ -82,7 +82,9 @@ fun HomeScreen(
                                         arrivingTime = tripModel.arrivingTime,
                                         leavingTime = tripModel.leavingTime,
                                         price = tripModel.price.toInt(),
-                                        tripScheduleId = tripModel.tripScheduleId
+                                        tripScheduleId = tripModel.tripScheduleId,
+                                        reviewCount = tripModel.reviewCount,
+                                        rating = tripModel.rating.toFloat()
                                     )
                                 )
                             } else {

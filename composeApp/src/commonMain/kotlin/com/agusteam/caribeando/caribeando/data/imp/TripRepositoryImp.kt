@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.data.imp
 
 import PaginationManager
+import com.agusteam.caribeando.caribeando.data.model.CommentModelResponse
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.TripFavoriteRequest
@@ -30,8 +31,6 @@ class TripRepositoryImp(private val service: TripService) : TripRepository {
     ): OperationResult<List<TripListPaginationResponseItem>> {
         return try {
             paginationManager.loadNextPage { page ->
-                println("CRUSEL 00 $page")
-
                 // You may need to adjust the request to include the page number
                 val result = service.getTrips(
                     TripsAvailablePaginationRequest(
@@ -63,6 +62,21 @@ class TripRepositoryImp(private val service: TripService) : TripRepository {
                 is OperationResult.Success -> {
                     val model = result.data
                     OperationResult.Success(model)
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+
+    override suspend fun getComments(tripId: String): OperationResult<List<CommentModelResponse>> {
+        return try {
+            when (val result =
+                service.getComments(tripId)) {
+                is OperationResult.Success -> {
+                    OperationResult.Success(result.data)
                 }
 
                 is OperationResult.Error -> result

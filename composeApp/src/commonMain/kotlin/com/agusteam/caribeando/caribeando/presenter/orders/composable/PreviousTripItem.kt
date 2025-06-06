@@ -48,7 +48,7 @@ fun PreviousTripItem(
             AsyncImage(
                 modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp)),
                 model = item.images.firstOrNull() ?: "",
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 contentDescription = null
             )
             Column {
@@ -79,7 +79,6 @@ fun PreviousTripItem(
                 )
             }
         }
-        println("XAMTY $item")
         if (!item.hasBeenEvaluated) {
             PendingReview {
                 rateOrderTrip(item.transactionId)

@@ -4,10 +4,10 @@ import com.agusteam.caribeando.core.base.ViewModelState
 import com.agusteam.caribeando.domain.models.ErrorModel
 
 data class LoginState(
-    val email: String = "joseagustinreinoso@gmail.com",
+    val email: String = "",
     val isEmailError: Boolean = false,
     val emailError: String = "",
-    val password: String = "joseagustinreinoso@gmail.com",
+    val password: String = "",
     val passwordError: String = "",
     val isPasswordError: Boolean = false,
     val isLoading: Boolean = false,
@@ -18,3 +18,4 @@ data class LoginState(
         return email.isNotBlank() && password.isNotBlank() && !isEmailError && !isPasswordError
     }
 }
+

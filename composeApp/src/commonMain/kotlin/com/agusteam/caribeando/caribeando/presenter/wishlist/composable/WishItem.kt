@@ -35,7 +35,7 @@ fun WishItem(
         AsyncImage(
             modifier = Modifier.size(150.dp).clip(RoundedCornerShape(8.dp)),
             model = item.images.firstOrNull() ?: "",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             contentDescription = null
         )
         Text(
@@ -48,7 +48,8 @@ fun WishItem(
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            modifier = Modifier.padding(top = 4.dp),
+            maxLines = 1,
+            modifier = Modifier.padding(top = 4.dp).width(150.dp),
             text = item.destiny,
             color = grey500,
             fontSize = 14.sp,
@@ -58,7 +59,7 @@ fun WishItem(
             AsyncImage(
                 modifier = Modifier.size(24.dp).clip(CircleShape),
                 model = item.businessImage,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 contentDescription = null
             )
             Text(

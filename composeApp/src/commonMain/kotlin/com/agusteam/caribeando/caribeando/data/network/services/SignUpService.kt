@@ -3,6 +3,7 @@ package com.agusteam.caribeando.data.network.services
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
+import com.agusteam.caribeando.data.model.AppleSignUpRequest
 import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.TokenResponse
@@ -11,6 +12,8 @@ import com.agusteam.caribeando.data.model.UpdatePhoneAndBirthdateRequest
 import com.agusteam.caribeando.data.model.UserSignUpRequest
 import com.agusteam.caribeando.presenter.URL
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.authProvider
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -35,6 +38,7 @@ class SignUpService(
         }
     }
 
+
     suspend fun googleSignIn(model: GoogleTokenRequest): OperationResult<TokenResponse> {
         return try {
             val response = httpClient.post(
@@ -42,6 +46,26 @@ class SignUpService(
             ) {
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
+            }
+            return mapResponse<TokenResponse>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
+    suspend fun appleSignUp(model: AppleSignUpRequest): OperationResult<TokenResponse> {
+        return try {
+            val response = httpClient.post(
+                urlString = "${URL}auth/apple"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+                setBody(model)
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
@@ -56,6 +80,10 @@ class SignUpService(
             ) {
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
+
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {
@@ -70,6 +98,9 @@ class SignUpService(
             ) {
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
                 setBody(model)
+            }
+            if (response.status.value in 200..299) {
+                httpClient.authProvider<BearerAuthProvider>()?.clearToken()
             }
             return mapResponse<TokenResponse>(response)
         } catch (e: Exception) {

@@ -76,7 +76,6 @@ fun ModernDateRangePicker(
 
     // Sync with external values when they change
     LaunchedEffect(startDate, endDate) {
-        println("CRUSEL DATE ${endDate.epochSeconds}")
         selectedStart = externalStartDate
         selectedEnd = externalEndDate
     }

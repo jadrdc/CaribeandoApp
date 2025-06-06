@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
@@ -15,6 +16,7 @@ import kotlinx.datetime.Instant
 
 
 class SignUpViewModel(
+    private val logger:CrashReporter,
     private val validator: FieldValidator,
     private val fillUserInfoUseCase: FillUserInfoUseCase,
     private val signUpUseCase: SignUpUseCase,
@@ -31,6 +33,7 @@ class SignUpViewModel(
             state.value.password
         )) {
             is OperationResult.Error -> {
+                logger.recordException(result.exception)
                 onErrorHappened(
                     true,
                     "Error al registrar la cuenta",
@@ -163,6 +166,7 @@ class SignUpViewModel(
                         fillUserInfoUseCase(state.value.phone, state.value.birthdate.toString())
                     when (result) {
                         is OperationResult.Error -> {
+                            logger.recordException(result.exception)
                             setState { copy(isLoading = false) }
 
                         }

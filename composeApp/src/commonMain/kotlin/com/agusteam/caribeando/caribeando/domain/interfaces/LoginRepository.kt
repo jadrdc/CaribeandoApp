@@ -22,4 +22,9 @@ interface LoginRepository {
     ): OperationResult<TokenMode>
 
     suspend fun google(token: String): OperationResult<TokenMode>
+    suspend fun apple(
+        identityToken: String,
+        firstName: String?, // Only sent on first login
+        lastName: String?
+    ): OperationResult<TokenMode>
 }

@@ -2,11 +2,11 @@ package com.agusteam.caribeando.data.imp
 
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
+import com.agusteam.caribeando.data.model.AppleSignUpRequest
 import com.agusteam.caribeando.data.model.GoogleTokenRequest
 import com.agusteam.caribeando.data.model.LoginRequest
 import com.agusteam.caribeando.data.model.RequestPasswordChangeModel
 import com.agusteam.caribeando.data.model.Token
-import com.agusteam.caribeando.data.model.TokenResponse
 import com.agusteam.caribeando.data.model.UpdatePhoneAndBirthdateRequest
 import com.agusteam.caribeando.data.model.UserSignUpRequest
 import com.agusteam.caribeando.data.network.services.SignUpService
@@ -21,6 +21,40 @@ import kotlinx.datetime.toLocalDateTime
 
 class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository {
 
+    override suspend fun apple(
+        identityToken: String,
+        firstName: String?,
+        lastName: String?
+    ): OperationResult<TokenMode> {
+
+        return try {
+            when (val result = service.appleSignUp(
+                AppleSignUpRequest(
+                    identityToken = identityToken,
+                    lastName = lastName,
+                    firstName = firstName
+                )
+            )) {
+                is OperationResult.Success -> {
+                    Token.isConfirmed =
+                        result.data.isPhoneConfigured && result.data.isBirthdateConfigured
+                    OperationResult.Success(
+                        TokenMode(
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
+                            accessToken = result.data.accessToken,
+                            refreshToken = result.data.refreshToken
+                        )
+                    )
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
     override suspend fun fillUserInformation(
         phone: String,
         birthdate: String
@@ -34,11 +68,11 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
             )) {
                 is OperationResult.Success -> {
                     Token.isConfirmed =
-                        result.data.phoneConfigured && result.data.birthdateConfigured
+                        result.data.isPhoneConfigured && result.data.isBirthdateConfigured
                     OperationResult.Success(
                         TokenMode(
-                            isPhoneConfigured = result.data.phoneConfigured,
-                            isBirthdateConfigured = result.data.birthdateConfigured,
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
@@ -57,11 +91,11 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
             when (val result = service.login(LoginRequest(email, password))) {
                 is OperationResult.Success -> {
                     Token.isConfirmed =
-                        result.data.phoneConfigured && result.data.birthdateConfigured
+                        result.data.isPhoneConfigured && result.data.isBirthdateConfigured
                     OperationResult.Success(
                         TokenMode(
-                            isPhoneConfigured = result.data.phoneConfigured,
-                            isBirthdateConfigured = result.data.birthdateConfigured,
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
@@ -80,11 +114,11 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
             when (val result = service.googleSignIn(GoogleTokenRequest(token))) {
                 is OperationResult.Success -> {
                     Token.isConfirmed =
-                        result.data.phoneConfigured && result.data.birthdateConfigured
+                        result.data.isPhoneConfigured && result.data.isBirthdateConfigured
                     OperationResult.Success(
                         TokenMode(
-                            isPhoneConfigured = result.data.phoneConfigured,
-                            isBirthdateConfigured = result.data.birthdateConfigured,
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )
@@ -122,11 +156,11 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                 )) {
                 is OperationResult.Success -> {
                     Token.isConfirmed =
-                        result.data.phoneConfigured && result.data.birthdateConfigured
+                        result.data.isPhoneConfigured && result.data.isBirthdateConfigured
                     OperationResult.Success(
                         TokenMode(
-                            isPhoneConfigured = result.data.phoneConfigured,
-                            isBirthdateConfigured = result.data.birthdateConfigured,
+                            isPhoneConfigured = result.data.isPhoneConfigured,
+                            isBirthdateConfigured = result.data.isBirthdateConfigured,
                             accessToken = result.data.accessToken,
                             refreshToken = result.data.refreshToken
                         )

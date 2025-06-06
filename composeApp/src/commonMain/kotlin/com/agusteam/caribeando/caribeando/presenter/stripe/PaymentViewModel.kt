@@ -2,6 +2,7 @@ package com.agusteam.caribeando.presenter.stripe
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.core.base.ViewModelState
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PaymentViewModel(
+    private val logger:CrashReporter,
     private val getStripePaymentIntentUseCase: GetStripePaymentIntentUseCase,
     private val startStripeUseCase: StartStripeUseCase,
     private val createPendingPaymentOrderUseCase: CreatePendingPaymentOrderUseCase,
@@ -62,6 +64,7 @@ class PaymentViewModel(
                         }
 
                         is OperationResult.Error -> {
+                            logger.recordException(result.exception)
                         }
                     }
                 }
@@ -115,6 +118,7 @@ class PaymentViewModel(
                         state.value.fullName + " " + state.value.title + " " + state.value.leavingTime
                     )) {
                         is OperationResult.Error -> {
+                            logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
                                 "Error en el proceso de pago ",
@@ -136,6 +140,7 @@ class PaymentViewModel(
                                 }
 
                                 is OperationResult.Error -> {
+                                    logger.recordException(orderSucessResult.exception)
                                     onErrorHappened(
                                         true,
                                         "Error en el proceso de pago ",

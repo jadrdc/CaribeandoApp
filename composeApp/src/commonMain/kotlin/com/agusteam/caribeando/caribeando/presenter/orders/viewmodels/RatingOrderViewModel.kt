@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.presenter.shopping.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.core.base.ViewModelState
@@ -9,7 +10,10 @@ import com.agusteam.caribeando.domain.usecase.RatingOrderUseCase
 import com.agusteam.caribeando.presenter.shopping.state.ModalType
 import kotlinx.coroutines.launch
 
-class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
+class RatingOrderViewModel(
+    private val ratingOrderUseCase: RatingOrderUseCase,
+    private val logger: CrashReporter
+) :
     GenericViewModel<RatingOrderViewModel.RatingOrderState, RatingOrderViewModel.RatingOrderEvents>(
         RatingOrderState(rating = 0, comment = "")
     ) {
@@ -67,6 +71,7 @@ class RatingOrderViewModel(private val ratingOrderUseCase: RatingOrderUseCase) :
 
                         is OperationResult.Error -> {
                             setState { copy(modalType = ModalType.ERROR) }
+                            logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
                                 "Error al enviar la reseña",

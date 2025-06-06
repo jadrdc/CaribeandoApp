@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.data.network.services
 
+import com.agusteam.caribeando.caribeando.data.model.CommentModelResponse
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
@@ -20,6 +21,19 @@ class TripService(
     private val httpClient: HttpClient
 ) {
 
+    suspend fun getComments(tripId: String): OperationResult<List<CommentModelResponse>> {
+        return try {
+            val response = httpClient.get(
+                urlString = "${URL}trip/comments/$tripId" // Use string interpolation to insert the trip
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+            }
+            mapResponse<List<CommentModelResponse>>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
     suspend fun markAsFavorite(model: TripFavoriteRequest): OperationResult<String> {
         return try {
             val response = httpClient.post(
@@ -30,7 +44,7 @@ class TripService(
             }
             mapResponse<String>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -43,7 +57,7 @@ class TripService(
             }
             mapResponse<List<String>>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -57,7 +71,7 @@ class TripService(
             }
             mapResponse<String>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 

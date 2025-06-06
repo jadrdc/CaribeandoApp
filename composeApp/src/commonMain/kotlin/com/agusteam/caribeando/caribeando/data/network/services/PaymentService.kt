@@ -13,7 +13,6 @@ import com.agusteam.caribeando.presenter.URL
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
@@ -32,7 +31,7 @@ class PaymentService(
             mapResponse<StripePaymentIntentResponse>(response)
 
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -47,7 +46,7 @@ class PaymentService(
             val res = mapResponse<PaymentPendingOrderResponse>(response)
             res
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -61,7 +60,7 @@ class PaymentService(
             }
             mapResponse<Boolean>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 
@@ -75,7 +74,7 @@ class PaymentService(
             }
             mapResponse<Boolean>(response)
         } catch (e: Exception) {
-             mapExceptions(e)
+            mapExceptions(e)
         }
     }
 }

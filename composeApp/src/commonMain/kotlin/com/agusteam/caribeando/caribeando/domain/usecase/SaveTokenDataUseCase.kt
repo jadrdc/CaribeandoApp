@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.domain.usecase
 
 import com.agusteam.caribeando.data.model.Token
+import com.agusteam.caribeando.data.util.IS_CONFIRMED
 import com.agusteam.caribeando.data.util.REFRESH_TOKEN
 import com.agusteam.caribeando.data.util.TOKEN
 import com.agusteam.caribeando.domain.interfaces.LocalStoragePreferenceRepository
@@ -10,7 +11,9 @@ class SaveTokenDataUseCase(private val localStorageDataStore: LocalStoragePrefer
     suspend operator fun invoke(model: TokenMode) {
         Token.token = model.accessToken
         Token.refreshToken = model.refreshToken
+
         localStorageDataStore.save(REFRESH_TOKEN, model.refreshToken)
         localStorageDataStore.save(TOKEN, model.accessToken)
+        localStorageDataStore.save(IS_CONFIRMED, model.isBirthdateConfigured)
     }
 }

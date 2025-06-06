@@ -47,7 +47,7 @@ fun TripItem(
             AsyncImage(
                 modifier = Modifier.fillMaxWidth().height(250.dp).clip(RoundedCornerShape(16.dp)),
                 model = item.images.firstOrNull() ?: "",
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 contentDescription = null
             )
             Box(
@@ -81,7 +81,7 @@ fun TripItem(
                     items(item.categoryList) { category ->
                         AsyncImage(
                             model = category.image,
-                            contentScale = ContentScale.FillBounds,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier.size(32.dp),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(primary)
@@ -89,7 +89,7 @@ fun TripItem(
                     }
                 }
             }
-            RatingAndReviews(averageRating = 3.5, reviewCount = 23)
+            RatingAndReviews(averageRating = item.rating, reviewCount = item.reviewCount.toLong())
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -106,7 +106,7 @@ fun TripItem(
                     AsyncImage(
                         modifier = Modifier.size(24.dp).clip(CircleShape),
                         model = item.businessImage,
-                        contentScale = ContentScale.FillBounds,
+                        contentScale = ContentScale.Crop,
                         contentDescription = null
                     )
                     Text(

@@ -53,6 +53,7 @@ fun ShoppingOrderDetailScreen(
     model: ShoppingOrderDetailScreenRoute,
     reportOrder: () -> Unit,
     onBackPressed: () -> Unit,
+    hasItBeenEvaluted: Boolean = true,
     rateOrder: (String) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = {
@@ -81,12 +82,12 @@ fun ShoppingOrderDetailScreen(
                     modifier = Modifier.fillMaxWidth().height(250.dp)
                         .clip(RoundedCornerShape(16.dp)),
                     model = model.galleryPhoto[page],
-                    contentScale = ContentScale.FillBounds,
+                    contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
             }
         }
-        if (model.hasItBeenEvaluated)
+        if (!hasItBeenEvaluted)
             item {
                 PendingReview() {
                     rateOrder(model.transactionId)
