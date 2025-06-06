@@ -7,6 +7,7 @@ import com.agusteam.caribeando.core.auth.GoogleAuthUiClient
 import com.agusteam.caribeando.data.database.createDataStore
 import com.agusteam.caribeando.data.network.createHttpClient
 import com.agusteam.caribeando.domain.usecase.PlatformContext
+import com.agusteam.caribeando.domain.usecase.StartStripeUseCase
 import com.agusteam.caribeando.presenter.social.SocialSignViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -27,6 +28,7 @@ actual val dataStorageDIModule: Module
         single<GoogleAuthUiClient> { GoogleAuthUiClient(androidContext(), get()) }
         viewModel<SocialSignViewModel> { SocialSignViewModel(get(),get(), get(), get()) }
         single { PlatformContext(androidContext()) }
+        single<StartStripeUseCase> { StartStripeUseCase(get()) }
         single<DataStore<Preferences>> {
             createDataStore(androidContext())
         }

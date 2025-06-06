@@ -81,7 +81,6 @@ val diDomainModule = module {
     single<GetStripePaymentIntentUseCase> { GetStripePaymentIntentUseCase(get()) }
     single<CreatePendingPaymentOrderUseCase> { CreatePendingPaymentOrderUseCase(get()) }
     single<PaymentRepository> { PaymentRepositoryImp(get()) }
-    single<StartStripeUseCase> { StartStripeUseCase(get()) }
     single<GoogleSignInUseCase> { GoogleSignInUseCase(get()) }
     single<AppleSignUpUseCase> { AppleSignUpUseCase(get()) }
     single<ProcessSuccessPaymentOrderUseCase> { ProcessSuccessPaymentOrderUseCase(get()) }

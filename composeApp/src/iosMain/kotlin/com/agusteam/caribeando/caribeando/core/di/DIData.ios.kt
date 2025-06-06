@@ -5,6 +5,8 @@ import androidx.datastore.preferences.core.Preferences
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.data.database.createDataStore
 import com.agusteam.caribeando.data.network.createHttpClient
+import com.agusteam.caribeando.domain.usecase.PlatformContext
+import com.agusteam.caribeando.domain.usecase.StartStripeUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.darwin.Darwin
 import org.koin.core.module.Module
@@ -19,6 +21,8 @@ actual val dataStorageDIModule: Module
         single<DataStore<Preferences>> {
             createDataStore()
         }
+        single { PlatformContext() }
+        single<StartStripeUseCase> { StartStripeUseCase(get()) }
         single<CrashReporter> {
             CrashReporter()
         }
