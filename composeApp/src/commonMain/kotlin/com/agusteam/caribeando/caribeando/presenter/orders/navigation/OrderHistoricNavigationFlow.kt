@@ -13,6 +13,8 @@ import com.agusteam.caribeando.presenter.orders.screen.ReportOrderIssueScreen
 import com.agusteam.caribeando.presenter.shopping.navigation.RatingTripRoute
 import com.agusteam.caribeando.presenter.shopping.navigation.ShoppingOrderDetailScreenRoute
 import com.agusteam.caribeando.presenter.shopping.screen.ShoppingOrderDetailScreen
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun OrderHistoryNavigationFlow(
@@ -56,7 +58,8 @@ fun OrderHistoryNavigationFlow(
                         businessMonth = order.providerMonth.toString(),
                         businessName = order.providerName,
                         businessPhoto = order.providerImage,
-                        galleryPhoto = order.tripImages,
+                        //   galleryPhoto = order.tripImages,
+                        galleryPhotoJson = Json.encodeToString(order.tripImages), // 👈 serializa aquí
                         hasItBeenEvaluated = hasItBeenEvaluted
                     )
                     orderRoute?.let {

@@ -46,7 +46,8 @@ data class ShoppingOrderDetailScreenRoute(
     var hasItBeenEvaluated: Boolean = true,
     val galleryPhoto: List<String> = listOf(),
     val scheduledId: String,
-    var isPending: Boolean = false
+    var isPending: Boolean = false,
+    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
 )
 
 @Serializable
