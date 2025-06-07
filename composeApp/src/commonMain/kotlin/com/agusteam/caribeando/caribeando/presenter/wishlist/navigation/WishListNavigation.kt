@@ -24,7 +24,6 @@ data class WishListItemDetailScreenRoute(
     val businessName: String = "",
     val month: Int = 0,
     val isFavorite: Boolean,
-    val images: List<String>,
     val cancellationPolicy: String,
 
     val arrivingTime: String,
@@ -33,6 +32,7 @@ data class WishListItemDetailScreenRoute(
     val price: Int,
     val initialPayment: Int,
     val destiny: String,
+    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
 
 
-    )
+)

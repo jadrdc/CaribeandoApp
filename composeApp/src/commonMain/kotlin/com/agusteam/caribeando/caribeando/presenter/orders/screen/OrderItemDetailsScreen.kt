@@ -28,6 +28,8 @@ import caribeando.composeapp.generated.resources.destiny
 import caribeando.composeapp.generated.resources.ic_pin
 import caribeando.composeapp.generated.resources.trip_categories
 
+import kotlinx.serialization.json.Json
+
 @Composable
 fun OrderItemDetailsScreen(
     viewModel: WishListOrderDetailViewModel = koinViewModel(),
@@ -51,7 +53,7 @@ fun OrderItemDetailsScreen(
         ) {
             item {
                 ShoppingItemHeader(
-                    images = model.images,
+                    images = Json.decodeFromString(model.galleryPhotoJson),
                     isSavedForLater = true,
                     onBackPressed = onBackPressed
                 )

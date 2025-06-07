@@ -47,6 +47,7 @@ import caribeando.composeapp.generated.resources.report_issue
 import caribeando.composeapp.generated.resources.reservation_details
 import caribeando.composeapp.generated.resources.trip_details
 import com.agusteam.caribeando.caribeando.presenter.common.PendingReview
+import kotlinx.serialization.json.Json
 
 @Composable
 fun ShoppingOrderDetailScreen(
@@ -56,9 +57,10 @@ fun ShoppingOrderDetailScreen(
     hasItBeenEvaluted: Boolean = true,
     rateOrder: (String) -> Unit
 ) {
-    val pagerState = rememberPagerState(pageCount = {
-        model.galleryPhoto.size
-    })
+    val galleryPhoto: List<String> = Json.decodeFromString(model.galleryPhotoJson)
+
+    val pagerState = rememberPagerState(pageCount = { galleryPhoto.size })
+
     LazyColumn(
         modifier = Modifier.padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -81,7 +83,7 @@ fun ShoppingOrderDetailScreen(
                 AsyncImage(
                     modifier = Modifier.fillMaxWidth().height(250.dp)
                         .clip(RoundedCornerShape(16.dp)),
-                    model = model.galleryPhoto[page],
+                    model = galleryPhoto[page],
                     contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
@@ -89,7 +91,7 @@ fun ShoppingOrderDetailScreen(
         }
         if (!hasItBeenEvaluted)
             item {
-                PendingReview() {
+                PendingReview {
                     rateOrder(model.transactionId)
                 }
             }
@@ -215,3 +217,4 @@ fun ShoppingOrderDetailScreen(
         }
     }
 }
+
