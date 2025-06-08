@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -49,7 +50,10 @@ fun HomeScreen(
             },
             modifier = Modifier.fillMaxSize(),
         ) { innnerPadding ->
-            Box(modifier = Modifier.padding(innnerPadding).background(backGround).fillMaxSize()) {
+            Box(
+                modifier = Modifier.padding(innnerPadding) // ✅ Corrección clave
+                    .background(backGround).fillMaxSize()
+            ) {
                 NavHost(
                     navController = navController,
                     startDestination = NavigationRoutes.HomeScreen.route
