@@ -5,9 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.agusteam.caribeando.presenter.signup.navigation.MainNavigationFlow
 import com.agusteam.caribeando.presenter.theme.backGround
 
@@ -17,7 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Box(
                 Modifier
-                    .background(backGround)
+                    .background(backGround).fillMaxSize()
             ) {
                 MainNavigationFlow()
             }
