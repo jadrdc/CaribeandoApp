@@ -9,18 +9,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -31,18 +22,8 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,14 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
-import kotlinx.datetime.isoDayNumber
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.todayIn
+import kotlinx.datetime.*
 
 @Composable
 fun ModernDateRangePicker(
@@ -67,6 +41,7 @@ fun ModernDateRangePicker(
     modifier: Modifier = Modifier
 ) {
     val timeZone = TimeZone.currentSystemDefault()
+    val today = Clock.System.todayIn(timeZone)
 
     val externalStartDate = startDate.toLocalDateTime(timeZone).date
     val externalEndDate = endDate.toLocalDateTime(timeZone).date
@@ -74,26 +49,33 @@ fun ModernDateRangePicker(
     var selectedStart by remember { mutableStateOf<LocalDate?>(externalStartDate) }
     var selectedEnd by remember { mutableStateOf<LocalDate?>(externalEndDate) }
 
-    // Sync with external values when they change
     LaunchedEffect(startDate, endDate) {
         selectedStart = externalStartDate
         selectedEnd = externalEndDate
     }
 
     var selectedMonth by remember {
-        mutableStateOf(
-            YearMonth(
-                Clock.System.todayIn(timeZone).year,
-                Clock.System.todayIn(timeZone).month
-            )
-        )
+        mutableStateOf(YearMonth(today.year, today.month))
     }
 
     var expanded by remember { mutableStateOf(false) }
+    var yearSelectorExpanded by remember { mutableStateOf(false) }
+    val yearRange = (2000..today.year + 2).toList()
 
     val transition = updateTransition(expanded, label = "calendar_transition")
     val roundedCorners by transition.animateDp(label = "corner_radius") { isExpanded ->
         if (isExpanded) 8.dp else 24.dp
+    }
+
+    if (yearSelectorExpanded) {
+        YearPickerDialog(
+            currentYear = selectedMonth.year,
+            yearRange = yearRange,
+            onDismiss = { yearSelectorExpanded = false },
+            onYearSelected = { year ->
+                selectedMonth = YearMonth(year, selectedMonth.month)
+            }
+        )
     }
 
     Card(
@@ -101,11 +83,10 @@ fun ModernDateRangePicker(
             .fillMaxWidth()
             .animateContentSize(),
         shape = RoundedCornerShape(roundedCorners),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
+
             // Header
             Row(
                 modifier = Modifier
@@ -141,7 +122,8 @@ fun ModernDateRangePicker(
                 exit = fadeOut() + shrinkVertically()
             ) {
                 Column {
-                    // Month navigation
+
+                    // Month + Year navigation
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -155,11 +137,23 @@ fun ModernDateRangePicker(
                                 contentDescription = "Mes anterior"
                             )
                         }
-                        Text(
-                            text = selectedMonth.formatLong(),
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.clickable { yearSelectorExpanded = true }
+                        ) {
+                            Text(
+                                text = "${selectedMonth.month.nameInSpanish()} ${selectedMonth.year}",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Icon(
+                                imageVector = Icons.Rounded.KeyboardArrowDown,
+                                contentDescription = "Seleccionar año",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+
                         IconButton(onClick = { selectedMonth = selectedMonth.plus(1) }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
@@ -186,9 +180,8 @@ fun ModernDateRangePicker(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Calendar
                     val firstDayOfMonth = LocalDate(selectedMonth.year, selectedMonth.month, 1)
-                    val daysInMonth = selectedMonth.lengthOfMonth()
+                    val daysInMonth = MonthDayCount[selectedMonth.month.ordinal][if (isLeapYear(selectedMonth.year)) 1 else 0]
                     val firstDayOfWeek = (firstDayOfMonth.dayOfWeek.isoDayNumber % 7)
 
                     LazyVerticalGrid(
@@ -205,19 +198,22 @@ fun ModernDateRangePicker(
                             val isSelected = date == selectedStart || date == selectedEnd
                             val isInRange = selectedStart != null && selectedEnd != null &&
                                     date > selectedStart!! && date < selectedEnd!!
+                            val isToday = date == today
 
                             Box(
                                 modifier = Modifier
                                     .aspectRatio(1f)
                                     .padding(2.dp)
                                     .clip(CircleShape)
+                                    .border(
+                                        width = if (isToday) 1.dp else 0.dp,
+                                        color = if (isToday) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                        shape = CircleShape
+                                    )
                                     .background(
                                         when {
                                             isSelected -> MaterialTheme.colorScheme.primary
-                                            isInRange -> MaterialTheme.colorScheme.primary.copy(
-                                                alpha = 0.2f
-                                            )
-
+                                            isInRange -> MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
                                             else -> Color.Transparent
                                         }
                                     )
@@ -246,9 +242,7 @@ fun ModernDateRangePicker(
                                         if (selectedStart != null) {
                                             onRangeSelected(
                                                 selectedStart!!.atStartOfDayIn(timeZone),
-                                                (selectedEnd ?: selectedStart)!!.atStartOfDayIn(
-                                                    timeZone
-                                                )
+                                                (selectedEnd ?: selectedStart)!!.atStartOfDayIn(timeZone)
                                             )
                                         }
                                     },
@@ -268,4 +262,36 @@ fun ModernDateRangePicker(
             }
         }
     }
+}
+
+@Composable
+fun YearPickerDialog(
+    currentYear: Int,
+    yearRange: List<Int>,
+    onDismiss: () -> Unit,
+    onYearSelected: (Int) -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Selecciona un año") },
+        text = {
+            Column(modifier = Modifier.height(250.dp)) {
+                yearRange.forEach { year ->
+                    Text(
+                        text = "$year",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .clickable {
+                                onYearSelected(year)
+                                onDismiss()
+                            },
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {}
+    )
 }

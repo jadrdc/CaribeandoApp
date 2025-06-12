@@ -47,25 +47,45 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
 import kotlin.time.Duration.Companion.days
 
-// Spanish month name extension
-val Month.spanishName: String
-    get() = when (this) {
-        Month.JANUARY -> "Enero"
-        Month.FEBRUARY -> "Febrero"
-        Month.MARCH -> "Marzo"
-        Month.APRIL -> "Abril"
-        Month.MAY -> "Mayo"
-        Month.JUNE -> "Junio"
-        Month.JULY -> "Julio"
-        Month.AUGUST -> "Agosto"
-        Month.SEPTEMBER -> "Septiembre"
-        Month.OCTOBER -> "Octubre"
-        Month.NOVEMBER -> "Noviembre"
-        Month.DECEMBER -> "Diciembre"
-        else -> ""
-    }
+
+fun Month.nameInSpanish(): String = when (this) {
+    Month.JANUARY -> "Enero"
+    Month.FEBRUARY -> "Febrero"
+    Month.MARCH -> "Marzo"
+    Month.APRIL -> "Abril"
+    Month.MAY -> "Mayo"
+    Month.JUNE -> "Junio"
+    Month.JULY -> "Julio"
+    Month.AUGUST -> "Agosto"
+    Month.SEPTEMBER -> "Septiembre"
+    Month.OCTOBER -> "Octubre"
+    Month.NOVEMBER -> "Noviembre"
+    Month.DECEMBER -> "Diciembre"
+    else -> ""
+}
+
+
+fun isLeapYear(year: Int): Boolean = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+
+val MonthDayCount = listOf(
+    listOf(31, 31), // Jan
+    listOf(28, 29), // Feb
+    listOf(31, 31), // Mar
+    listOf(30, 30), // Apr
+    listOf(31, 31), // May
+    listOf(30, 30), // Jun
+    listOf(31, 31), // Jul
+    listOf(31, 31), // Aug
+    listOf(30, 30), // Sep
+    listOf(31, 31), // Oct
+    listOf(30, 30), // Nov
+    listOf(31, 31)  // Dec
+)
+
+fun Int.isLeapYear(year: Int): Boolean = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
 
 // Format functions using Spanish months
+/*
 fun LocalDate.formatShort(): String {
     val month = this.month.spanishName.take(3)
     return "$month ${this.dayOfMonth.toString().padStart(2, '0')}, ${this.year}"
@@ -74,7 +94,10 @@ fun LocalDate.formatShort(): String {
 fun YearMonth.formatLong(): String {
     val month = this.month.spanishName
     return "$month ${this.year}"
-}
+}*/
+
+fun LocalDate.formatShort(): String = "${dayOfMonth.toString().padStart(2, '0')}/${monthNumber.toString().padStart(2, '0')}/$year"
+fun YearMonth.formatLong(): String = "${month.name.lowercase().replaceFirstChar { it.uppercase() }} $year"
 
 // Helper data class for YearMonth (since kotlinx.datetime doesn't have it yet)
 data class YearMonth(val year: Int, val month: Month) {
