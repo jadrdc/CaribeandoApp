@@ -1,10 +1,8 @@
 package com.agusteam.caribeando.presenter.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitViewController
 import com.agusteam.caribeando.LocalNativeViewFactory
 import com.agusteam.caribeando.domain.models.TokenMode
@@ -24,8 +22,7 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
         }
     }
     UIKitViewController(
-        modifier = Modifier.fillMaxWidth()
-            .height(52.dp),
+        modifier = Modifier.fillMaxWidth(),
         factory = {
             factory.createSocialButton(
                 onToken = { token, name, lastName ->
