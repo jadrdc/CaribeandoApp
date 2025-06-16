@@ -2,15 +2,7 @@ package com.agusteam.caribeando.presenter.signup.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -35,7 +27,6 @@ import caribeando.composeapp.generated.resources.password
 import caribeando.composeapp.generated.resources.phone
 import caribeando.composeapp.generated.resources.signup
 import caribeando.composeapp.generated.resources.terms
-import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.presenter.common.ActionButton
 import com.agusteam.caribeando.presenter.common.EditInputField
 import com.agusteam.caribeando.presenter.common.ErrorModal
@@ -49,16 +40,17 @@ import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
+import androidx.compose.foundation.layout.imePadding
 
 @Composable
 fun FillSignUpAccountScreen(
     viewModel: SignUpViewModel = koinViewModel(),
-    onLogin:()->Unit,
+    onLogin: () -> Unit,
     onBackPressed: () -> Unit = {}
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
+
     ObserveAsEvents(event) { event ->
         if (event is SignUpViewModel.SignUpEvent.GoHome) {
             onLogin()
@@ -76,21 +68,23 @@ fun FillSignUpAccountScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .imePadding(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyColumn(
-                modifier = Modifier.weight(1f, fill = false),
+                modifier = Modifier
+                    .weight(1f),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 item {
-                    NavigationBar(title = stringResource(Res.string.finish_signup)) { onBackPressed() }
+                    NavigationBar(title = stringResource(Res.string.finish_signup)) {
+                        onBackPressed()
+                    }
                 }
                 item {
-                    // Center the logo horizontally
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
@@ -135,19 +129,20 @@ fun FillSignUpAccountScreen(
                     )
                 }
             }
+
             Spacer(modifier = Modifier.height(24.dp))
+
             ActionButton(
                 isValid = state.isFillingInfoCompleted(),
                 text = stringResource(Res.string.signup),
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 viewModel.onEventHandler(SignUpViewModel.SignUpEvent.FillRemainingInfo)
             }
+
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        // Loading overlay
         if (state.isLoading) {
             Box(
                 modifier = Modifier
