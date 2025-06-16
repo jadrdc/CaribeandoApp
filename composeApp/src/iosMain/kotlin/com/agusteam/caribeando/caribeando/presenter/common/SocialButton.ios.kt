@@ -11,6 +11,7 @@ import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.presenter.signup.viewmodels.AppleEvent
 import com.agusteam.caribeando.presenter.signup.viewmodels.AppleSignUpViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.runtime.remember
 
 @Composable
 actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
@@ -23,15 +24,18 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
             onLogin(event.data)
         }
     }
+
+    val controller =  remember {
+        factory.createSocialButton(
+            onToken = { token, name, lastName ->
+                viewModel.onEventHandler(AppleEvent.SignUp(token, name, lastName))
+            },
+            onError = { error -> println("Apple Sign-In Error: $error") }
+        )
+    }
+
     UIKitViewController(
         modifier = Modifier.fillMaxWidth().height(52.dp),
-        factory = {
-            factory.createSocialButton(
-                onToken = { token, name, lastName ->
-                    viewModel.onEventHandler(AppleEvent.SignUp(token, name, lastName))
-                },
-                onError = { error -> println("Apple Sign-In Error: $error") }
-            )
-        }
+        factory = { controller }
     )
 }
