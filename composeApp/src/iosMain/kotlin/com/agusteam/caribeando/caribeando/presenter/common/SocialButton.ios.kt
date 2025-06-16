@@ -3,6 +3,7 @@ package com.agusteam.caribeando.presenter.common
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.UIKitViewController
@@ -11,7 +12,6 @@ import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.presenter.signup.viewmodels.AppleEvent
 import com.agusteam.caribeando.presenter.signup.viewmodels.AppleSignUpViewModel
 import org.koin.compose.viewmodel.koinViewModel
-import androidx.compose.runtime.remember
 
 @Composable
 actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
@@ -25,7 +25,7 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
         }
     }
 
-    val controller =  remember {
+    val controller = remember {
         factory.createSocialButton(
             onToken = { token, name, lastName ->
                 viewModel.onEventHandler(AppleEvent.SignUp(token, name, lastName))
