@@ -152,12 +152,9 @@ fun LoginScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            Box(
-                modifier = Modifier.fillMaxWidth().height(52.dp)
-            ) {
-                SocialButton { token ->
-                    onLogin(token)
-                }
+
+            SocialButton { token ->
+                onLogin(token)
             }
 
             Spacer(modifier = Modifier.height(32.dp))
