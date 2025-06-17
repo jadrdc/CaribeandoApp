@@ -15,6 +15,7 @@ import com.agusteam.caribeando.domain.usecase.CancelPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.CreatePendingPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.GetLocalProfileUseCase
 import com.agusteam.caribeando.domain.usecase.GetStripePaymentIntentUseCase
+import com.agusteam.caribeando.domain.usecase.GetTripDetailsUseCase
 import com.agusteam.caribeando.domain.usecase.ProcessSuccessPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.StartStripeUseCase
 import com.agusteam.caribeando.domain.usecase.StripeConfiguration
@@ -25,13 +26,14 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PaymentViewModel(
-    private val logger:CrashReporter,
+    private val logger: CrashReporter,
     private val getStripePaymentIntentUseCase: GetStripePaymentIntentUseCase,
     private val startStripeUseCase: StartStripeUseCase,
     private val createPendingPaymentOrderUseCase: CreatePendingPaymentOrderUseCase,
     private val processSuccessPaymentOrderUseCase: ProcessSuccessPaymentOrderUseCase,
     private val cancelPaymentOrderUseCase: CancelPaymentOrderUseCase,
-    val getLocalProfileUseCase: GetLocalProfileUseCase
+    val getLocalProfileUseCase: GetLocalProfileUseCase,
+    val getTripDetailsUseCase: GetTripDetailsUseCase,
 ) : GenericViewModel<PaymentState, PaymentEvents>(
     PaymentState()
 ) {
@@ -41,7 +43,7 @@ class PaymentViewModel(
             getLocalProfileUseCase().mapLatest { preference ->
                 val nameKey = stringPreferencesKey(NAME)
                 val lastNameKey = stringPreferencesKey(LAST_NAME)
-                val name = "${preference[nameKey]} ${preference[lastNameKey]}"
+                val name = "${preference[nameKey].orEmpty()} ${preference[lastNameKey].orEmpty()}"
 
                 setState {
                     copy(fullName = name)
@@ -59,20 +61,15 @@ class PaymentViewModel(
                         state.value.orderId,
                         events.reason
                     )
-                    when (result) {
-                        is OperationResult.Success -> {
-                        }
-
-                        is OperationResult.Error -> {
-                            logger.recordException(result.exception)
-                        }
+                    if (result is OperationResult.Error) {
+                        logger.recordException(result.exception)
                     }
                 }
 
                 is PaymentEvents.StripePaymentSucess -> {
                     processSuccessPaymentOrderUseCase(
                         state.value.orderId,
-                        state.value.stripeState?.paymentIntentId ?: ""
+                        state.value.stripeState?.paymentIntentId.orEmpty()
                     )
                 }
 
@@ -91,17 +88,16 @@ class PaymentViewModel(
                 is PaymentEvents.InitialLoad -> {
                     setState {
                         copy(
-                            title = events.title,
+                            title = events.title.orEmpty(),
                             destiny = events.destiny,
-                            leavingTime = events.leavingTime,
-                            meetingPoint = events.meetingPoint,
+                            leavingTime = events.leavingTime.orEmpty(),
+                            meetingPoint = events.meetingPoint.orEmpty(),
                             initialPayment = events.initialPayment,
                             totalPayment = events.totalPayment,
-                            profilePhoto = events.profilePhoto,
-                            tripDetailId = events.tripDetailId,
-                            galleryPhoto = events.galleryPhoto
+                            tripDetailId = events.tripDetailId.orEmpty(),
                         )
                     }
+                    getTripDetails(events.tripId)
                 }
 
                 is PaymentEvents.OnPaymentTypePicked -> {
@@ -110,18 +106,21 @@ class PaymentViewModel(
 
                 is PaymentEvents.OnStripePaymentStart -> {
                     updateState { copy(isLoading = true) }
-                    val amount =
-                        if (state.value.selectedPaymentType == PaymentModel.TOTAL_PAYMENT) state.value.totalPayment.toDouble() else state.value.initialPayment.toDouble()
+                    val amount = if (state.value.selectedPaymentType == PaymentModel.TOTAL_PAYMENT)
+                        state.value.totalPayment else state.value.initialPayment
 
-                    when (val result = getStripePaymentIntentUseCase(
-                        amount,
-                        state.value.fullName + " " + state.value.title + " " + state.value.leavingTime
-                    )) {
+                    val name = listOfNotNull(
+                        state.value.fullName.takeIf { it.isNotBlank() },
+                        state.value.title.takeIf { it.isNotBlank() },
+                        state.value.leavingTime.takeIf { it.isNotBlank() }
+                    ).joinToString(" ")
+
+                    when (val result = getStripePaymentIntentUseCase(amount, name)) {
                         is OperationResult.Error -> {
                             logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
-                                "Error en el proceso de pago ",
+                                "Error en el proceso de pago",
                                 "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
                             )
                         }
@@ -131,22 +130,26 @@ class PaymentViewModel(
                             setState { copy(stripeState = stripe) }
                             startStripeUseCase.startStripe(stripe)
 
-                            when (val orderSucessResult = createPendingPaymentOrderUseCase(
-                                state.value.tripDetailId
-                            )) {
-                                is OperationResult.Success -> {
-                                    setState { copy(orderId = orderSucessResult.data.orderId) }
+                            val tripId = state.value.tripDetailId.takeIf { it.isNotBlank() }
+                            if (tripId != null) {
+                                val orderResult = createPendingPaymentOrderUseCase(tripId)
+                                if (orderResult is OperationResult.Success) {
+                                    setState { copy(orderId = orderResult.data.orderId.orEmpty()) }
                                     startStripeUseCase.presentPaymentSheet()
-                                }
-
-                                is OperationResult.Error -> {
-                                    logger.recordException(orderSucessResult.exception)
+                                } else if (orderResult is OperationResult.Error) {
+                                    logger.recordException(orderResult.exception)
                                     onErrorHappened(
                                         true,
-                                        "Error en el proceso de pago ",
-                                        "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
+                                        "Error en el proceso de pago",
+                                        "No pudimos completar tu transacción. Intenta más tarde."
                                     )
                                 }
+                            } else {
+                                onErrorHappened(
+                                    true,
+                                    "Viaje no disponible",
+                                    "No se encontró el identificador del viaje."
+                                )
                             }
                         }
                     }
@@ -156,26 +159,35 @@ class PaymentViewModel(
         }
     }
 
-
     private suspend fun changePaymentModel(paymentModel: PaymentModel) {
         setState {
-            copy(
-                selectedPaymentType = paymentModel
-            )
+            copy(selectedPaymentType = paymentModel)
         }
     }
 
+    private suspend fun getTripDetails(tripId: String) {
+        setState { copy(isLoading = true) }
+        when (val result = getTripDetailsUseCase(tripId)) {
+            is OperationResult.Success -> {
+                val model = result.data
+                updateState {
+                    copy(
+                        businessPhoto = model.businessImage,
+                        galleryPhoto = model.images, profilePhoto = model.images.firstOrNull() ?: ""
+                    )
+                }
+            }
+
+            is OperationResult.Error -> {
+                logger.recordException(result.exception)
+            }
+        }
+        setState { copy(isLoading = false) }
+    }
+
     private suspend fun onErrorHappened(value: Boolean, title: String = "", message: String = "") {
-        val errorModel = if (!value) {
-            null
-        } else {
-            ErrorModel(title = title, message = message)
-        }
-        setState {
-            copy(
-                errorModel = errorModel
-            )
-        }
+        val errorModel = if (!value) null else ErrorModel(title = title, message = message)
+        setState { copy(errorModel = errorModel) }
     }
 }
 
@@ -194,11 +206,14 @@ data class PaymentState(
     val errorModel: ErrorModel? = null,
     val tripDetailId: String = "",
     val orderId: String = "",
-    val galleryPhoto: List<String> = listOf()
+    val galleryPhoto: List<String> = emptyList(),
+    val businessPhoto: String = "",
+    val itemProviderState: ItemProviderState = ItemProviderState()
 ) : ViewModelState
 
 sealed interface PaymentEvents {
     data class InitialLoad(
+        val tripId: String = "",
         val title: String = "",
         val destiny: String = "",
         val profilePhoto: String = "",
@@ -207,7 +222,7 @@ sealed interface PaymentEvents {
         val initialPayment: Double = 0.0,
         val totalPayment: Double = 0.0,
         val tripDetailId: String = "",
-        val galleryPhoto: List<String> = listOf()
+        val galleryPhoto: List<String> = emptyList()
     ) : PaymentEvents
 
     data class SetErrorMessage(val title: String, val message: String) : PaymentEvents
@@ -218,3 +233,7 @@ sealed interface PaymentEvents {
     data object StripePaymentSucess : PaymentEvents
     data class FailedPayment(val title: String, val reason: String) : PaymentEvents
 }
+
+data class ItemProviderState(
+    val businessImage: String = ""
+)

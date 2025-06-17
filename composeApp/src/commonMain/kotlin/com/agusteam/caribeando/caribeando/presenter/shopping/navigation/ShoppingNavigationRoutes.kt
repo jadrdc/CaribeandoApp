@@ -18,7 +18,6 @@ data class ProviderProfileScreen(
 data class ShoppingItemPayingScreen(
     val title: String = "",
     val destiny: String = "",
-    val profilePhoto: String = "",
     val leavingTime: String = "",
     val meetingPoint: String = "",
     val initialPayment: Int = 0,
@@ -27,10 +26,8 @@ data class ShoppingItemPayingScreen(
     val arrivingTime: String,
 
     val businessName: String,
-    val businessPhoto: String,
     val businessMonth: String,
-    val galleryPhoto: List<String>
-
+    val tripId: String = ""
 )
 
 @Serializable
