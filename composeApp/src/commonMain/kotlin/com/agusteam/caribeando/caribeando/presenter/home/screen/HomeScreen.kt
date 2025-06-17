@@ -73,8 +73,7 @@ fun HomeScreen(
                                 val route = TripDetailScreenRoute(
                                     destiny = tripModel.destiny,
                                     cancellationPolicy = tripModel.cancellation_policy,
-                                    galleryPhotoJson = "[]",
-                                    //galleryPhotoJson = Json.encodeToString(tripModel.images), // 👈 serializa aquí
+                                    galleryPhotoJson = Json.encodeToString(tripModel.images), // 👈 serializa aquí
                                     tripId = tripModel.id,
                                     isFavorite = tripModel.isSavedForLater,
                                     month = tripModel.month,
