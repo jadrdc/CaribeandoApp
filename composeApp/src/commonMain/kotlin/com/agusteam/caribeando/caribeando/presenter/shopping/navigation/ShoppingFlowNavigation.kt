@@ -43,8 +43,7 @@ fun ShoppingFlowNavigation(
                         businessPhoto = payItem.businessPhoto,
                         businessName = payItem.businessName,
                         businessMonth = payItem.businessMonth,
-                        galleryPhotoJson = Json.encodeToString(payItem.galleryPhoto), // 👈 serializa aquí
-
+                        galleryPhoto=payItem.galleryPhoto
                     )
                 )
             }, goProviderProfile = { id ->

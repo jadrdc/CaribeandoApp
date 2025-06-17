@@ -88,4 +88,17 @@ class TripService(
             mapExceptions(e)
         }
     }
+
+    suspend fun getImages(tripId: String): OperationResult<List<String>> {
+        return try {
+            val response = httpClient.get(
+                urlString = "${URL}trip/image/$tripId"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+            }
+            mapResponse<List<String>>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
 }

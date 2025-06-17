@@ -121,4 +121,21 @@ class TripRepositoryImp(private val service: TripService) : TripRepository {
             OperationResult.Error(e)
         }
     }
+
+    override suspend fun getImages(tripId: String): OperationResult<List<String>> {
+        return try {
+            when (val result =
+                service.getImages(
+                    tripId
+                )) {
+                is OperationResult.Success -> {
+                    result
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
 }

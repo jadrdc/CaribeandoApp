@@ -58,7 +58,7 @@ fun TripItemPayingScreen(
                 initialPayment = model.initialPayment.toDouble(),
                 totalPayment = model.totalPayment.toDouble(),
                 tripDetailId = model.tripDetailId,
-                galleryPhoto = Json.decodeFromString(model.galleryPhotoJson)
+                galleryPhoto = model.galleryPhoto
             )
         )
     }

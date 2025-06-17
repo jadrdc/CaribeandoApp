@@ -1,12 +1,10 @@
 package com.agusteam.caribeando.core.di
 
-import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.data.imp.CategoryRepositoryImpl
 import com.agusteam.caribeando.data.imp.LocalStorageDataStore
 import com.agusteam.caribeando.data.imp.LoginRepositoryImpl
 import com.agusteam.caribeando.data.imp.OrderRepositoryImp
 import com.agusteam.caribeando.data.imp.PaymentRepositoryImp
-import com.agusteam.caribeando.data.imp.TokenRepositoryImp
 import com.agusteam.caribeando.data.imp.TripProviderRepositoryImp
 import com.agusteam.caribeando.data.imp.TripRepositoryImp
 import com.agusteam.caribeando.data.imp.UserProfileRepositoryImp
@@ -15,7 +13,6 @@ import com.agusteam.caribeando.domain.interfaces.LocalStoragePreferenceRepositor
 import com.agusteam.caribeando.domain.interfaces.LoginRepository
 import com.agusteam.caribeando.domain.interfaces.OrderRepository
 import com.agusteam.caribeando.domain.interfaces.PaymentRepository
-import com.agusteam.caribeando.domain.interfaces.TokenRepository
 import com.agusteam.caribeando.domain.interfaces.TripProviderRepository
 import com.agusteam.caribeando.domain.interfaces.TripRepository
 import com.agusteam.caribeando.domain.interfaces.UserProfileRepository
@@ -25,11 +22,12 @@ import com.agusteam.caribeando.domain.usecase.CreatePendingPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.FillUserInfoUseCase
 import com.agusteam.caribeando.domain.usecase.GetCategoryUseCase
 import com.agusteam.caribeando.domain.usecase.GetCommentsTripUseCase
+import com.agusteam.caribeando.domain.usecase.GetLocalProfileUseCase
 import com.agusteam.caribeando.domain.usecase.GetPaginatedTripsUseCase
 import com.agusteam.caribeando.domain.usecase.GetPastTripOrderUseCase
-import com.agusteam.caribeando.domain.usecase.GetLocalProfileUseCase
 import com.agusteam.caribeando.domain.usecase.GetStripePaymentIntentUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripFavoriteListUseCase
+import com.agusteam.caribeando.domain.usecase.GetTripImagesUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripProviderDetailsUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
 import com.agusteam.caribeando.domain.usecase.GetUpcomingTripByProviderUseCase
@@ -46,10 +44,8 @@ import com.agusteam.caribeando.domain.usecase.RequestResetPasswordEmailUseCase
 import com.agusteam.caribeando.domain.usecase.SaveLocalDataUseCase
 import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
 import com.agusteam.caribeando.domain.usecase.SignUpUseCase
-import com.agusteam.caribeando.domain.usecase.StartStripeUseCase
 import com.agusteam.caribeando.domain.usecase.UnmarkedFavoriteTripUseCase
 import com.agusteam.caribeando.domain.validators.FieldValidator
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val diDomainModule = module {
@@ -91,4 +87,5 @@ val diDomainModule = module {
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }
     single<GetUserProfileUseCase> { GetUserProfileUseCase(get()) }
     single<SaveLocalDataUseCase> { SaveLocalDataUseCase(get()) }
+    single<GetTripImagesUseCase> { GetTripImagesUseCase(get()) }
 }

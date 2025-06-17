@@ -57,7 +57,7 @@ fun OrderHistoryNavigationFlow(
                         businessMonth = order.providerMonth.toString(),
                         businessName = order.providerName,
                         businessPhoto = order.providerImage,
-                        galleryPhotoJson = Json.encodeToString(order.tripImages), // 👈 serializa aquí
+                        galleryPhoto = order.tripImages, // 👈 serializa aquí
                         hasItBeenEvaluated = hasItBeenEvaluted
                     )
                     orderRoute?.let {

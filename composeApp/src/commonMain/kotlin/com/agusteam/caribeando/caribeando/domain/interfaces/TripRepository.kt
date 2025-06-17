@@ -20,4 +20,5 @@ interface TripRepository {
 
     suspend fun resetPagination()
     suspend fun canLoadMore(): Boolean
+    suspend fun getImages(tripId: String): OperationResult<List<String>>
 }

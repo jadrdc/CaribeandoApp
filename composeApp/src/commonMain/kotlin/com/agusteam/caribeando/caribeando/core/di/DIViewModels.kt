@@ -26,7 +26,7 @@ val viewModelModule = module {
     viewModel<OrderHistoryViewModel> { OrderHistoryViewModel(get(), get(), get()) }
     viewModel<ShoppingItemDetailsViewModel> {
         ShoppingItemDetailsViewModel(
-            get(), get(), get(), get(), get()
+            get(), get(), get(), get(), get(), get()
         )
     }
     viewModel<AppleSignUpViewModel> { AppleSignUpViewModel(get(), get(), get()) }

@@ -9,8 +9,6 @@ import androidx.navigation.toRoute
 import com.agusteam.caribeando.presenter.orders.screen.OrderItemDetailsScreen
 import com.agusteam.caribeando.presenter.profile.screen.TripProviderProfileScreen
 import com.agusteam.caribeando.presenter.wishlist.screen.WishListScreen
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Composable
 fun WishListNavigationFlow() {
@@ -21,7 +19,7 @@ fun WishListNavigationFlow() {
             0.0f, 0.0f,
             "", "", "", "", 0, isFavorite = true,
             "", "", "", "", 0, 0, "",
-            galleryPhotoJson = "[]"
+            galleryPhoto = listOf()
         )
     }
 
@@ -43,7 +41,7 @@ fun WishListNavigationFlow() {
                     name = tripModel.name,
                     description = tripModel.description,
                     lat = tripModel.lat.toFloat(),
-                    galleryPhotoJson = Json.encodeToString(tripModel.images), // 👈 serializa aquí
+                    galleryPhoto = tripModel.images, // 👈 serializa aquí
                     lng = tripModel.lng.toFloat(),
                     initialPayment = tripModel.initialPayment.toInt(),
                     meetingPoint = tripModel.meetingPoint,

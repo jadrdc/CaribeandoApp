@@ -32,6 +32,5 @@ data class WishListItemDetailScreenRoute(
     val price: Int,
     val initialPayment: Int,
     val destiny: String,
-    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
-
+    val galleryPhoto: List<String>
 )

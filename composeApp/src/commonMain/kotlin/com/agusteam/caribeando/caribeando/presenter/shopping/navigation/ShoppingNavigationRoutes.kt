@@ -29,7 +29,7 @@ data class ShoppingItemPayingScreen(
     val businessName: String,
     val businessPhoto: String,
     val businessMonth: String,
-    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
+    val galleryPhoto: List<String>
 
 )
 
@@ -47,7 +47,6 @@ data class ShoppingOrderDetailScreenRoute(
     val galleryPhoto: List<String> = listOf(),
     val scheduledId: String,
     var isPending: Boolean = false,
-    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
 )
 
 @Serializable

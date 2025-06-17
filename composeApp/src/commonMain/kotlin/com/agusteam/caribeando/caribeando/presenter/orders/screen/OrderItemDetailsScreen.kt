@@ -44,7 +44,6 @@ fun OrderItemDetailsScreen(
             )
         )
     }
-    val galleryPhoto: List<String> = Json.decodeFromString(model.galleryPhotoJson)
 
     val state = viewModel.state.collectAsStateWithLifecycle()
     Box(Modifier.fillMaxSize()) {
@@ -54,7 +53,7 @@ fun OrderItemDetailsScreen(
         ) {
             item {
                 ShoppingItemHeader(
-                    images = galleryPhoto,
+                    images = model.galleryPhoto,
                     isSavedForLater = true,
                     onBackPressed = onBackPressed
                 )

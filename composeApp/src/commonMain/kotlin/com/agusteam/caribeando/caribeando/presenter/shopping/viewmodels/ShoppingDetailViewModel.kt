@@ -6,6 +6,7 @@ import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
 import com.agusteam.caribeando.domain.usecase.GetCommentsTripUseCase
+import com.agusteam.caribeando.domain.usecase.GetTripImagesUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
 import com.agusteam.caribeando.domain.usecase.MarkFavoriteTripUseCase
 import com.agusteam.caribeando.domain.usecase.UnmarkedFavoriteTripUseCase
@@ -18,6 +19,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class ShoppingItemDetailsViewModel(
     val logger: CrashReporter,
     val getTripsIncludedServicesUseCase: GetTripsIncludedServicesUseCase,
+    val getTripImagesUseCase: GetTripImagesUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
     val unmarkedFavoriteTripUseCase: UnmarkedFavoriteTripUseCase,
     val getCommentsTripUseCase: GetCommentsTripUseCase
@@ -40,7 +42,7 @@ class ShoppingItemDetailsViewModel(
                         lat = model.lat.toDouble(),
                         lng = model.lng.toDouble(),
                         tripId = model.tripId,
-                        images = Json.decodeFromString(model.galleryPhotoJson),
+                        images = listOf(),
                         cancellationPolicy = model.cancellationPolicy,
                         initialPrice = model.initialPayment,
                         meetingPoint = model.meetingPoint,
@@ -53,6 +55,20 @@ class ShoppingItemDetailsViewModel(
                 )
             } catch (e: CancellationException) {
                 val es = e.message
+            }
+        }
+    }
+
+    private suspend fun getTripImages() {
+        if (state.value.tripId.isNotBlank()) {
+            when (val result = getTripImagesUseCase(state.value.tripId)) {
+                is OperationResult.Success -> {
+                    updateState { copy(galleryPhotos = result.data) }
+                }
+
+                is OperationResult.Error -> {
+                    logger.recordException(result.exception)
+                }
             }
         }
     }
@@ -87,7 +103,6 @@ class ShoppingItemDetailsViewModel(
                 is ShoppingDetailEvent.ShoppingDetailLoaded -> {
                     setState {
                         copy(
-                            galleryPhotos = event.images,
                             tripId = event.tripId,
                             isMarkedAsFavorite = event.isFavorite,
                             itemProviderState = itemProviderState.copy(
@@ -109,6 +124,7 @@ class ShoppingItemDetailsViewModel(
                             totalPayment = event.price
                         )
                     }
+                    getTripImages()
                     getIncludedServices()
                     when (val result = getCommentsTripUseCase(event.tripId)) {
                         is OperationResult.Error -> {

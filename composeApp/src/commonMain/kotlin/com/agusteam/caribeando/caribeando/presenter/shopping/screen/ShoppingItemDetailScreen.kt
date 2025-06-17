@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -50,7 +49,6 @@ import com.agusteam.caribeando.presenter.shopping.composable.ShoppingitemContent
 import com.agusteam.caribeando.presenter.shopping.model.ShoppingDetailModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingItemDetailsViewModel
 import com.agusteam.caribeando.presenter.theme.primary
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
