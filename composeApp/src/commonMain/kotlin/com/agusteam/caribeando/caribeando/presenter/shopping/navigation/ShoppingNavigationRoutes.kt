@@ -29,7 +29,7 @@ data class ShoppingItemPayingScreen(
     val businessName: String,
     val businessPhoto: String,
     val businessMonth: String,
-    val galleryPhoto: List<String> = listOf()
+    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
 
 )
 

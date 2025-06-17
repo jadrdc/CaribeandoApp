@@ -36,6 +36,7 @@ import caribeando.composeapp.generated.resources.initial_payment
 import caribeando.composeapp.generated.resources.leaving_date
 import caribeando.composeapp.generated.resources.starting_place
 import caribeando.composeapp.generated.resources.total_payment
+import kotlinx.serialization.json.Json
 
 @Composable
 fun TripItemPayingScreen(
@@ -57,7 +58,7 @@ fun TripItemPayingScreen(
                 initialPayment = model.initialPayment.toDouble(),
                 totalPayment = model.totalPayment.toDouble(),
                 tripDetailId = model.tripDetailId,
-                galleryPhoto = model.galleryPhoto
+                galleryPhoto = Json.decodeFromString(model.galleryPhotoJson)
             )
         )
     }

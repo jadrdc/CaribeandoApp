@@ -26,6 +26,8 @@ import com.agusteam.caribeando.presenter.profile.screen.ProfileScreen
 import com.agusteam.caribeando.presenter.theme.CustomTypography
 import com.agusteam.caribeando.presenter.theme.backGround
 import com.agusteam.caribeando.presenter.wishlist.navigation.WishListNavigationFlow
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -66,30 +68,49 @@ fun HomeScreen(
                         ExploreScreen { tripModel ->
 
                             if (Token.isValid && Token.isConfirmed) {
+                                val route = TripDetailScreenRoute(
+                                    destiny = tripModel.destiny,
+                                    cancellationPolicy = tripModel.cancellation_policy,
+                                    galleryPhotoJson = Json.encodeToString(tripModel.images), // 👈 serializa aquí
+                                    tripId = tripModel.id,
+                                    isFavorite = tripModel.isSavedForLater,
+                                    month = tripModel.month,
+                                    businessImage = tripModel.businessImage,
+                                    businessName = tripModel.businessName,
+                                    businessId = tripModel.businessId,
+                                    name = tripModel.name,
+                                    description = tripModel.description,
+                                    lat = tripModel.lat.toFloat(),
+                                    lng = tripModel.lng.toFloat(),
+                                    initialPayment = tripModel.initialPayment.toInt(),
+                                    meetingPoint = tripModel.meetingPoint,
+                                    arrivingTime = tripModel.arrivingTime,
+                                    leavingTime = tripModel.leavingTime,
+                                    price = tripModel.price.toInt(),
+                                    tripScheduleId = tripModel.tripScheduleId,
+                                    reviewCount = tripModel.reviewCount,
+                                    rating = tripModel.rating.toFloat()
+                                )
+                                val emptyTripDetail = TripDetailScreenRoute(
+                                    tripId = tripModel.id,
+                                    destiny = tripModel.destiny,
+                                    cancellationPolicy = tripModel.cancellation_policy,
+                                    isFavorite = tripModel.isSavedForLater,
+                                    galleryPhotoJson = "[]",
+                                    price = tripModel.price.toInt(),
+                                    tripScheduleId = tripModel.tripScheduleId,
+                                    name = tripModel.name,
+                                    description = tripModel.description,
+                                    lat = tripModel.lat.toFloat(),
+                                    lng = tripModel.lng.toFloat(),
+                                    initialPayment = tripModel.initialPayment.toInt(),
+                                    meetingPoint = tripModel.meetingPoint,
+                                    arrivingTime = tripModel.arrivingTime,
+                                    leavingTime = tripModel.leavingTime,
+                                )
+
                                 onNavigateDetails(
-                                    TripDetailScreenRoute(
-                                        destiny = tripModel.destiny,
-                                        cancellationPolicy = tripModel.cancellation_policy,
-                                        images = tripModel.images,
-                                        tripId = tripModel.id,
-                                        isFavorite = tripModel.isSavedForLater,
-                                        month = tripModel.month,
-                                        businessImage = tripModel.businessImage,
-                                        businessName = tripModel.businessName,
-                                        businessId = tripModel.businessId,
-                                        name = tripModel.name,
-                                        description = tripModel.description,
-                                        lat = tripModel.lat.toFloat(),
-                                        lng = tripModel.lng.toFloat(),
-                                        initialPayment = tripModel.initialPayment.toInt(),
-                                        meetingPoint = tripModel.meetingPoint,
-                                        arrivingTime = tripModel.arrivingTime,
-                                        leavingTime = tripModel.leavingTime,
-                                        price = tripModel.price.toInt(),
-                                        tripScheduleId = tripModel.tripScheduleId,
-                                        reviewCount = tripModel.reviewCount,
-                                        rating = tripModel.rating.toFloat()
-                                    )
+                                    emptyTripDetail
                                 )
                             } else {
                                 logout()

@@ -12,6 +12,8 @@ import com.agusteam.caribeando.presenter.profile.screen.TripProviderProfileScree
 import com.agusteam.caribeando.presenter.shopping.screen.ShoppingItemDetailScreen
 import com.agusteam.caribeando.presenter.shopping.screen.ShoppingOrderDetailScreen
 import com.agusteam.caribeando.presenter.shopping.screen.TripItemPayingScreen
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @Composable
@@ -41,7 +43,7 @@ fun ShoppingFlowNavigation(
                         businessPhoto = payItem.businessPhoto,
                         businessName = payItem.businessName,
                         businessMonth = payItem.businessMonth,
-                        galleryPhoto = payItem.galleryPhoto
+                        galleryPhotoJson = Json.encodeToString(payItem.galleryPhoto), // 👈 serializa aquí
 
                     )
                 )

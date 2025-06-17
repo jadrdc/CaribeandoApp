@@ -22,7 +22,7 @@ data class TripDetailScreenRoute(
     val businessName: String = "",
     val month: Int = 0,
     val isFavorite: Boolean,
-    val images: List<String>,
+    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
     val cancellationPolicy: String,
     val arrivingTime: String,
     val leavingTime: String,

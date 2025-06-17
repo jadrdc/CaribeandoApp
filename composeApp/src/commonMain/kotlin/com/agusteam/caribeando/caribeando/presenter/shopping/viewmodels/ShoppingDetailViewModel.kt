@@ -12,10 +12,11 @@ import com.agusteam.caribeando.domain.usecase.UnmarkedFavoriteTripUseCase
 import com.agusteam.caribeando.presenter.home.navigation.TripDetailScreenRoute
 import com.agusteam.caribeando.presenter.shopping.state.TripDetailState
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import kotlin.coroutines.cancellation.CancellationException
 
 class ShoppingItemDetailsViewModel(
-    val logger:CrashReporter,
+    val logger: CrashReporter,
     val getTripsIncludedServicesUseCase: GetTripsIncludedServicesUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
     val unmarkedFavoriteTripUseCase: UnmarkedFavoriteTripUseCase,
@@ -39,7 +40,7 @@ class ShoppingItemDetailsViewModel(
                         lat = model.lat.toDouble(),
                         lng = model.lng.toDouble(),
                         tripId = model.tripId,
-                        images = model.images,
+                        images = Json.decodeFromString(model.galleryPhotoJson),
                         cancellationPolicy = model.cancellationPolicy,
                         initialPrice = model.initialPayment,
                         meetingPoint = model.meetingPoint,
@@ -113,6 +114,7 @@ class ShoppingItemDetailsViewModel(
                         is OperationResult.Error -> {
                             logger.recordException(result.exception)
                         }
+
                         is OperationResult.Success -> {
                             setState { copy(comments = result.data) }
                         }
