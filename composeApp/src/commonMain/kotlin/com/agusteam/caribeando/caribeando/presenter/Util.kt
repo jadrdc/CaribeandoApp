@@ -22,6 +22,14 @@ fun formatMoney(amount: String): String {
     }
 }
 
+fun Double.toIntOrNullSafe(): Int {
+    return if (this.isFinite() && this >= Int.MIN_VALUE && this <= Int.MAX_VALUE) {
+        this.toInt()
+    } else {
+        0
+    }
+}
+
 fun formatInstant(
     instant: Instant,
     zoneId: TimeZone = TimeZone.currentSystemDefault()

@@ -5,6 +5,7 @@ import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.mappers.mapResponse
 import com.agusteam.caribeando.data.model.PaginationDTO
+import com.agusteam.caribeando.data.model.TripDetailsBodyDTO
 import com.agusteam.caribeando.data.model.TripFavoriteRequest
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.data.model.TripsAvailablePaginationRequest
@@ -97,6 +98,19 @@ class TripService(
                 contentType(ContentType.Application.Json) // Ensure the Content-Type is set
             }
             mapResponse<List<String>>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
+    suspend fun getTripDetails(tripId: String): OperationResult<TripDetailsBodyDTO> {
+        return try {
+            val response = httpClient.get(
+                urlString = "${URL}trip/details/$tripId"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+            }
+            mapResponse<TripDetailsBodyDTO>(response)
         } catch (e: Exception) {
             mapExceptions(e)
         }

@@ -24,6 +24,7 @@ import com.agusteam.caribeando.presenter.orders.navigation.OrderHistoryNavigatio
 import com.agusteam.caribeando.presenter.profile.screen.ProfileScreen
 import com.agusteam.caribeando.presenter.theme.CustomTypography
 import com.agusteam.caribeando.presenter.theme.backGround
+import com.agusteam.caribeando.presenter.toIntOrNullSafe
 import com.agusteam.caribeando.presenter.wishlist.navigation.WishListNavigationFlow
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
@@ -71,25 +72,22 @@ fun HomeScreen(
                             if (Token.isValid && Token.isConfirmed) {
                                 val route = TripDetailScreenRoute(
                                     destiny = tripModel.destiny,
-                                    cancellationPolicy = tripModel.cancellation_policy,
                                     tripId = tripModel.id,
                                     isFavorite = tripModel.isSavedForLater,
                                     month = tripModel.month,
-                                    businessImage = tripModel.businessImage,
                                     businessName = tripModel.businessName,
                                     businessId = tripModel.businessId,
                                     name = tripModel.name,
-                                    description = tripModel.description,
-                                    lat = tripModel.lat.toFloat(),
-                                    lng = tripModel.lng.toFloat(),
-                                    initialPayment = tripModel.initialPayment.toInt(),
                                     meetingPoint = tripModel.meetingPoint,
                                     arrivingTime = tripModel.arrivingTime,
                                     leavingTime = tripModel.leavingTime,
-                                    price = tripModel.price.toInt(),
                                     tripScheduleId = tripModel.tripScheduleId,
                                     reviewCount = tripModel.reviewCount,
-                                    rating = tripModel.rating.toFloat()
+                                    lat = if (tripModel.lat.isFinite()) tripModel.lat.toFloat() else 0f,
+                                    lng = if (tripModel.lng.isFinite()) tripModel.lng.toFloat() else 0f,
+                                    initialPayment = tripModel.initialPayment.toIntOrNullSafe(),
+                                    price = tripModel.price.toIntOrNullSafe(),
+                                    rating = if (tripModel.rating.isFinite()) tripModel.rating.toFloat() else 0f,
                                 )
 
                                 onNavigateDetails(

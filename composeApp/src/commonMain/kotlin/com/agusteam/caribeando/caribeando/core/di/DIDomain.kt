@@ -26,8 +26,8 @@ import com.agusteam.caribeando.domain.usecase.GetLocalProfileUseCase
 import com.agusteam.caribeando.domain.usecase.GetPaginatedTripsUseCase
 import com.agusteam.caribeando.domain.usecase.GetPastTripOrderUseCase
 import com.agusteam.caribeando.domain.usecase.GetStripePaymentIntentUseCase
+import com.agusteam.caribeando.domain.usecase.GetTripDetailsUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripFavoriteListUseCase
-import com.agusteam.caribeando.domain.usecase.GetTripImagesUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripProviderDetailsUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
 import com.agusteam.caribeando.domain.usecase.GetUpcomingTripByProviderUseCase
@@ -87,5 +87,5 @@ val diDomainModule = module {
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }
     single<GetUserProfileUseCase> { GetUserProfileUseCase(get()) }
     single<SaveLocalDataUseCase> { SaveLocalDataUseCase(get()) }
-    single<GetTripImagesUseCase> { GetTripImagesUseCase(get()) }
+    single<GetTripDetailsUseCase> { GetTripDetailsUseCase(get()) }
 }

@@ -26,7 +26,7 @@ val viewModelModule = module {
     viewModel<OrderHistoryViewModel> { OrderHistoryViewModel(get(), get(), get()) }
     viewModel<ShoppingItemDetailsViewModel> {
         ShoppingItemDetailsViewModel(
-            get(), get(), get(), get(), get(), get()
+            get(), get(), get(), get(), get()
         )
     }
     viewModel<AppleSignUpViewModel> { AppleSignUpViewModel(get(), get(), get()) }
@@ -36,6 +36,16 @@ val viewModelModule = module {
     viewModel<HomeViewModel> { HomeViewModel() }
     viewModel<RatingOrderViewModel> { RatingOrderViewModel(get(), get()) }
     viewModel<ReportOrderViewModel> { ReportOrderViewModel(get(), get()) }
-    viewModel<PaymentViewModel> { PaymentViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel<PaymentViewModel> {
+        PaymentViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
     viewModel<TripProviderViewModel> { TripProviderViewModel(get(), get(), get()) }
 }
