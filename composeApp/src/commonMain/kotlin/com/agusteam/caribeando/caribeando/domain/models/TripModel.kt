@@ -16,6 +16,7 @@ data class TripModel(
     val description: String = "",
     val month: Int = 0,
     val images: List<String> = listOf(),
+    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
     val cancellation_policy: String = "",
     val categoryList: List<CategoryModel> = listOf(),
     val isSavedForLater: Boolean = false,

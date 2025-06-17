@@ -50,6 +50,7 @@ import com.agusteam.caribeando.presenter.shopping.composable.ShoppingitemContent
 import com.agusteam.caribeando.presenter.shopping.model.ShoppingDetailModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingItemDetailsViewModel
 import com.agusteam.caribeando.presenter.theme.primary
+import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
