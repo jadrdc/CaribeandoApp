@@ -10,6 +10,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import caribeando.composeapp.generated.resources.Res
+import caribeando.composeapp.generated.resources.cancellation_policy
+import caribeando.composeapp.generated.resources.destiny
+import caribeando.composeapp.generated.resources.ic_pin
+import caribeando.composeapp.generated.resources.trip_categories
 import com.agusteam.caribeando.presenter.common.CancellationPolicy
 import com.agusteam.caribeando.presenter.common.ItemProviderOverviewItem
 import com.agusteam.caribeando.presenter.common.MapDetails
@@ -22,13 +27,6 @@ import com.agusteam.caribeando.presenter.shopping.model.ShoppingDetailModel
 import com.agusteam.caribeando.presenter.wishlist.navigation.WishListItemDetailScreenRoute
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import caribeando.composeapp.generated.resources.Res
-import caribeando.composeapp.generated.resources.cancellation_policy
-import caribeando.composeapp.generated.resources.destiny
-import caribeando.composeapp.generated.resources.ic_pin
-import caribeando.composeapp.generated.resources.trip_categories
-
-import kotlinx.serialization.json.Json
 
 @Composable
 fun OrderItemDetailsScreen(
@@ -40,7 +38,7 @@ fun OrderItemDetailsScreen(
     LaunchedEffect(model.tripId, model.businessId) {
         viewModel.handleEvent(
             WishListOrderDetailViewModel.OrderDetailsEvent.OrderDetailsLoadIncludeServices(
-                model.tripId, model.businessName, model.businessImage, model.month
+                model.tripId, model.businessName, model.month
             )
         )
     }
@@ -53,7 +51,7 @@ fun OrderItemDetailsScreen(
         ) {
             item {
                 ShoppingItemHeader(
-                    images = model.galleryPhoto,
+                    images = state.value.galleryPhotos,
                     isSavedForLater = true,
                     onBackPressed = onBackPressed
                 )
@@ -62,7 +60,7 @@ fun OrderItemDetailsScreen(
                 ShoppingItemOverview(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     title = model.name,
-                    description = model.description
+                    description = state.value.description
                 )
             }
             item {
@@ -91,7 +89,7 @@ fun OrderItemDetailsScreen(
             item {
                 CancellationPolicy(
                     title = stringResource(Res.string.cancellation_policy),
-                    description = model.cancellationPolicy,
+                    description = state.value.cancellationPolicy,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 ) {
 
