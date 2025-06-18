@@ -27,7 +27,6 @@ import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.google
 import caribeando.composeapp.generated.resources.google_button
 import com.agusteam.caribeando.domain.models.TokenMode
-import com.agusteam.caribeando.presenter.signup.viewmodels.LoginEvent.OnUserLogon
 import com.agusteam.caribeando.presenter.social.SocialSignInEvent
 import com.agusteam.caribeando.presenter.social.SocialSignViewModel
 import com.agusteam.caribeando.presenter.theme.secondary
@@ -36,11 +35,13 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
-    val viewModel: SocialSignViewModel = koinViewModel()
+actual fun SocialButton(
+    onLogin: (TokenMode) -> Unit
+) {
+    val socialViewModel: SocialSignViewModel = koinViewModel()
     val context = LocalContext.current
 
-    val event = viewModel.events
+    val event = socialViewModel.events
 
     ObserveAsEvents(event) { event ->
         if (event is SocialSignInEvent.Success) {
@@ -54,7 +55,7 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
         when (result.resultCode) {
             RESULT_OK -> {
                 result.data?.let { intentData ->
-                    viewModel.handleEvent(SocialSignInEvent.SignInSuccessful(intentData))
+                    socialViewModel.handleEvent(SocialSignInEvent.SignInSuccessful(intentData))
                 } ?: showToast(context, "Sign-in successful but no data found")
             }
 
@@ -63,7 +64,7 @@ actual fun SocialButton(onLogin: (TokenMode) -> Unit) {
     }
 
     GoogleSignInButton(
-        onClick = { viewModel.handleEvent(SocialSignInEvent.Login(launcher)) }
+        onClick = { socialViewModel.handleEvent(SocialSignInEvent.Login(launcher)) }
     )
 }
 

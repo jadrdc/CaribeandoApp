@@ -26,10 +26,6 @@ import com.agusteam.caribeando.presenter.theme.CustomTypography
 import com.agusteam.caribeando.presenter.theme.backGround
 import com.agusteam.caribeando.presenter.toIntOrNullSafe
 import com.agusteam.caribeando.presenter.wishlist.navigation.WishListNavigationFlow
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
