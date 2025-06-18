@@ -9,13 +9,13 @@ import kotlinx.datetime.ZoneOffset
 import kotlin.time.Duration.Companion.days
 
 data class SignupState(
-    val name: String = "A",
-    val lastName: String = "B",
-    val email: String = "foo@asd.com",
+    val name: String = "",
+    val lastName: String = "",
+    val email: String = "",
     val isEmailError: Boolean = false,
     val emailError: String = "",
-    val password: String = "Josea92@",
-    val confirmPassword: String = "Josea92@",
+    val password: String = "",
+    val confirmPassword: String = "",
     val phone: String = "",
     val passwordError: String = "",
     val isPasswordError: Boolean = false,
