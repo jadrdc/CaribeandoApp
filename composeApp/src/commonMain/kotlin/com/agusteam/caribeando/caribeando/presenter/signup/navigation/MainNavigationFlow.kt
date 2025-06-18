@@ -39,7 +39,11 @@ fun MainNavigationFlow() {
                 })
             }
             composable(SignupNavigationRoutes.SignUpCreateScreen.route) {
-                SignUpAccountScreen(onBackPressed = { navController.popBackStack() })
+                SignUpAccountScreen(
+                    onBackPressed = { navController.popBackStack() },
+                    onSignUpSuccess = {
+                        navController.navigate(SignupNavigationRoutes.HomeScreen)
+                    })
             }
             composable(SignupNavigationRoutes.FillUserInfo.route) {
                 FillSignUpAccountScreen(

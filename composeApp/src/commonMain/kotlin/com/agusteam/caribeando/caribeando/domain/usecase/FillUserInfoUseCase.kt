@@ -5,7 +5,10 @@ import com.agusteam.caribeando.domain.interfaces.LoginRepository
 import com.agusteam.caribeando.domain.models.TokenMode
 
 class FillUserInfoUseCase(private val repository: LoginRepository) {
-    suspend operator fun invoke(phone: String, email: String): OperationResult<TokenMode> {
-        return repository.fillUserInformation(phone = phone, email)
+    suspend operator fun invoke(
+        phone: String,
+        birthDate: String
+    ): OperationResult<TokenMode> {
+        return repository.fillUserInformation(phone = phone, birthDate)
     }
 }

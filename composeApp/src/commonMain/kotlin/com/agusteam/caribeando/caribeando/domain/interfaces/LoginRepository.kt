@@ -13,7 +13,8 @@ interface LoginRepository {
         lastName: String,
         phone: String,
         email: String,
-        password: String
+        password: String,
+        birthdate: String
     ): OperationResult<TokenMode>
 
     suspend fun fillUserInformation(

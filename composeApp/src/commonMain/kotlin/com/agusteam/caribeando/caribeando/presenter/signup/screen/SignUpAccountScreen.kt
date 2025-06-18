@@ -31,10 +31,13 @@ import caribeando.composeapp.generated.resources.terms
 import com.agusteam.caribeando.presenter.common.ActionButton
 import com.agusteam.caribeando.presenter.common.EditInputField
 import com.agusteam.caribeando.presenter.common.ErrorModal
+import com.agusteam.caribeando.presenter.common.ModernDatePicker
 import com.agusteam.caribeando.presenter.common.NavigationBar
 import com.agusteam.caribeando.presenter.common.ObserveAsEvents
+import com.agusteam.caribeando.presenter.localDateToInstant
 import com.agusteam.caribeando.presenter.signup.viewmodels.SignUpViewModel
 import com.agusteam.caribeando.presenter.theme.primary
+import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -42,12 +45,16 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun SignUpAccountScreen(
     viewModel: SignUpViewModel = koinViewModel(),
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit = {},
+    onSignUpSuccess: () -> Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
-    ObserveAsEvents(event) { event ->
 
+    ObserveAsEvents(event) { event ->
+        if (event is SignUpViewModel.SignUpEvent.FillRemainingInfo) {
+            onSignUpSuccess()
+        }
     }
     ErrorModal(title = state.errorModel?.title ?: "",
         message = state.errorModel?.message ?: "",
@@ -56,8 +63,7 @@ fun SignUpAccountScreen(
         })
     Box {
         Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
-            ,
+            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyColumn(
@@ -156,7 +162,15 @@ fun SignUpAccountScreen(
                         errorText = state.samePasswordError,
                     )
                 }
-
+                item {
+                    ModernDatePicker(onDateSelected = {
+                        viewModel.onEventHandler(
+                            SignUpViewModel.SignUpEvent.OnBirthdateChanged(
+                                localDateToInstant(it, TimeZone.currentSystemDefault())
+                            )
+                        )
+                    })
+                }
                 item {
                     Text(
                         text = stringResource(Res.string.terms),

@@ -9,13 +9,13 @@ import kotlinx.datetime.ZoneOffset
 import kotlin.time.Duration.Companion.days
 
 data class SignupState(
-    val name: String = "",
-    val lastName: String = "",
-    val email: String = "",
+    val name: String = "A",
+    val lastName: String = "B",
+    val email: String = "foo@asd.com",
     val isEmailError: Boolean = false,
     val emailError: String = "",
-    val password: String = "",
-    val confirmPassword: String = "",
+    val password: String = "Josea92@",
+    val confirmPassword: String = "Josea92@",
     val phone: String = "",
     val passwordError: String = "",
     val isPasswordError: Boolean = false,
@@ -24,7 +24,7 @@ data class SignupState(
     val phoneError: String = "",
     val isPhoneError: Boolean = false,
     val isLoading: Boolean = false,
-    val birthdate: Instant?=null,
+    val birthdate: Instant? = null,
     val errorModel: ErrorModel? = null
 ) : ViewModelState {
     fun isValid(): Boolean {
@@ -36,5 +36,5 @@ data class SignupState(
                 phone.isNotBlank() && phone.length == 10
     }
 
-    fun isFillingInfoCompleted() = phone.isNotBlank() && birthdate!=null
+    fun isFillingInfoCompleted() = phone.isNotBlank() && birthdate != null
 }
