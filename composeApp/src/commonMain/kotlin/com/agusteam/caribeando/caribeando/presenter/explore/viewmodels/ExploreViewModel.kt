@@ -282,14 +282,15 @@ class ExploreViewModel(
             }
 
             is OperationResult.Success -> {
+                val newList = state.value.items.map {
+                    if (it.id == item.id) {
+                        it.copy(isSavedForLater = markState)
+                    } else {
+                        it
+                    }
+                }
                 setState {
-                    copy(items = items.map {
-                        if (it === item) {
-                            it.copy(isSavedForLater = markState)
-                        } else {
-                            it
-                        }
-                    })
+                    copy(items = newList)
                 }
             }
         }

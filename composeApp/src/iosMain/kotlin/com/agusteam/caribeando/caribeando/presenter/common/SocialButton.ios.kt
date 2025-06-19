@@ -41,7 +41,7 @@ actual fun SocialButton(
     LaunchedEffect(Unit) {
         nativeController = factory.createSocialButton(
             onToken = { token, name, lastName ->
-
+                viewModel.onEventHandler(AppleEvent.SignUp(token, name, lastName))
             },
             onError = { error -> println("Apple Sign-In Error: $error") }
         )

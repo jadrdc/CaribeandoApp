@@ -36,7 +36,7 @@ fun ProviderProfileOverview(tripProviderModel: TripProviderModel) {
             description = tripProviderModel.address,
             icon = Icons.Filled.Home
         ),
-        ProfileDataModel(
+      /*  ProfileDataModel(
             title = stringResource(Res.string.phone),
             description = tripProviderModel.phone,
             icon = Icons.Filled.Phone
@@ -45,7 +45,7 @@ fun ProviderProfileOverview(tripProviderModel: TripProviderModel) {
             title = stringResource(Res.string.email),
             description = tripProviderModel.email,
             icon = Icons.Filled.Email
-        ),
+        ),*/
     )
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         profileList.forEach { profile ->
