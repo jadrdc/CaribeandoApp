@@ -132,8 +132,7 @@ class PaymentViewModel(
 
                             val tripId = state.value.tripDetailId.takeIf { it.isNotBlank() }
                             if (tripId != null) {
-                                val orderResult = createPendingPaymentOrderUseCase(tripId)
-                                when (orderResult) {
+                                when (val orderResult = createPendingPaymentOrderUseCase(tripId)) {
                                     is OperationResult.Error -> {
                                         logger.recordException(orderResult.exception)
                                         onErrorHappened(

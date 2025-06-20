@@ -7,19 +7,19 @@ import kotlinx.cinterop.ExperimentalForeignApi
 actual class StartStripeUseCase actual constructor(
     private val context: PlatformContext
 ) {
-    // private val stripeBridge = StripeBridge.shared()
+    //   private val stripeBridge = StripeBridge.shared
 
     actual fun startStripe(stripe: StripePaymentIntentResponse) {
-        /*  stripeBridge.configure(
-              publishableKey = stripe.publishableKey,
-              customerId = stripe.customer,
-              ephemeralKey = stripe.ephemeralKey,
-              paymentIntent = stripe.paymentIntent
-          )*/
+        /*   stripeBridge.configure(
+               publishableKey = stripe.publishableKey,
+               customerId = stripe.customer,
+               ephemeralKey = stripe.ephemeralKey,
+               paymentIntent = stripe.paymentIntent
+           )*/
     }
 
     actual fun presentPaymentSheet() {
-        //     stripeBridge.presentSheet()
+        //      stripeBridge.presentSheet()
     }
 
     actual fun setConfig(config: StripeConfiguration) {
