@@ -57,9 +57,9 @@ fun ShoppingOrderDetailScreen(
     hasItBeenEvaluted: Boolean = true,
     rateOrder: (String) -> Unit
 ) {
-    val galleryPhoto: List<String> = Json.decodeFromString(model.galleryPhotoJson)
 
-    val pagerState = rememberPagerState(pageCount = { galleryPhoto.size })
+
+    val pagerState = rememberPagerState(pageCount = { model.galleryPhoto.size })
 
     LazyColumn(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -83,7 +83,7 @@ fun ShoppingOrderDetailScreen(
                 AsyncImage(
                     modifier = Modifier.fillMaxWidth().height(250.dp)
                         .clip(RoundedCornerShape(16.dp)),
-                    model = galleryPhoto[page],
+                    model = model.galleryPhoto[page],
                     contentScale = ContentScale.Crop,
                     contentDescription = null
                 )

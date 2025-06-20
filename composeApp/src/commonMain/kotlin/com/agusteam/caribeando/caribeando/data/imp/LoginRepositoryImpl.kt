@@ -137,12 +137,10 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
         lastName: String,
         phone: String,
         email: String,
-        password: String
+        password: String,
+        birthdate: String
     ): OperationResult<TokenMode> {
         return try {
-            val today: LocalDate =
-                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-            val defaultBirthdate: String = today.minus(DatePeriod(years = 21)).toString()
             when (val result =
                 service.signUp(
                     UserSignUpRequest(
@@ -151,7 +149,7 @@ class LoginRepositoryImpl(private val service: SignUpService) : LoginRepository 
                         email = email,
                         phone = phone,
                         password = password,
-                        birthdate = defaultBirthdate
+                        birthdate = birthdate
                     )
                 )) {
                 is OperationResult.Success -> {

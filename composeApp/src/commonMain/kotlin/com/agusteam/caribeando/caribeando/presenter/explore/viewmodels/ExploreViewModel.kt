@@ -45,6 +45,9 @@ class ExploreViewModel(
     private val getLocalUserProfile: GetLocalProfileUseCase,
 
     ) : GenericViewModel<ExploreState, ExploreEvent>(ExploreState()) {
+
+    private var paginationInProgress = false
+
     private suspend fun getPaginatedTrips(
         categoryId: String = "",
         endingAmount: Int = 0,
@@ -53,29 +56,35 @@ class ExploreViewModel(
         returningTimeEnd: Instant = Clock.System.now(),
         showRefresh: Boolean = false
     ) {
-        if (showRefresh) {
-            getPaginatedTripsUseCase.resetPagination()
-        }
+        if (paginationInProgress) return
+        paginationInProgress = true
 
-        when (val paginationResult = getPaginatedTripsUseCase.loadMore(
-            category = categoryId,
-            endingAmount = endingAmount,
-            search = search,
-            leavingTimeStart = leavingTimeStart,
-            returningTimeEnd = returningTimeEnd
-        )) {
-            is OperationResult.Error -> {
-                setState { copy(showUIError = true) }
-                logger.recordException(paginationResult.exception)
+        try {
+            if (showRefresh) {
+                getPaginatedTripsUseCase.resetPagination()
             }
 
-            is OperationResult.Success -> {
-                val tripList = paginationResult.data.map { trip ->
-                    trip.toDomain()
-
+            when (val paginationResult = getPaginatedTripsUseCase.loadMore(
+                category = categoryId,
+                endingAmount = endingAmount,
+                search = search,
+                leavingTimeStart = leavingTimeStart,
+                returningTimeEnd = returningTimeEnd
+            )) {
+                is OperationResult.Error -> {
+                    setState { copy(showUIError = true) }
+                    logger.recordException(paginationResult.exception)
                 }
-                setState { copy(items = tripList) }
+
+                is OperationResult.Success -> {
+                    val tripList = paginationResult.data.map { trip ->
+                        trip.toDomain()
+                    }
+                    setState { copy(items = tripList) }
+                }
             }
+        } finally {
+            paginationInProgress = false
         }
     }
 
@@ -95,7 +104,7 @@ class ExploreViewModel(
         }
     }
 
-    fun getDefaultReturningDate(): Instant {
+    private fun getDefaultReturningDate(): Instant {
         val localDateTime =
             Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         val futureDate = localDateTime.date.plus(3, DateTimeUnit.MONTH)
@@ -127,9 +136,10 @@ class ExploreViewModel(
                         futureDate,
                         futureTime
                     ).toInstant(TimeZone.currentSystemDefault())
-
+                    //TODO TEMAS DEL FAVORITO
                     getPaginatedTrips(
-                        popular?.id ?: "",
+                        showRefresh = true,
+                        categoryId = popular?.id ?: "",
                         returningTimeEnd = returningTimeEnd
                     )
                     setState {
@@ -144,7 +154,6 @@ class ExploreViewModel(
                         )
                     }
                 } else {
-                    println("CRUSEL CATEGORIES empty")
                     setState { copy(showUIError = true) }
                 }
             }
@@ -282,14 +291,15 @@ class ExploreViewModel(
             }
 
             is OperationResult.Success -> {
+                val newList = state.value.items.map {
+                    if (it.id == item.id) {
+                        it.copy(isSavedForLater = markState)
+                    } else {
+                        it
+                    }
+                }
                 setState {
-                    copy(items = items.map {
-                        if (it === item) {
-                            it.copy(isSavedForLater = markState)
-                        } else {
-                            it
-                        }
-                    })
+                    copy(items = newList)
                 }
             }
         }

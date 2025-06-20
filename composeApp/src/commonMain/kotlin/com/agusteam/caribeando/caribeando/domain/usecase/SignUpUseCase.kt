@@ -10,8 +10,9 @@ class SignUpUseCase(private val repository: LoginRepository) {
         lastName: String,
         phone: String,
         email: String,
-        password: String
+        password: String,
+        birthdate: String
     ): OperationResult<TokenMode> {
-        return repository.signUpUser(name, lastName, phone, email, password)
+        return repository.signUpUser(name, lastName, phone, email, password, birthdate)
     }
 }

@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		054D34BB2DEFABC800AD47D4 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 054D34BA2DEFABC800AD47D4 /* FirebaseCore */; };
 		054D34BD2DEFABC800AD47D4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 054D34BC2DEFABC800AD47D4 /* FirebaseCrashlytics */; };
+		05B7319F2E04EC6D0002923C /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 05B7319E2E04EC6D0002923C /* Stripe */; };
+		05B731A12E04EC6D0002923C /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731A02E04EC6D0002923C /* StripeApplePay */; };
+		05B731A32E04EC6D0002923C /* StripeCardScan in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731A22E04EC6D0002923C /* StripeCardScan */; };
+		05B731A52E04EC6D0002923C /* StripeConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731A42E04EC6D0002923C /* StripeConnect */; };
+		05B731A72E04EC6D0002923C /* StripeFinancialConnections in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731A62E04EC6D0002923C /* StripeFinancialConnections */; };
+		05B731A92E04EC6D0002923C /* StripeIdentity in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731A82E04EC6D0002923C /* StripeIdentity */; };
+		05B731AB2E04EC6D0002923C /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731AA2E04EC6D0002923C /* StripePaymentSheet */; };
+		05B731AD2E04EC6D0002923C /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731AC2E04EC6D0002923C /* StripePayments */; };
+		05B731AF2E04EC6D0002923C /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 05B731AE2E04EC6D0002923C /* StripePaymentsUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -385,8 +394,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05B731AD2E04EC6D0002923C /* StripePayments in Frameworks */,
 				054D34BB2DEFABC800AD47D4 /* FirebaseCore in Frameworks */,
+				05B731A12E04EC6D0002923C /* StripeApplePay in Frameworks */,
+				05B731AF2E04EC6D0002923C /* StripePaymentsUI in Frameworks */,
 				054D34BD2DEFABC800AD47D4 /* FirebaseCrashlytics in Frameworks */,
+				05B731A72E04EC6D0002923C /* StripeFinancialConnections in Frameworks */,
+				05B731A32E04EC6D0002923C /* StripeCardScan in Frameworks */,
+				05B731A52E04EC6D0002923C /* StripeConnect in Frameworks */,
+				05B7319F2E04EC6D0002923C /* Stripe in Frameworks */,
+				05B731AB2E04EC6D0002923C /* StripePaymentSheet in Frameworks */,
+				05B731A92E04EC6D0002923C /* StripeIdentity in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1453,12 +1471,20 @@
 			path = ../composeApp/src/iosMain;
 			sourceTree = SOURCE_ROOT;
 		};
+		05ED939B2E04EA570017AAD1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B9DA97A82DC1472C00A4DA20 = {
 			isa = PBXGroup;
 			children = (
 				05659D9E2DF39AA300F2317D /* kmp */,
 				B9DA98002DC14AA900A4DA20 /* Configuration */,
 				B9DA97B32DC1472C00A4DA20 /* iosApp */,
+				05ED939B2E04EA570017AAD1 /* Frameworks */,
 				B9DA97B22DC1472C00A4DA20 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1495,6 +1521,15 @@
 			packageProductDependencies = (
 				054D34BA2DEFABC800AD47D4 /* FirebaseCore */,
 				054D34BC2DEFABC800AD47D4 /* FirebaseCrashlytics */,
+				05B7319E2E04EC6D0002923C /* Stripe */,
+				05B731A02E04EC6D0002923C /* StripeApplePay */,
+				05B731A22E04EC6D0002923C /* StripeCardScan */,
+				05B731A42E04EC6D0002923C /* StripeConnect */,
+				05B731A62E04EC6D0002923C /* StripeFinancialConnections */,
+				05B731A82E04EC6D0002923C /* StripeIdentity */,
+				05B731AA2E04EC6D0002923C /* StripePaymentSheet */,
+				05B731AC2E04EC6D0002923C /* StripePayments */,
+				05B731AE2E04EC6D0002923C /* StripePaymentsUI */,
 			);
 			productName = iosApp;
 			productReference = B9DA97B12DC1472C00A4DA20 /* Caribeando.app */;
@@ -1508,7 +1543,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					B9DA97B02DC1472C00A4DA20 = {
 						CreatedOnToolsVersion = 16.2;
@@ -1526,6 +1561,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				054D34B92DEFABC800AD47D4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9DA97B22DC1472C00A4DA20 /* Products */;
@@ -1633,6 +1669,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8C6M854FYV;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1696,6 +1733,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8C6M854FYV;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1724,11 +1762,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosAppDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = KZBUW672C6;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1741,6 +1780,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1759,10 +1799,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iosApp/iosAppRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = KZBUW672C6;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1775,6 +1816,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1818,6 +1860,14 @@
 				minimumVersion = 11.14.0;
 			};
 		};
+		05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.16.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1830,6 +1880,51 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 054D34B92DEFABC800AD47D4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		05B7319E2E04EC6D0002923C /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
+		};
+		05B731A02E04EC6D0002923C /* StripeApplePay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeApplePay;
+		};
+		05B731A22E04EC6D0002923C /* StripeCardScan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeCardScan;
+		};
+		05B731A42E04EC6D0002923C /* StripeConnect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeConnect;
+		};
+		05B731A62E04EC6D0002923C /* StripeFinancialConnections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeFinancialConnections;
+		};
+		05B731A82E04EC6D0002923C /* StripeIdentity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeIdentity;
+		};
+		05B731AA2E04EC6D0002923C /* StripePaymentSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentSheet;
+		};
+		05B731AC2E04EC6D0002923C /* StripePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePayments;
+		};
+		05B731AE2E04EC6D0002923C /* StripePaymentsUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05B7319D2E04EC6D0002923C /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentsUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

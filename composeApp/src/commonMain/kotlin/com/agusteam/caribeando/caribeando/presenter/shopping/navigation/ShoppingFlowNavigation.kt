@@ -29,20 +29,17 @@ fun ShoppingFlowNavigation(
             ShoppingItemDetailScreen(onBackPressed = { onBackPressed() }, payItem = { payItem ->
                 navController.navigate(
                     ShoppingItemPayingScreen(
+                        tripId = modelRoute.tripId,
                         title = payItem.title,
                         destiny = payItem.destiny,
-                        profilePhoto = payItem.profilePhoto,
                         leavingTime = payItem.leavingTime,
                         meetingPoint = payItem.meetingPoint,
                         initialPayment = payItem.initialPayment,
                         totalPayment = payItem.totalPayment,
                         tripDetailId = payItem.tripSchedule,
                         arrivingTime = payItem.arrivingTime,
-                        businessPhoto = payItem.businessPhoto,
                         businessName = payItem.businessName,
                         businessMonth = payItem.businessMonth,
-                        galleryPhoto = payItem.galleryPhoto
-
                     )
                 )
             }, goProviderProfile = { id ->

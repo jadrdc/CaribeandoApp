@@ -14,25 +14,18 @@ data class WishProviderProfileScreen(
 
 @Serializable
 data class WishListItemDetailScreenRoute(
-    val tripId: String,
-    val name: String,
-    val lat: Float,
-    val lng: Float,
-    val description: String = "",
+    val tripId: String = "",
+    val name: String = "",
+    val lat: Float = 0.0f,
+    val lng: Float = 0.0f,
     val businessId: String = "",
-    val businessImage: String = "",
     val businessName: String = "",
     val month: Int = 0,
-    val isFavorite: Boolean,
-    val cancellationPolicy: String,
-
-    val arrivingTime: String,
-    val leavingTime: String,
-    val meetingPoint: String,
-    val price: Int,
-    val initialPayment: Int,
-    val destiny: String,
-    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
-
-
+    val isFavorite: Boolean = true,
+    val arrivingTime: String = "",
+    val leavingTime: String = "",
+    val meetingPoint: String = "",
+    val price: Int = 0,
+    val initialPayment: Int = 0,
+    val destiny: String = ""
 )

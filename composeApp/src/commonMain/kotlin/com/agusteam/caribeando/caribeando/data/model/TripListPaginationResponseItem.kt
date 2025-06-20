@@ -1,6 +1,5 @@
 package com.agusteam.caribeando.data.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,3 +18,4 @@ data class TripListPaginationResponseItem(
     val reviewCount: Int = 0,
     val rating: Double = 0.0
 )
+

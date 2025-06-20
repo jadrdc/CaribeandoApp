@@ -113,6 +113,7 @@ fun getErrorCode(
     code: Int
 ): String {
     return when (code) {
+        409 -> "Ya existe un registro con esta información. Intenta con otros datos."
         400 -> "Solicitud incorrecta: Los datos enviados son inválidos"
         401 -> "No autorizado: Credenciales incorrectas"
         403 -> "Prohibido: No tienes permisos para esta acción"

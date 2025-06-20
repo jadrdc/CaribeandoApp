@@ -1,3 +1,4 @@
+// ExploreScreen.kt
 package com.agusteam.caribeando.presenter.explore.screen
 
 import androidx.compose.foundation.background
@@ -52,33 +53,28 @@ fun ExploreScreen(
     val listState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
-        println("CRUZ ANTONIO")
         viewModel.onExploreEventChanged(ExploreEvent.InitLoad)
     }
-    // Enhanced Pagination Trigger
-    LaunchedEffect(listState, state.value.items.size, state.value.isLoading) {
+
+    LaunchedEffect(listState) {
         snapshotFlow {
-            val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-            val total = listState.layoutInfo.totalItemsCount
-            lastVisible to total
+            val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
+            val totalItems = listState.layoutInfo.totalItemsCount
+            lastVisible to totalItems
         }
             .distinctUntilChanged()
-            .filter { (lastVisible, total) ->
-                val canLoadMore = !state.value.categoryState.isLoadingSkeleton &&
-                        !state.value.isLoading &&
-                        total > 0 &&
-                        lastVisible >= total - 3
-
-                println("Pagination Check: lastVisible=$lastVisible, total=$total, canLoadMore=$canLoadMore")
+            .filter { (lastVisible, totalItems) ->
+                val isAtEnd = lastVisible >= totalItems - 1
+                val canLoadMore = isAtEnd &&
+                        !state.value.categoryState.isLoadingSkeleton &&
+                        !state.value.isLoading
                 canLoadMore
             }
             .collectLatest {
-                println("Triggering LoadMoreTrips")
                 viewModel.onExploreEventChanged(ExploreEvent.LoadMoreTrips)
             }
     }
 
-    // Error Modal
     if (state.value.errorModel != null) {
         ErrorModal(
             title = state.value.errorModel?.title ?: "",
@@ -125,19 +121,13 @@ fun ExploreScreen(
                 ) {
                     LazyColumn(
                         state = listState,
-                        modifier = Modifier
-                            .fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         if (state.value.categoryState.isLoadingSkeleton) {
-                            item {
-                                TripItemLoadingSection()
-                            }
+                            item { TripItemLoadingSection() }
                         } else {
-                            items(
-                                items = state.value.items,
-                                // key = { it.id }
-                            ) { item ->
+                            items(state.value.items) { item ->
                                 TripItem(
                                     item,
                                     onClick = { goDetails(item) },
@@ -147,7 +137,6 @@ fun ExploreScreen(
                                 )
                             }
 
-                            // Show loading indicator only during pagination
                             if (state.value.isLoading && !state.value.categoryState.isLoadingSkeleton) {
                                 item {
                                     Box(
@@ -169,7 +158,6 @@ fun ExploreScreen(
                 }
             }
 
-            // Show loading overlay only for initial load
             if (state.value.isLoading && state.value.items.isEmpty() && !state.value.categoryState.isLoadingSkeleton) {
                 Box(
                     modifier = Modifier
@@ -185,7 +173,6 @@ fun ExploreScreen(
                 }
             }
 
-            // Filter Bottom Sheet
             if (state.value.shouldBottomModal) {
                 BottomModalSheet(
                     sheetState = bottomState,

@@ -24,7 +24,7 @@ data class SignupState(
     val phoneError: String = "",
     val isPhoneError: Boolean = false,
     val isLoading: Boolean = false,
-    val birthdate: Instant?=null,
+    val birthdate: Instant? = null,
     val errorModel: ErrorModel? = null
 ) : ViewModelState {
     fun isValid(): Boolean {
@@ -36,5 +36,5 @@ data class SignupState(
                 phone.isNotBlank() && phone.length == 10
     }
 
-    fun isFillingInfoCompleted() = phone.isNotBlank() && birthdate!=null
+    fun isFillingInfoCompleted() = phone.isNotBlank() && birthdate != null
 }

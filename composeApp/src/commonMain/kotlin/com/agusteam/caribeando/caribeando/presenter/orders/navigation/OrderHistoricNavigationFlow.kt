@@ -1,7 +1,6 @@
 package com.agusteam.caribeando.presenter.orders.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,8 +12,6 @@ import com.agusteam.caribeando.presenter.orders.screen.ReportOrderIssueScreen
 import com.agusteam.caribeando.presenter.shopping.navigation.RatingTripRoute
 import com.agusteam.caribeando.presenter.shopping.navigation.ShoppingOrderDetailScreenRoute
 import com.agusteam.caribeando.presenter.shopping.screen.ShoppingOrderDetailScreen
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Composable
 fun OrderHistoryNavigationFlow(
@@ -58,8 +55,6 @@ fun OrderHistoryNavigationFlow(
                         businessMonth = order.providerMonth.toString(),
                         businessName = order.providerName,
                         businessPhoto = order.providerImage,
-                        //   galleryPhoto = order.tripImages,
-                        galleryPhotoJson = Json.encodeToString(order.tripImages), // 👈 serializa aquí
                         hasItBeenEvaluated = hasItBeenEvaluted
                     )
                     orderRoute?.let {

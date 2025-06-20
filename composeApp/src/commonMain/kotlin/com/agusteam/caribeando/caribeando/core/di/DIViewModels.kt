@@ -36,6 +36,17 @@ val viewModelModule = module {
     viewModel<HomeViewModel> { HomeViewModel() }
     viewModel<RatingOrderViewModel> { RatingOrderViewModel(get(), get()) }
     viewModel<ReportOrderViewModel> { ReportOrderViewModel(get(), get()) }
-    viewModel<PaymentViewModel> { PaymentViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel<PaymentViewModel> {
+        PaymentViewModel(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+        )
+    }
     viewModel<TripProviderViewModel> { TripProviderViewModel(get(), get(), get()) }
 }

@@ -6,7 +6,7 @@ import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.models.ErrorModel
 import com.agusteam.caribeando.domain.usecase.GetCommentsTripUseCase
-import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
+import com.agusteam.caribeando.domain.usecase.GetTripDetailsUseCase
 import com.agusteam.caribeando.domain.usecase.MarkFavoriteTripUseCase
 import com.agusteam.caribeando.domain.usecase.UnmarkedFavoriteTripUseCase
 import com.agusteam.caribeando.presenter.home.navigation.TripDetailScreenRoute
@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
 class ShoppingItemDetailsViewModel(
-    val logger:CrashReporter,
-    val getTripsIncludedServicesUseCase: GetTripsIncludedServicesUseCase,
+    val logger: CrashReporter,
+    val getTripDetails: GetTripDetailsUseCase,
     val markFavoriteTripUseCase: MarkFavoriteTripUseCase,
     val unmarkedFavoriteTripUseCase: UnmarkedFavoriteTripUseCase,
     val getCommentsTripUseCase: GetCommentsTripUseCase
@@ -32,15 +32,12 @@ class ShoppingItemDetailsViewModel(
                         isFavorite = model.isFavorite,
                         name = model.name,
                         month = model.month,
-                        businessImage = model.businessImage,
                         businessId = model.businessId,
                         businessName = model.businessName,
-                        description = model.description,
                         lat = model.lat.toDouble(),
                         lng = model.lng.toDouble(),
                         tripId = model.tripId,
-                        images = model.images,
-                        cancellationPolicy = model.cancellationPolicy,
+                        images = listOf(),
                         initialPrice = model.initialPayment,
                         meetingPoint = model.meetingPoint,
                         leavingTime = model.leavingTime,
@@ -56,12 +53,23 @@ class ShoppingItemDetailsViewModel(
         }
     }
 
-    private suspend fun getIncludedServices() {
+    private suspend fun getTripDetails() {
         if (state.value.tripId.isNotBlank()) {
             setState { copy(isLoadingContent = true) }
-            when (val result = getTripsIncludedServicesUseCase(state.value.tripId)) {
+            when (val result = getTripDetails(state.value.tripId)) {
                 is OperationResult.Success -> {
-                    updateState { copy(includedServices = result.data) }
+                    val model = result.data
+                    updateState {
+                        copy(
+                            itemProviderState = itemProviderState.copy(
+                                businessImage = model.businessImage
+                            ),
+                            cancellationPolicy = model.cancellationPolicy,
+                            description = model.description,
+                            galleryPhotos = model.images,
+                            includedServices = model.services
+                        )
+                    }
                 }
 
                 is OperationResult.Error -> {
@@ -86,20 +94,17 @@ class ShoppingItemDetailsViewModel(
                 is ShoppingDetailEvent.ShoppingDetailLoaded -> {
                     setState {
                         copy(
-                            galleryPhotos = event.images,
                             tripId = event.tripId,
+                            galleryPhotos = listOf(),
                             isMarkedAsFavorite = event.isFavorite,
                             itemProviderState = itemProviderState.copy(
                                 month = event.month,
                                 businessName = event.businessName,
-                                businessImage = event.businessImage
                             ),
                             businessId = event.businessId,
                             lat = event.lat,
                             lng = event.lng,
-                            description = event.description,
                             title = event.name,
-                            cancellationPolicy = event.cancellationPolicy,
                             destiny = event.destiny,
                             arrivingTime = event.arrivingTime,
                             leavingTime = event.leavingTime,
@@ -108,11 +113,12 @@ class ShoppingItemDetailsViewModel(
                             totalPayment = event.price
                         )
                     }
-                    getIncludedServices()
+                    getTripDetails()
                     when (val result = getCommentsTripUseCase(event.tripId)) {
                         is OperationResult.Error -> {
                             logger.recordException(result.exception)
                         }
+
                         is OperationResult.Success -> {
                             setState { copy(comments = result.data) }
                         }
@@ -174,13 +180,10 @@ class ShoppingItemDetailsViewModel(
             val lat: Double,
             val lng: Double,
             val businessId: String,
-            val businessImage: String,
             val businessName: String,
-            val description: String,
             val month: Int,
             val isFavorite: Boolean,
             val images: List<String>,
-            val cancellationPolicy: String,
             val arrivingTime: String = "",
             val leavingTime: String = "",
             val meetingPoint: String = "",

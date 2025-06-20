@@ -2,6 +2,7 @@ package com.agusteam.caribeando.domain.interfaces
 
 import com.agusteam.caribeando.caribeando.data.model.CommentModelResponse
 import com.agusteam.caribeando.core.base.OperationResult
+import com.agusteam.caribeando.data.model.TripDetailsBodyDTO
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import kotlinx.datetime.Instant
 
@@ -20,4 +21,6 @@ interface TripRepository {
 
     suspend fun resetPagination()
     suspend fun canLoadMore(): Boolean
+    suspend fun getImages(tripId: String): OperationResult<List<String>>
+    suspend fun getTripDetails(tripId: String): OperationResult<TripDetailsBodyDTO>
 }

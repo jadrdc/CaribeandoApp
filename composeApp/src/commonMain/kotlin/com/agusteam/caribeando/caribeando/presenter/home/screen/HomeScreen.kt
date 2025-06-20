@@ -24,6 +24,7 @@ import com.agusteam.caribeando.presenter.orders.navigation.OrderHistoryNavigatio
 import com.agusteam.caribeando.presenter.profile.screen.ProfileScreen
 import com.agusteam.caribeando.presenter.theme.CustomTypography
 import com.agusteam.caribeando.presenter.theme.backGround
+import com.agusteam.caribeando.presenter.toIntOrNullSafe
 import com.agusteam.caribeando.presenter.wishlist.navigation.WishListNavigationFlow
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -49,7 +50,10 @@ fun HomeScreen(
             },
             modifier = Modifier.fillMaxSize(),
         ) { innnerPadding ->
-            Box(modifier = Modifier.padding(innnerPadding).background(backGround).fillMaxSize()) {
+            Box(
+                modifier = Modifier.padding(innnerPadding) // ✅ Corrección clave
+                    .background(backGround).fillMaxSize()
+            ) {
                 NavHost(
                     navController = navController,
                     startDestination = NavigationRoutes.HomeScreen.route
@@ -62,30 +66,28 @@ fun HomeScreen(
                         ExploreScreen { tripModel ->
 
                             if (Token.isValid && Token.isConfirmed) {
+                                val route = TripDetailScreenRoute(
+                                    destiny = tripModel.destiny,
+                                    tripId = tripModel.id,
+                                    isFavorite = tripModel.isSavedForLater,
+                                    month = tripModel.month,
+                                    businessName = tripModel.businessName,
+                                    businessId = tripModel.businessId,
+                                    name = tripModel.name,
+                                    meetingPoint = tripModel.meetingPoint,
+                                    arrivingTime = tripModel.arrivingTime,
+                                    leavingTime = tripModel.leavingTime,
+                                    tripScheduleId = tripModel.tripScheduleId,
+                                    reviewCount = tripModel.reviewCount,
+                                    lat = if (tripModel.lat.isFinite()) tripModel.lat.toFloat() else 0f,
+                                    lng = if (tripModel.lng.isFinite()) tripModel.lng.toFloat() else 0f,
+                                    initialPayment = tripModel.initialPayment.toIntOrNullSafe(),
+                                    price = tripModel.price.toIntOrNullSafe(),
+                                    rating = if (tripModel.rating.isFinite()) tripModel.rating.toFloat() else 0f,
+                                )
+
                                 onNavigateDetails(
-                                    TripDetailScreenRoute(
-                                        destiny = tripModel.destiny,
-                                        cancellationPolicy = tripModel.cancellation_policy,
-                                        images = tripModel.images,
-                                        tripId = tripModel.id,
-                                        isFavorite = tripModel.isSavedForLater,
-                                        month = tripModel.month,
-                                        businessImage = tripModel.businessImage,
-                                        businessName = tripModel.businessName,
-                                        businessId = tripModel.businessId,
-                                        name = tripModel.name,
-                                        description = tripModel.description,
-                                        lat = tripModel.lat.toFloat(),
-                                        lng = tripModel.lng.toFloat(),
-                                        initialPayment = tripModel.initialPayment.toInt(),
-                                        meetingPoint = tripModel.meetingPoint,
-                                        arrivingTime = tripModel.arrivingTime,
-                                        leavingTime = tripModel.leavingTime,
-                                        price = tripModel.price.toInt(),
-                                        tripScheduleId = tripModel.tripScheduleId,
-                                        reviewCount = tripModel.reviewCount,
-                                        rating = tripModel.rating.toFloat()
-                                    )
+                                    route
                                 )
                             } else {
                                 logout()

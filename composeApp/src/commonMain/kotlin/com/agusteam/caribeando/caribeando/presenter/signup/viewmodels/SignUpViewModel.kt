@@ -12,11 +12,17 @@ import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
 import com.agusteam.caribeando.presenter.signup.state.SignupState
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.toLocalDateTime
 
 
 class SignUpViewModel(
-    private val logger:CrashReporter,
+    private val logger: CrashReporter,
     private val validator: FieldValidator,
     private val fillUserInfoUseCase: FillUserInfoUseCase,
     private val signUpUseCase: SignUpUseCase,
@@ -25,26 +31,32 @@ class SignUpViewModel(
 
     private suspend fun signUp() {
         setState { copy(isLoading = true) }
-        when (val result = signUpUseCase(
-            state.value.name,
-            state.value.lastName,
-            state.value.phone,
-            state.value.email,
-            state.value.password
-        )) {
-            is OperationResult.Error -> {
-                logger.recordException(result.exception)
-                onErrorHappened(
-                    true,
-                    "Error al registrar la cuenta",
-                    message = result.exception.message ?: " "
-                )
-            }
+        val birthDate: String =
+            state.value.birthdate?.toLocalDateTime(TimeZone.currentSystemDefault())?.date.toString()
 
-            is OperationResult.Success -> {
-                sendEvent(SignUpEvent.GoHome)
+        if (birthDate.isNotBlank())
+            when (val result = signUpUseCase(
+                name = state.value.name,
+                lastName = state.value.lastName,
+                phone = state.value.phone,
+                email = state.value.email,
+                password = state.value.password,
+                birthdate = birthDate
+            )) {
+                is OperationResult.Error -> {
+                    logger.recordException(result.exception)
+                    onErrorHappened(
+                        true,
+                        "Error al registrar la cuenta",
+                        message = result.exception.message ?: " "
+                    )
+                }
+
+                is OperationResult.Success -> {
+                    saveTokenDataUseCase(result.data)
+                    sendEvent(SignUpEvent.FillRemainingInfo)
+                }
             }
-        }
         setState { copy(isLoading = false) }
 
     }
@@ -162,21 +174,27 @@ class SignUpViewModel(
 
                 is SignUpEvent.FillRemainingInfo -> {
                     setState { copy(isLoading = true) }
-                    val result =
-                        fillUserInfoUseCase(state.value.phone, state.value.birthdate.toString())
-                    when (result) {
-                        is OperationResult.Error -> {
-                            logger.recordException(result.exception)
-                            setState { copy(isLoading = false) }
+                    val birthDate: String =
+                        state.value.birthdate?.toLocalDateTime(TimeZone.currentSystemDefault())?.date.toString()
+                    if (birthDate.isNotBlank()) {
+                        val result =
+                            fillUserInfoUseCase(
+                                state.value.phone,
+                                birthDate
+                            )
+                        when (result) {
+                            is OperationResult.Error -> {
+                                logger.recordException(result.exception)
+                            }
 
-                        }
-
-                        is OperationResult.Success -> {
-                            setState { copy(isLoading = false) }
-                            saveTokenDataUseCase(result.data)
-                            sendEvent(SignUpEvent.GoHome)
+                            is OperationResult.Success -> {
+                                saveTokenDataUseCase(result.data)
+                                sendEvent(SignUpEvent.GoHome)
+                            }
                         }
                     }
+                    setState { copy(isLoading = false) }
+
                 }
 
                 is SignUpEvent.OnEmailChanged -> {

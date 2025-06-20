@@ -4,6 +4,7 @@ import PaginationManager
 import com.agusteam.caribeando.caribeando.data.model.CommentModelResponse
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
+import com.agusteam.caribeando.data.model.TripDetailsBodyDTO
 import com.agusteam.caribeando.data.model.TripFavoriteRequest
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.data.model.TripsAvailablePaginationRequest
@@ -113,6 +114,40 @@ class TripRepositoryImp(private val service: TripService) : TripRepository {
                 )) {
                 is OperationResult.Success -> {
                     OperationResult.Success(result.data)
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+
+    override suspend fun getImages(tripId: String): OperationResult<List<String>> {
+        return try {
+            when (val result =
+                service.getImages(
+                    tripId
+                )) {
+                is OperationResult.Success -> {
+                    result
+                }
+
+                is OperationResult.Error -> result
+            }
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+
+    override suspend fun getTripDetails(tripId: String): OperationResult<TripDetailsBodyDTO> {
+        return try {
+            when (val result =
+                service.getTripDetails(
+                    tripId
+                )) {
+                is OperationResult.Success -> {
+                    result
                 }
 
                 is OperationResult.Error -> result

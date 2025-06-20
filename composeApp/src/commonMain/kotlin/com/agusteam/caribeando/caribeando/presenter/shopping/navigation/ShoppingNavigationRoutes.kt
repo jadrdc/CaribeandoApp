@@ -18,7 +18,6 @@ data class ProviderProfileScreen(
 data class ShoppingItemPayingScreen(
     val title: String = "",
     val destiny: String = "",
-    val profilePhoto: String = "",
     val leavingTime: String = "",
     val meetingPoint: String = "",
     val initialPayment: Int = 0,
@@ -27,10 +26,8 @@ data class ShoppingItemPayingScreen(
     val arrivingTime: String,
 
     val businessName: String,
-    val businessPhoto: String,
     val businessMonth: String,
-    val galleryPhoto: List<String> = listOf()
-
+    val tripId: String = ""
 )
 
 @Serializable
@@ -47,7 +44,6 @@ data class ShoppingOrderDetailScreenRoute(
     val galleryPhoto: List<String> = listOf(),
     val scheduledId: String,
     var isPending: Boolean = false,
-    val galleryPhotoJson: String = "[]", // 👈 Cambia a string con JSON
 )
 
 @Serializable
