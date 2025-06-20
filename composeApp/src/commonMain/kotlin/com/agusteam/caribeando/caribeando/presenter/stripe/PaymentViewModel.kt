@@ -133,16 +133,20 @@ class PaymentViewModel(
                             val tripId = state.value.tripDetailId.takeIf { it.isNotBlank() }
                             if (tripId != null) {
                                 val orderResult = createPendingPaymentOrderUseCase(tripId)
-                                if (orderResult is OperationResult.Success) {
-                                    setState { copy(orderId = orderResult.data.orderId.orEmpty()) }
-                                    startStripeUseCase.presentPaymentSheet()
-                                } else if (orderResult is OperationResult.Error) {
-                                    logger.recordException(orderResult.exception)
-                                    onErrorHappened(
-                                        true,
-                                        "Error en el proceso de pago",
-                                        "No pudimos completar tu transacción. Intenta más tarde."
-                                    )
+                                when (orderResult) {
+                                    is OperationResult.Error -> {
+                                        logger.recordException(orderResult.exception)
+                                        onErrorHappened(
+                                            true,
+                                            "Error en el proceso de pago",
+                                            "No pudimos completar tu transacción. Intenta más tarde."
+                                        )
+                                    }
+
+                                    is OperationResult.Success -> {
+                                        setState { copy(orderId = orderResult.data.orderId) }
+                                        startStripeUseCase.presentPaymentSheet()
+                                    }
                                 }
                             } else {
                                 onErrorHappened(
