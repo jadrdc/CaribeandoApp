@@ -3,7 +3,6 @@ package com.agusteam.caribeando.domain.usecase
 import com.agusteam.caribeando.data.model.StripePaymentIntentResponse
 import kotlinx.cinterop.ExperimentalForeignApi
 
-@OptIn(ExperimentalForeignApi::class)
 actual class StartStripeUseCase actual constructor(
     private val context: PlatformContext
 ) {
@@ -29,3 +28,4 @@ actual class StartStripeUseCase actual constructor(
 
 actual class PlatformContext()
 actual class StripeConfiguration()
+

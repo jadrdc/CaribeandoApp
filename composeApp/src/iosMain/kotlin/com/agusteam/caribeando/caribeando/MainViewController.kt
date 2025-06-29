@@ -4,6 +4,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.window.ComposeUIViewController
 import com.agusteam.caribeando.caribeando.core.NativeViewFactory
+import com.agusteam.caribeando.caribeando.core.StripeNativeBridge
 import com.agusteam.caribeando.core.di.dataDiModule
 import com.agusteam.caribeando.core.di.dataStorageDIModule
 import com.agusteam.caribeando.core.di.diDomainModule
@@ -15,9 +16,14 @@ import org.koin.core.context.startKoin
 val LocalNativeViewFactory = staticCompositionLocalOf<NativeViewFactory> {
     error("No view factory provided.")
 }
+val LocalStripe = staticCompositionLocalOf<StripeNativeBridge> {
+    error("No view factory provided.")
+}
+
 
 fun MainViewController(
-    nativeViewFactory: NativeViewFactory
+    nativeViewFactory: NativeViewFactory,
+    stripe: StripeNativeBridge
 ) = ComposeUIViewController(configure = {
     startKoin {
         modules(
@@ -26,7 +32,10 @@ fun MainViewController(
         )
     }
 }) {
-    CompositionLocalProvider(LocalNativeViewFactory provides nativeViewFactory) {
+    CompositionLocalProvider(
+        LocalNativeViewFactory provides nativeViewFactory,
+        LocalStripe provides stripe // ✅ Add this line
+    ) {
         MainNavigationFlow()
     }
 }
