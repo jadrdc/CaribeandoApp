@@ -1,28 +1,35 @@
 package com.agusteam.caribeando.domain.usecase
 
+import com.agusteam.caribeando.caribeando.core.StripeNativeBridge
+import com.agusteam.caribeando.caribeando.core.base.StripeParam
 import com.agusteam.caribeando.data.model.StripePaymentIntentResponse
-import kotlinx.cinterop.ExperimentalForeignApi
 
 actual class StartStripeUseCase actual constructor(
     private val context: PlatformContext
 ) {
-    //   private val stripeBridge = StripeBridge.shared
+    private var stripeBridge: StripeNativeBridge? = null
 
     actual fun startStripe(stripe: StripePaymentIntentResponse) {
-        /*   stripeBridge.configure(
-               publishableKey = stripe.publishableKey,
-               customerId = stripe.customer,
-               ephemeralKey = stripe.ephemeralKey,
-               paymentIntent = stripe.paymentIntent
-           )*/
+        stripeBridge?.configure(
+            publishableKey = stripe.publishableKey,
+            customerId = stripe.customer,
+            ephemeralKey = stripe.ephemeralKey,
+            paymentIntent = stripe.paymentIntent
+        )
     }
 
     actual fun presentPaymentSheet() {
-        //      stripeBridge.presentSheet()
+        stripeBridge?.presentSheet()
     }
 
     actual fun setConfig(config: StripeConfiguration) {
         // No-op
+    }
+
+
+    actual fun setStripeParam(param: StripeParam) {
+        this.stripeBridge = param as StripeNativeBridge
+
     }
 }
 

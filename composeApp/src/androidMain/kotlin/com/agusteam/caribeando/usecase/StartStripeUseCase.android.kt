@@ -1,6 +1,7 @@
 package com.agusteam.caribeando.domain.usecase
 
 import android.content.Context
+import com.agusteam.caribeando.caribeando.core.base.StripeParam
 import com.agusteam.caribeando.data.model.StripePaymentIntentResponse
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
@@ -34,6 +35,10 @@ actual class StartStripeUseCase actual constructor(private val context: Platform
         if (paymentSheet == null) {
             paymentSheet = config.paymentSheet
         }
+    }
+
+    actual fun setStripeParam(param: StripeParam) {
+
     }
 }
 

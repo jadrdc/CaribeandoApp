@@ -2,6 +2,7 @@ package com.agusteam.caribeando.presenter.stripe
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
+import com.agusteam.caribeando.caribeando.core.base.StripeParam
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
@@ -58,18 +59,20 @@ class PaymentViewModel(
                 is PaymentEvents.FailedPayment -> {
                     onErrorHappened(true, events.title, events.reason)
                     val result = cancelPaymentOrderUseCase(
-                        state.value.orderId,
-                        events.reason
+                        state.value.orderId, events.reason
                     )
                     if (result is OperationResult.Error) {
                         logger.recordException(result.exception)
                     }
                 }
 
+                is PaymentEvents.ConfigureStripeIOS -> {
+                    startStripeUseCase.setStripeParam(events.configuration)
+                }
+
                 is PaymentEvents.StripePaymentSucess -> {
                     processSuccessPaymentOrderUseCase(
-                        state.value.orderId,
-                        state.value.stripeState?.paymentIntentId.orEmpty()
+                        state.value.orderId, state.value.stripeState?.paymentIntentId.orEmpty()
                     )
                 }
 
@@ -77,7 +80,7 @@ class PaymentViewModel(
                     onErrorHappened(value = true, events.title, events.message)
                 }
 
-                is PaymentEvents.ConfigureStripe -> {
+                is PaymentEvents.ConfigureStripeAndroid -> {
                     startStripeUseCase.setConfig(events.config)
                 }
 
@@ -106,14 +109,12 @@ class PaymentViewModel(
 
                 is PaymentEvents.OnStripePaymentStart -> {
                     updateState { copy(isLoading = true) }
-                    val amount = if (state.value.selectedPaymentType == PaymentModel.TOTAL_PAYMENT)
-                        state.value.totalPayment else state.value.initialPayment
+                    val amount =
+                        if (state.value.selectedPaymentType == PaymentModel.TOTAL_PAYMENT) state.value.totalPayment else state.value.initialPayment
 
-                    val name = listOfNotNull(
-                        state.value.fullName.takeIf { it.isNotBlank() },
+                    val name = listOfNotNull(state.value.fullName.takeIf { it.isNotBlank() },
                         state.value.title.takeIf { it.isNotBlank() },
-                        state.value.leavingTime.takeIf { it.isNotBlank() }
-                    ).joinToString(" ")
+                        state.value.leavingTime.takeIf { it.isNotBlank() }).joinToString(" ")
 
                     when (val result = getStripePaymentIntentUseCase(amount, name)) {
                         is OperationResult.Error -> {
@@ -121,7 +122,9 @@ class PaymentViewModel(
                             onErrorHappened(
                                 true,
                                 "Error en el proceso de pago",
-                                "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
+                                message = result.exception.message
+                                    ?: "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
+                                //"No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
                             )
                         }
 
@@ -138,7 +141,8 @@ class PaymentViewModel(
                                         onErrorHappened(
                                             true,
                                             "Error en el proceso de pago",
-                                            "No pudimos completar tu transacción. Intenta más tarde."
+                                            message = orderResult.exception.message
+                                                ?: "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
                                         )
                                     }
 
@@ -176,7 +180,8 @@ class PaymentViewModel(
                 updateState {
                     copy(
                         businessPhoto = model.businessImage,
-                        galleryPhoto = model.images, profilePhoto = model.images.firstOrNull() ?: ""
+                        galleryPhoto = model.images,
+                        profilePhoto = model.images.firstOrNull() ?: ""
                     )
                 }
             }
@@ -232,9 +237,10 @@ sealed interface PaymentEvents {
     data object OnErrorModalAccepted : PaymentEvents
     data object OnStripePaymentStart : PaymentEvents
     data class OnPaymentTypePicked(val paymentModel: PaymentModel) : PaymentEvents
-    data class ConfigureStripe(val config: StripeConfiguration) : PaymentEvents
+    data class ConfigureStripeAndroid(val config: StripeConfiguration) : PaymentEvents
     data object StripePaymentSucess : PaymentEvents
     data class FailedPayment(val title: String, val reason: String) : PaymentEvents
+    data class ConfigureStripeIOS(val configuration: StripeParam) : PaymentEvents
 }
 
 data class ItemProviderState(
