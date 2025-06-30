@@ -55,6 +55,7 @@ fun OrderHistoryNavigationFlow(
                         businessMonth = order.providerMonth.toString(),
                         businessName = order.providerName,
                         businessPhoto = order.providerImage,
+                        galleryPhoto = order.tripImage,
                         hasItBeenEvaluated = hasItBeenEvaluted
                     )
                     orderRoute?.let {

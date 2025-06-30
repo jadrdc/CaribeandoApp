@@ -131,7 +131,7 @@ fun TripItemPayingScreen(
                             transactionId = state.value.stripeState?.paymentIntentId ?: "",
                             dateFrom = state.value.leavingTime,
                             dateTo = state.value.leavingTime,
-                            galleryPhotos = state.value.galleryPhoto,
+                            galleryPhotos = state.value.galleryPhoto[0],
                             businessName = model.businessName,
                             businessPhoto = state.value.businessPhoto,
                             businessMonth = model.businessMonth,

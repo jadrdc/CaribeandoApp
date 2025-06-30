@@ -58,8 +58,8 @@ fun ShoppingOrderDetailScreen(
     rateOrder: (String) -> Unit
 ) {
 
-
-    val pagerState = rememberPagerState(pageCount = { model.galleryPhoto.size })
+    println("AGUSTEAM $model")
+    val pagerState = rememberPagerState(pageCount = { 1 })
 
     LazyColumn(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -83,7 +83,7 @@ fun ShoppingOrderDetailScreen(
                 AsyncImage(
                     modifier = Modifier.fillMaxWidth().height(250.dp)
                         .clip(RoundedCornerShape(16.dp)),
-                    model = model.galleryPhoto[page],
+                    model = model.galleryPhoto,
                     contentScale = ContentScale.Crop,
                     contentDescription = null
                 )
