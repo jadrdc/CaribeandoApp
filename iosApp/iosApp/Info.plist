@@ -4,5 +4,8 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	
+	<key>NSCameraUsageDescription</key>
+	<string>Esta app no accede a la cámara, pero es requerida por funcionalidades internas.</string>
 </dict>
 </plist>

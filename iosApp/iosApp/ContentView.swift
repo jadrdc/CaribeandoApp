@@ -6,7 +6,7 @@ import ComposeApp
 // Embed Jetpack Compose in SwiftUI
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(    nativeViewFactory: IOSNativeViewFactory.shared)
+        MainViewControllerKt.MainViewController(    nativeViewFactory: IOSNativeViewFactory.shared,stripe: StartStripeUseCaseNativeProvider.shared)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}

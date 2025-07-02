@@ -36,7 +36,6 @@ import caribeando.composeapp.generated.resources.initial_payment
 import caribeando.composeapp.generated.resources.leaving_date
 import caribeando.composeapp.generated.resources.starting_place
 import caribeando.composeapp.generated.resources.total_payment
-import kotlinx.serialization.json.Json
 
 @Composable
 fun TripItemPayingScreen(
@@ -50,6 +49,7 @@ fun TripItemPayingScreen(
     LaunchedEffect(Unit) {
         viewModel.handleEvent(
             PaymentEvents.InitialLoad(
+                businessName=model.businessName,
                 tripId = model.tripId,
                 title = model.title,
                 destiny = model.destiny,
@@ -131,7 +131,7 @@ fun TripItemPayingScreen(
                             transactionId = state.value.stripeState?.paymentIntentId ?: "",
                             dateFrom = state.value.leavingTime,
                             dateTo = state.value.leavingTime,
-                            galleryPhotos = state.value.galleryPhoto,
+                            galleryPhotos = state.value.galleryPhoto[0],
                             businessName = model.businessName,
                             businessPhoto = state.value.businessPhoto,
                             businessMonth = model.businessMonth,

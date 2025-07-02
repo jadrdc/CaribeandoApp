@@ -146,7 +146,7 @@ fun timeUntil(targetDate: Instant): String {
             val days = totalDays % 7
 
             when {
-                months > 0 -> "$months mes${if (months > 1) "eses" else ""} "
+                months > 0 -> "$months mes${if (months > 1) "es" else ""} "
                 else -> "$days dia${if (days > 1) "s" else ""} "
             }
         }

@@ -41,7 +41,7 @@ data class ShoppingOrderDetailScreenRoute(
     val businessPhoto: String,
     val businessMonth: String,
     var hasItBeenEvaluated: Boolean = true,
-    val galleryPhoto: List<String> = listOf(),
+    val galleryPhoto: String,
     val scheduledId: String,
     var isPending: Boolean = false,
 )

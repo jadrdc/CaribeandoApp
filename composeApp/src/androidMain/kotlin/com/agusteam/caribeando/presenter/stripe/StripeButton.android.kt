@@ -43,7 +43,7 @@ actual fun StripeButton(viewModel: PaymentViewModel, onPaymentSuccessFull: () ->
     val paymentSheet = rememberPaymentSheet(::onPaymentSheetResult)
 
     LaunchedEffect(Unit) {
-        viewModel.handleEvent(PaymentEvents.ConfigureStripe(StripeConfiguration(paymentSheet)))
+        viewModel.handleEvent(PaymentEvents.ConfigureStripeAndroid(StripeConfiguration(paymentSheet)))
     }
     ActionButton(
         text = stringResource(Res.string.process_payment),

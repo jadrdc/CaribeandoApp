@@ -9,7 +9,7 @@ data class OrderDetailModel(
     val transactionId: String,
     val dateFrom: String,
     val dateTo: String,
-    val galleryPhotos: List<String>,
+    val galleryPhotos: String,
     val businessName: String,
     val businessPhoto: String,
     val businessMonth: String
