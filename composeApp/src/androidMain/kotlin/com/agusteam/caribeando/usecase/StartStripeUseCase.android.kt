@@ -26,7 +26,7 @@ actual class StartStripeUseCase actual constructor(private val context: Platform
                 PaymentSheet.Configuration(
                     merchantDisplayName = "My merchant name",
                     customer = customerConfig,
-                    allowsDelayedPaymentMethods = true
+                    allowsDelayedPaymentMethods = true,
                 )
             )
     }

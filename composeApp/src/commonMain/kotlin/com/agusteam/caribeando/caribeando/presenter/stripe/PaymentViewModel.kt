@@ -91,13 +91,14 @@ class PaymentViewModel(
                 is PaymentEvents.InitialLoad -> {
                     setState {
                         copy(
-                            title = events.title.orEmpty(),
+                            businessName = events.businessName,
+                            title = events.title,
                             destiny = events.destiny,
-                            leavingTime = events.leavingTime.orEmpty(),
-                            meetingPoint = events.meetingPoint.orEmpty(),
+                            leavingTime = events.leavingTime,
+                            meetingPoint = events.meetingPoint,
                             initialPayment = events.initialPayment,
                             totalPayment = events.totalPayment,
-                            tripDetailId = events.tripDetailId.orEmpty(),
+                            tripDetailId = events.tripDetailId,
                         )
                     }
                     getTripDetails(events.tripId)
@@ -111,8 +112,10 @@ class PaymentViewModel(
                     updateState { copy(isLoading = true) }
                     val amount =
                         if (state.value.selectedPaymentType == PaymentModel.TOTAL_PAYMENT) state.value.totalPayment else state.value.initialPayment
+                    val tripId = state.value.tripDetailId.takeIf { it.isNotBlank() }
 
-                    val name = listOfNotNull(state.value.fullName.takeIf { it.isNotBlank() },
+                    val name = listOfNotNull(state.value.businessName.takeIf { it.isNotBlank() },
+                        tripId,
                         state.value.title.takeIf { it.isNotBlank() },
                         state.value.leavingTime.takeIf { it.isNotBlank() }).joinToString(" ")
 
@@ -124,7 +127,6 @@ class PaymentViewModel(
                                 "Error en el proceso de pago",
                                 message = result.exception.message
                                     ?: "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
-                                //"No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
                             )
                         }
 
@@ -135,7 +137,8 @@ class PaymentViewModel(
 
                             val tripId = state.value.tripDetailId.takeIf { it.isNotBlank() }
                             if (tripId != null) {
-                                when (val orderResult = createPendingPaymentOrderUseCase(tripId)) {
+                                when (val orderResult =
+                                    createPendingPaymentOrderUseCase(tripId, amount)) {
                                     is OperationResult.Error -> {
                                         logger.recordException(orderResult.exception)
                                         onErrorHappened(
@@ -216,6 +219,7 @@ data class PaymentState(
     val orderId: String = "",
     val galleryPhoto: List<String> = emptyList(),
     val businessPhoto: String = "",
+    val businessName: String = "",
     val itemProviderState: ItemProviderState = ItemProviderState()
 ) : ViewModelState
 
@@ -230,7 +234,8 @@ sealed interface PaymentEvents {
         val initialPayment: Double = 0.0,
         val totalPayment: Double = 0.0,
         val tripDetailId: String = "",
-        val galleryPhoto: List<String> = emptyList()
+        val galleryPhoto: List<String> = emptyList(),
+        val businessName: String
     ) : PaymentEvents
 
     data class SetErrorMessage(val title: String, val message: String) : PaymentEvents

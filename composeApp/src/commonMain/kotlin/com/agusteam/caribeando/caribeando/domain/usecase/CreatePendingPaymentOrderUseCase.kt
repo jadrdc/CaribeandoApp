@@ -7,11 +7,12 @@ import com.agusteam.caribeando.domain.interfaces.PaymentRepository
 
 class CreatePendingPaymentOrderUseCase(private val repository: PaymentRepository) {
     suspend operator fun invoke(
-        tripscheduleId: String
+        tripscheduleId: String,
+        amount: Double
     ): OperationResult<PaymentPendingOrderResponse> {
         return repository.createPendingOrder(
             PaymentPendingOrderRequest(
-                tripscheduleId
+                tripscheduleId, amount
             )
         )
     }
