@@ -13,4 +13,5 @@ interface PaymentRepository {
     suspend fun createPendingOrder(req: PaymentPendingOrderRequest): OperationResult<PaymentPendingOrderResponse>
     suspend fun processOrder(req: PaymentSuccessOrderRequest): OperationResult<Boolean>
     suspend fun cancelOrder(req: PaymentFailureRequest): OperationResult<Boolean>
+    suspend fun removeOrder(req: String): OperationResult<String>
 }

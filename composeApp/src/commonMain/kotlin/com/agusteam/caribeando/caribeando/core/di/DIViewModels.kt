@@ -45,7 +45,7 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
-            get(),
+            get(), get(),
         )
     }
     viewModel<TripProviderViewModel> { TripProviderViewModel(get(), get(), get()) }

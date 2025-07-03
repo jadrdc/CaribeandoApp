@@ -18,12 +18,8 @@ actual class StartStripeUseCase actual constructor(
         )
     }
 
-    actual fun presentPaymentSheet() {
+    actual fun presentPaymentSheet(config: StripeConfiguration) {
         stripeBridge?.presentSheet()
-    }
-
-    actual fun setConfig(config: StripeConfiguration) {
-        // No-op
     }
 
 
