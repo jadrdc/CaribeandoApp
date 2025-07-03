@@ -9,8 +9,10 @@ import com.agusteam.caribeando.data.model.PaymentPendingOrderResponse
 import com.agusteam.caribeando.data.model.PaymentSuccessOrderRequest
 import com.agusteam.caribeando.data.model.StripePaymentIntentRequest
 import com.agusteam.caribeando.data.model.StripePaymentIntentResponse
+import com.agusteam.caribeando.data.model.TripFavoriteRequest
 import com.agusteam.caribeando.presenter.URL
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -73,6 +75,19 @@ class PaymentService(
                 setBody(request)
             }
             mapResponse<Boolean>(response)
+        } catch (e: Exception) {
+            mapExceptions(e)
+        }
+    }
+
+    suspend fun removeOrder(id: String): OperationResult<String> {
+        return try {
+            val response = httpClient.delete(
+                urlString = "${URL}payment/${id}"
+            ) {
+                contentType(ContentType.Application.Json) // Ensure the Content-Type is set
+            }
+            mapResponse<String>(response)
         } catch (e: Exception) {
             mapExceptions(e)
         }

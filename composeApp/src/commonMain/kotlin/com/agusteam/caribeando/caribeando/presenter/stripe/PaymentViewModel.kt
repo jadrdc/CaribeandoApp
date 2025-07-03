@@ -18,6 +18,7 @@ import com.agusteam.caribeando.domain.usecase.GetLocalProfileUseCase
 import com.agusteam.caribeando.domain.usecase.GetStripePaymentIntentUseCase
 import com.agusteam.caribeando.domain.usecase.GetTripDetailsUseCase
 import com.agusteam.caribeando.domain.usecase.ProcessSuccessPaymentOrderUseCase
+import com.agusteam.caribeando.domain.usecase.RemoveOrderUseCase
 import com.agusteam.caribeando.domain.usecase.StartStripeUseCase
 import com.agusteam.caribeando.domain.usecase.StripeConfiguration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -35,6 +36,7 @@ class PaymentViewModel(
     private val cancelPaymentOrderUseCase: CancelPaymentOrderUseCase,
     val getLocalProfileUseCase: GetLocalProfileUseCase,
     val getTripDetailsUseCase: GetTripDetailsUseCase,
+    private val removeOrderUseCase: RemoveOrderUseCase
 ) : GenericViewModel<PaymentState, PaymentEvents>(
     PaymentState()
 ) {
@@ -66,6 +68,15 @@ class PaymentViewModel(
                     }
                 }
 
+                is PaymentEvents.CanceledPayment -> {
+                    val result = removeOrderUseCase(
+                        state.value.orderId
+                    )
+                    if (result is OperationResult.Error) {
+                        logger.recordException(result.exception)
+                    }
+                }
+
                 is PaymentEvents.ConfigureStripeIOS -> {
                     startStripeUseCase.setStripeParam(events.configuration)
                 }
@@ -78,10 +89,6 @@ class PaymentViewModel(
 
                 is PaymentEvents.SetErrorMessage -> {
                     onErrorHappened(value = true, events.title, events.message)
-                }
-
-                is PaymentEvents.ConfigureStripeAndroid -> {
-                    startStripeUseCase.setConfig(events.config)
                 }
 
                 is PaymentEvents.OnErrorModalAccepted -> {
@@ -151,7 +158,7 @@ class PaymentViewModel(
 
                                     is OperationResult.Success -> {
                                         setState { copy(orderId = orderResult.data.orderId) }
-                                        startStripeUseCase.presentPaymentSheet()
+                                        startStripeUseCase.presentPaymentSheet(events.configuration)
                                     }
                                 }
                             } else {
@@ -240,11 +247,11 @@ sealed interface PaymentEvents {
 
     data class SetErrorMessage(val title: String, val message: String) : PaymentEvents
     data object OnErrorModalAccepted : PaymentEvents
-    data object OnStripePaymentStart : PaymentEvents
+    data class OnStripePaymentStart(val configuration: StripeConfiguration) : PaymentEvents
     data class OnPaymentTypePicked(val paymentModel: PaymentModel) : PaymentEvents
-    data class ConfigureStripeAndroid(val config: StripeConfiguration) : PaymentEvents
     data object StripePaymentSucess : PaymentEvents
     data class FailedPayment(val title: String, val reason: String) : PaymentEvents
+    class CanceledPayment() : PaymentEvents
     data class ConfigureStripeIOS(val configuration: StripeParam) : PaymentEvents
 }
 

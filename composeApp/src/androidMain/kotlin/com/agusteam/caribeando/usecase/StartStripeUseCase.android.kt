@@ -9,7 +9,6 @@ import com.stripe.android.paymentsheet.PaymentSheet
 actual class StartStripeUseCase actual constructor(private val context: PlatformContext) {
     private var customerConfig: PaymentSheet.CustomerConfiguration? = null
     private var paymentIntentClientSecret: String = ""
-    private var paymentSheet: PaymentSheet? = null
     actual fun startStripe(stripe: StripePaymentIntentResponse) {
         customerConfig = PaymentSheet.CustomerConfiguration(
             id = stripe.customer,
@@ -19,9 +18,9 @@ actual class StartStripeUseCase actual constructor(private val context: Platform
         PaymentConfiguration.init(context.context, stripe.publishableKey)
     }
 
-    actual fun presentPaymentSheet() {
+    actual fun presentPaymentSheet(config: StripeConfiguration) {
         if (customerConfig != null && paymentIntentClientSecret.isNotBlank())
-            paymentSheet?.presentWithPaymentIntent(
+            config.paymentSheet.presentWithPaymentIntent(
                 paymentIntentClientSecret,
                 PaymentSheet.Configuration(
                     merchantDisplayName = "My merchant name",
@@ -31,11 +30,6 @@ actual class StartStripeUseCase actual constructor(private val context: Platform
             )
     }
 
-    actual fun setConfig(config: StripeConfiguration) {
-        if (paymentSheet == null) {
-            paymentSheet = config.paymentSheet
-        }
-    }
 
     actual fun setStripeParam(param: StripeParam) {
 

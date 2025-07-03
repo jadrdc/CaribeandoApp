@@ -142,16 +142,17 @@ fun timeUntil(targetDate: Instant): String {
         targetLocalDate == currentDate -> "Hoy"
         targetLocalDate > currentDate -> {
             val totalDays = currentDate.daysUntil(targetLocalDate)
-            val months = totalDays / 30 // Approximation
-            val days = totalDays % 7
+            val months = totalDays / 30 // Aproximación
+            val days = totalDays % 30
 
             when {
-                months > 0 -> "$months mes${if (months > 1) "es" else ""} "
-                else -> "$days dia${if (days > 1) "s" else ""} "
+                months > 0 -> "$months mes${if (months > 1) "es" else ""}"
+                days > 0 -> "$days día${if (days > 1) "s" else ""}"
+                else -> "Hoy"
             }
         }
 
-        else -> ""
+        else -> "Fecha pasada"
     }
 }
 

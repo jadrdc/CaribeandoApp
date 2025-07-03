@@ -27,4 +27,8 @@ class PaymentRepositoryImp(private val service: PaymentService) : PaymentReposit
     override suspend fun cancelOrder(req: PaymentFailureRequest): OperationResult<Boolean> {
         return service.cancelOrder(req)
     }
+
+    override suspend fun removeOrder(req: String): OperationResult<String> {
+        return service.removeOrder(req)
+    }
 }

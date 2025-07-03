@@ -5,8 +5,7 @@ import com.agusteam.caribeando.data.model.StripePaymentIntentResponse
 
 expect class StartStripeUseCase(context: PlatformContext) {
     fun startStripe(stripe: StripePaymentIntentResponse)
-    fun presentPaymentSheet()
-    fun setConfig(config: StripeConfiguration)
+    fun presentPaymentSheet(config: StripeConfiguration)
     fun setStripeParam(param: StripeParam)
 }
 

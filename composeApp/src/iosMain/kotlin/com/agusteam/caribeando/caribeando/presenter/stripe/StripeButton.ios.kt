@@ -8,6 +8,7 @@ import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.process_payment
 import com.agusteam.caribeando.LocalStripe
 import com.agusteam.caribeando.caribeando.core.base.StripePaymentResult
+import com.agusteam.caribeando.domain.usecase.StripeConfiguration
 import com.agusteam.caribeando.presenter.common.ActionButton
 import org.jetbrains.compose.resources.stringResource
 
@@ -32,10 +33,7 @@ actual fun StripeButton(
 
                 is StripePaymentResult.Canceled -> {
                     viewModel.handleEvent(
-                        PaymentEvents.FailedPayment(
-                            "Pago cancelado",
-                            "El usuario canceló el proceso de pago."
-                        )
+                        PaymentEvents.CanceledPayment()
                     )
                 }
 
@@ -55,6 +53,6 @@ actual fun StripeButton(
         text = stringResource(Res.string.process_payment),
         modifier = Modifier.fillMaxWidth()
     ) {
-        viewModel.handleEvent(PaymentEvents.OnStripePaymentStart)
+        viewModel.handleEvent(PaymentEvents.OnStripePaymentStart(StripeConfiguration()))
     }
 }

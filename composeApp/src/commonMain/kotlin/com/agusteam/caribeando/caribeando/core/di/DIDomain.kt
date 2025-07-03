@@ -39,6 +39,7 @@ import com.agusteam.caribeando.domain.usecase.LogoutUseCase
 import com.agusteam.caribeando.domain.usecase.MarkFavoriteTripUseCase
 import com.agusteam.caribeando.domain.usecase.ProcessSuccessPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.RatingOrderUseCase
+import com.agusteam.caribeando.domain.usecase.RemoveOrderUseCase
 import com.agusteam.caribeando.domain.usecase.ReportOrderUseCase
 import com.agusteam.caribeando.domain.usecase.RequestResetPasswordEmailUseCase
 import com.agusteam.caribeando.domain.usecase.SaveLocalDataUseCase
@@ -56,6 +57,7 @@ val diDomainModule = module {
     single<GetCommentsTripUseCase> { GetCommentsTripUseCase(get()) }
     single<RatingOrderUseCase> { RatingOrderUseCase(get()) }
     single<LogoutUseCase> { LogoutUseCase(get()) }
+    single<RemoveOrderUseCase> { RemoveOrderUseCase(get()) }
     single<RequestResetPasswordEmailUseCase> { RequestResetPasswordEmailUseCase(get()) }
     single<SignUpUseCase> { SignUpUseCase(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
