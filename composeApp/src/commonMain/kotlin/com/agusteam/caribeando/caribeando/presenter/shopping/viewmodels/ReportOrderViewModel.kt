@@ -1,5 +1,11 @@
 package com.agusteam.caribeando.presenter.shopping.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.report_error_message
+import caribeando.composeapp.generated.resources.report_error_title
+import caribeando.composeapp.generated.resources.report_success_message
+import caribeando.composeapp.generated.resources.report_success_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
@@ -25,8 +31,8 @@ class ReportOrderViewModel(val useCase: ReportOrderUseCase,
                         is OperationResult.Success -> {
                             onErrorHappened(
                                 true,
-                                "Orden reportada",
-                                "Se ha reportado un inconveniente con la orden por parte del usuario. Nuestro equipo está en ello y nos comunicaremos contigo para ofrecer una solución."
+                                getString(Res.string.report_success_title),
+                                getString(Res.string.report_success_message)
                             )
                             setState { copy(modalType = ModalType.SUCCESS) }
                         }
@@ -36,8 +42,8 @@ class ReportOrderViewModel(val useCase: ReportOrderUseCase,
                             logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
-                                "Error reportando orden",
-                                "No se pudo enviar el reporte. Intenta nuevamente más tarde."
+                                getString(Res.string.report_error_title),
+                                getString(Res.string.report_error_message)
                             )
                         }
                     }

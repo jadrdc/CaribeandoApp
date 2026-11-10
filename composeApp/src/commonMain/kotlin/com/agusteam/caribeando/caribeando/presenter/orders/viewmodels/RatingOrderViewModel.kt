@@ -1,5 +1,11 @@
 package com.agusteam.caribeando.presenter.shopping.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.rating_error_message
+import caribeando.composeapp.generated.resources.rating_error_title
+import caribeando.composeapp.generated.resources.rating_thanks_message
+import caribeando.composeapp.generated.resources.rating_thanks_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
@@ -35,8 +41,8 @@ class RatingOrderViewModel(
                         is OperationResult.Success -> {
                             onErrorHappened(
                                 true,
-                                "¡Gracias por tu evaluación!",
-                                "Tu reseña ha sido enviada exitosamente. Agradecemos tus comentarios sobre la orden."
+                                getString(Res.string.rating_thanks_title),
+                                getString(Res.string.rating_thanks_message)
                             )
                             setState { copy(modalType = ModalType.SUCCESS) }
                         }
@@ -45,8 +51,8 @@ class RatingOrderViewModel(
                             logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
-                                "Error al enviar la reseña",
-                                "No se pudo enviar tu evaluación. Por favor, intenta nuevamente más tarde."
+                                getString(Res.string.rating_error_title),
+                                getString(Res.string.rating_error_message)
                             )
                         }
                     }

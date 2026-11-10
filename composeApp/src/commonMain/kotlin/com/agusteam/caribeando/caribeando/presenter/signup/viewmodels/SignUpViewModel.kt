@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.signup_error_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
@@ -47,7 +50,7 @@ class SignUpViewModel(
                     logger.recordException(result.exception)
                     onErrorHappened(
                         true,
-                        "Error al registrar la cuenta",
+                        getString(Res.string.signup_error_title),
                         message = result.exception.message ?: " "
                     )
                 }

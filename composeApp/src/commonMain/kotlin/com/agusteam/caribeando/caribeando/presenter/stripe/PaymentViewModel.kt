@@ -1,5 +1,11 @@
 package com.agusteam.caribeando.presenter.stripe
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.payment_error_default_message
+import caribeando.composeapp.generated.resources.payment_error_title
+import caribeando.composeapp.generated.resources.trip_id_not_found
+import caribeando.composeapp.generated.resources.trip_unavailable_title
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.core.base.StripeParam
@@ -187,9 +193,9 @@ class PaymentViewModel(
                             logger.recordException(result.exception)
                             onErrorHappened(
                                 true,
-                                "Error en el proceso de pago",
+                                getString(Res.string.payment_error_title),
                                 message = result.exception.message
-                                    ?: "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
+                                    ?: getString(Res.string.payment_error_default_message)
                             )
                         }
 
@@ -212,9 +218,9 @@ class PaymentViewModel(
                                             logger.recordException(orderResult.exception)
                                             onErrorHappened(
                                                 true,
-                                                "Error en el proceso de pago",
+                                                getString(Res.string.payment_error_title),
                                                 message = orderResult.exception.message
-                                                    ?: "No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente"
+                                                    ?: getString(Res.string.payment_error_default_message)
                                             )
                                         }
 
@@ -226,8 +232,8 @@ class PaymentViewModel(
                                 } else {
                                     onErrorHappened(
                                         true,
-                                        "Viaje no disponible",
-                                        "No se encontró el identificador del viaje."
+                                        getString(Res.string.trip_unavailable_title),
+                                        getString(Res.string.trip_id_not_found)
                                     )
                                 }
                             }

@@ -1,5 +1,13 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.login_error_title
+import caribeando.composeapp.generated.resources.reset_password_email_sent
+import caribeando.composeapp.generated.resources.reset_password_error_message
+import caribeando.composeapp.generated.resources.reset_password_error_title
+import caribeando.composeapp.generated.resources.reset_password_invalid_email
+import caribeando.composeapp.generated.resources.reset_password_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
@@ -79,7 +87,7 @@ class LoginViewModel(
                 logger.recordException(result.exception)
                 onErrorHappened(
                     true,
-                    "Error de Inicio de Sesión",
+                    getString(Res.string.login_error_title),
                     result.exception.message ?: ""
                 )
             }
@@ -100,16 +108,16 @@ class LoginViewModel(
                 logger.recordException(result.exception)
                 onErrorHappened(
                     true,
-                    "Error al reiniciar la contraseña",
-                    "No se pudo enviar el email de reinicio de contraseña."
+                    getString(Res.string.reset_password_error_title),
+                    getString(Res.string.reset_password_error_message)
                 )
             }
 
             is OperationResult.Success -> {
                 onErrorHappened(
                     true,
-                    "Reinicio de contraseña ",
-                    "Email enviado"
+                    getString(Res.string.reset_password_title),
+                    getString(Res.string.reset_password_email_sent)
                 )
             }
         }
@@ -122,8 +130,8 @@ class LoginViewModel(
         if (result.isError || state.value.email.isBlank()) {
             onErrorHappened(
                 true,
-                "Error al reiniciar la contraseña",
-                "No se pudo enviar el email de reinicio de contraseña.el campo correo no puede ser invalido"
+                getString(Res.string.reset_password_error_title),
+                getString(Res.string.reset_password_invalid_email)
             )
         } else {
             requestEmail()

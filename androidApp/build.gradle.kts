@@ -17,6 +17,15 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        // Backend the app talks to. Defaults to production; point a build at another environment
+        // with -Pcaribeando.apiBaseUrl=https://staging.example.com/ (must end with "/").
+        val apiBaseUrl = (project.findProperty("caribeando.apiBaseUrl") as String?)
+            ?: "https://caribeando-backend-production.up.railway.app/"
+        buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
     packaging {
         resources {

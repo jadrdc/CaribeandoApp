@@ -1,5 +1,7 @@
 package com.agusteam.caribeando.app
 
+import com.agusteam.caribeando.BuildConfig
+import com.agusteam.caribeando.data.network.ApiConfig
 import android.app.Application
 import com.agusteam.caribeando.R
 import com.agusteam.caribeando.core.di.dataDiModule
@@ -17,6 +19,7 @@ import org.koin.core.context.startKoin
 class CaribeandoApp : Application() {
     override fun onCreate() {
         super.onCreate()
+        ApiConfig.baseUrl = BuildConfig.API_BASE_URL
         startKoin {
             androidContext(this@CaribeandoApp)
             modules(

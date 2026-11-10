@@ -1,5 +1,9 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.reset_password_error_message
+import caribeando.composeapp.generated.resources.reset_password_error_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
@@ -39,8 +43,8 @@ class ForgotPasswordViewModel(
             is OperationResult.Error -> {
                 onErrorHappened(
                     true,
-                    "Error al reiniciar la contraseña",
-                    "No se pudo enviar el email de reinicio de contraseña."
+                    getString(Res.string.reset_password_error_title),
+                    getString(Res.string.reset_password_error_message)
                 )
             }
 

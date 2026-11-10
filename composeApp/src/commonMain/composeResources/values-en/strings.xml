@@ -183,4 +183,32 @@
     <string name="reviews_count">(%1$d reviews)</string>
     <string name="cancel_reservation_question">Cancel this reservation?</string>
     <string name="how_was_trip">How was the excursion?</string>
+
+    <!-- 2026-11-09: ViewModel messages moved into resources -->
+    <string name="report_success_title">Order reported</string>
+    <string name="report_success_message">A problem with the order has been reported. Our team is on it and will contact you with a solution.</string>
+    <string name="report_error_title">Error reporting order</string>
+    <string name="report_error_message">The report couldn’t be sent. Please try again later.</string>
+    <string name="trip_state_error_title">Error updating the trip status</string>
+    <string name="operation_failed_retry">The operation couldn’t be completed. Please try again later.</string>
+    <string name="login_error_title">Log in error</string>
+    <string name="reset_password_error_title">Error resetting the password</string>
+    <string name="reset_password_error_message">The password reset email couldn’t be sent.</string>
+    <string name="reset_password_title">Password reset</string>
+    <string name="reset_password_email_sent">Email sent</string>
+    <string name="reset_password_invalid_email">The password reset email couldn’t be sent. The email address isn’t valid.</string>
+    <string name="signup_error_title">Error creating the account</string>
+    <string name="profile_load_error_title">Error loading the profile</string>
+    <string name="unexpected_error_message">An unexpected error occurred.</string>
+    <string name="unexpected_error_title">Unexpected error</string>
+    <string name="operation_failed_try_later">The operation couldn’t be completed. Please try again later.</string>
+    <string name="payment_error_title">Payment error</string>
+    <string name="payment_error_default_message">We couldn’t complete your transaction right now. Please check the information and try again.</string>
+    <string name="trip_unavailable_title">Trip unavailable</string>
+    <string name="trip_id_not_found">The trip identifier was not found.</string>
+    <string name="rating_thanks_title">Thanks for your review!</string>
+    <string name="rating_thanks_message">Your review was sent successfully. We appreciate your feedback on the order.</string>
+    <string name="rating_error_title">Error sending the review</string>
+    <string name="rating_error_message">Your review couldn’t be sent. Please try again later.</string>
+    <string name="pay_balance_failed_message">We couldn’t complete your payment. Please try again.</string>
 </resources>

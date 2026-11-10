@@ -44,6 +44,8 @@ import com.agusteam.caribeando.presenter.theme.caribeandoTextStyles
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import caribeando.composeapp.generated.resources.Res
+import caribeando.composeapp.generated.resources.pay_balance_failed_message
+import caribeando.composeapp.generated.resources.payment_error_title
 import caribeando.composeapp.generated.resources.balance_breakdown_header
 import caribeando.composeapp.generated.resources.balance_covers_full_trip
 import caribeando.composeapp.generated.resources.balance_remaining_label
@@ -95,12 +97,14 @@ fun PayBalanceScreen(
     // needs to surface an error here so the user knows to retry. Reuses the same
     // SetErrorMessage -> ErrorModal plumbing every other payment screen already has, rather than
     // building a second error UI.
+    val paymentErrorTitle = stringResource(Res.string.payment_error_title)
+    val paymentErrorFallback = stringResource(Res.string.pay_balance_failed_message)
     ObserveAsEvents(viewModel.events) { event ->
         if (event is PaymentEvents.OnPaymentFailed) {
             viewModel.handleEvent(
                 PaymentEvents.SetErrorMessage(
-                    title = "Error en el proceso de pago",
-                    message = event.reason.ifBlank { "No pudimos completar tu pago. Por favor, inténtalo nuevamente." }
+                    title = paymentErrorTitle,
+                    message = event.reason.ifBlank { paymentErrorFallback }
                 )
             )
         }

@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter
 
+import com.agusteam.caribeando.data.network.ApiConfig
 import kotlin.time.Clock
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
@@ -184,5 +185,5 @@ fun formatDouble(value: Double, decimals: Int = 1): String {
 }
 
 
-const val URL = "https://caribeando-backend-production.up.railway.app/"
+val URL: String get() = ApiConfig.baseUrl
 

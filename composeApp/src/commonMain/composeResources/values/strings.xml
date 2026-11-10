@@ -198,4 +198,32 @@
     <string name="reviews_count">(%1$d reseñas)</string>
     <string name="cancel_reservation_question">¿Cancelar esta reserva?</string>
     <string name="how_was_trip">¿Cómo estuvo la excursión?</string>
+
+    <!-- 2026-11-09: ViewModel messages moved into resources -->
+    <string name="report_success_title">Orden reportada</string>
+    <string name="report_success_message">Se ha reportado un inconveniente con la orden. Nuestro equipo está en ello y nos comunicaremos contigo para ofrecer una solución.</string>
+    <string name="report_error_title">Error reportando orden</string>
+    <string name="report_error_message">No se pudo enviar el reporte. Intenta nuevamente más tarde.</string>
+    <string name="trip_state_error_title">Error cambiando el estado del viaje</string>
+    <string name="operation_failed_retry">No se pudo completar la operación. Inténtalo más tarde.</string>
+    <string name="login_error_title">Error al iniciar sesión</string>
+    <string name="reset_password_error_title">Error al reiniciar la contraseña</string>
+    <string name="reset_password_error_message">No se pudo enviar el correo para reiniciar la contraseña.</string>
+    <string name="reset_password_title">Reinicio de contraseña</string>
+    <string name="reset_password_email_sent">Correo enviado</string>
+    <string name="reset_password_invalid_email">No se pudo enviar el correo para reiniciar la contraseña. El correo no es válido.</string>
+    <string name="signup_error_title">Error al registrar la cuenta</string>
+    <string name="profile_load_error_title">Error al cargar el perfil</string>
+    <string name="unexpected_error_message">Ocurrió un error inesperado.</string>
+    <string name="unexpected_error_title">Error inesperado</string>
+    <string name="operation_failed_try_later">No se pudo completar la operación. Inténtalo más tarde.</string>
+    <string name="payment_error_title">Error en el proceso de pago</string>
+    <string name="payment_error_default_message">No pudimos completar tu transacción en este momento. Por favor, verifica la información e inténtalo nuevamente.</string>
+    <string name="trip_unavailable_title">Viaje no disponible</string>
+    <string name="trip_id_not_found">No se encontró el identificador del viaje.</string>
+    <string name="rating_thanks_title">¡Gracias por tu evaluación!</string>
+    <string name="rating_thanks_message">Tu reseña ha sido enviada exitosamente. Agradecemos tus comentarios sobre la orden.</string>
+    <string name="rating_error_title">Error al enviar la reseña</string>
+    <string name="rating_error_message">No se pudo enviar tu evaluación. Por favor, intenta nuevamente más tarde.</string>
+    <string name="pay_balance_failed_message">No pudimos completar tu pago. Por favor, inténtalo nuevamente.</string>
 </resources>

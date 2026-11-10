@@ -1,5 +1,9 @@
 package com.agusteam.caribeando.presenter.shopping.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.operation_failed_retry
+import caribeando.composeapp.generated.resources.trip_state_error_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
@@ -144,8 +148,8 @@ class ShoppingItemDetailsViewModel(
                 logger.recordException(result.exception)
                 onErrorHappened(
                     true,
-                    "Error cambiando el estado de viaje",
-                    "No se pudo completar la operacion,intente mas tarde."
+                    getString(Res.string.trip_state_error_title),
+                    getString(Res.string.operation_failed_retry)
                 )
             }
 

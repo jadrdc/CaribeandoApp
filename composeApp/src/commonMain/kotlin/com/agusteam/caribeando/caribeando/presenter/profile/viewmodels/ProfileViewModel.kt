@@ -1,5 +1,11 @@
 package com.agusteam.caribeando.presenter.profile.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.operation_failed_try_later
+import caribeando.composeapp.generated.resources.profile_load_error_title
+import caribeando.composeapp.generated.resources.unexpected_error_message
+import caribeando.composeapp.generated.resources.unexpected_error_title
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
@@ -97,8 +103,8 @@ class ProfileViewModel(
                 logger.recordException(result.exception)
                 onErrorHappened(
                     true,
-                    title = "Error al cargar perfil",
-                    message = result.exception.message ?: "Ocurrió un error inesperado."
+                    title = getString(Res.string.profile_load_error_title),
+                    message = result.exception.message ?: getString(Res.string.unexpected_error_message)
                 )
             }
         }
@@ -121,8 +127,8 @@ class ProfileViewModel(
                 logger.recordException(e)
                 onErrorHappened(
                     true,
-                    title = "Error inesperado",
-                    message = "No se pudo completar la operación. Intente más tarde."
+                    title = getString(Res.string.unexpected_error_title),
+                    message = getString(Res.string.operation_failed_try_later)
                 )
             }
         }

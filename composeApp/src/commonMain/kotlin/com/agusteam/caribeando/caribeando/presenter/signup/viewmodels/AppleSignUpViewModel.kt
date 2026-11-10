@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.signup.viewmodels
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.login_error_title
 import androidx.lifecycle.viewModelScope
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
@@ -41,7 +44,7 @@ class AppleSignUpViewModel(
                 logger.recordException(result.exception)
                 onErrorHappened(
                     true,
-                    "Error de Inicio de Sesión",
+                    getString(Res.string.login_error_title),
                     result.exception.message ?: ""
                 )
             }
