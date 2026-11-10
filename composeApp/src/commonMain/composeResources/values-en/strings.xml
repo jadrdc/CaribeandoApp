@@ -211,4 +211,5 @@
     <string name="rating_error_title">Error sending the review</string>
     <string name="rating_error_message">Your review couldn’t be sent. Please try again later.</string>
     <string name="pay_balance_failed_message">We couldn’t complete your payment. Please try again.</string>
+    <string name="ticket_qr_caption">Show this code to the operator on the day of your excursion.</string>
 </resources>

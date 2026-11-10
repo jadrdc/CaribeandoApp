@@ -79,6 +79,7 @@
 #     runtime-behavior opt-in. Android SDK Platform 37 may need to be installed via the SDK
 #     Manager if Android Studio hasn't already fetched it.
 [versions]
+qrcode-kotlin = "4.4.1"
 agp = "9.2.0"
 android-compileSdk = "37"
 android-minSdk = "24"
@@ -123,6 +124,7 @@ coreI18n = "1.0.0"
 
 
 [libraries]
+qrcode-kotlin = { module = "io.github.g0dkar:qrcode-kotlin", version.ref = "qrcode-kotlin" }
 android-lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieComposeVersion" }
 
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }

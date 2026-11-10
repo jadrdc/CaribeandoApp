@@ -226,4 +226,5 @@
     <string name="rating_error_title">Error al enviar la reseña</string>
     <string name="rating_error_message">No se pudo enviar tu evaluación. Por favor, intenta nuevamente más tarde.</string>
     <string name="pay_balance_failed_message">No pudimos completar tu pago. Por favor, inténtalo nuevamente.</string>
+    <string name="ticket_qr_caption">Muestra este código al operador el día de tu excursión.</string>
 </resources>

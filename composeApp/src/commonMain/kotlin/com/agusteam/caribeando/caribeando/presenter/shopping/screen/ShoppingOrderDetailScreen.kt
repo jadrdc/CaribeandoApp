@@ -1,5 +1,10 @@
 package com.agusteam.caribeando.presenter.shopping.screen
 
+import com.agusteam.caribeando.presenter.common.QrCodeImage
+import caribeando.composeapp.generated.resources.ticket_qr_caption
+import caribeando.composeapp.generated.resources.payment_confirmation_code
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.layout.size
 import caribeando.composeapp.generated.resources.cancel_reservation_question
 import caribeando.composeapp.generated.resources.cancellation_refund_window
 import caribeando.composeapp.generated.resources.cancellation_title
@@ -219,7 +224,7 @@ fun ShoppingOrderDetailScreen(
                 ) {
                     Column {
                         Text(
-                            text = "CÓDIGO DE CONFIRMACIÓN",
+                            text = stringResource(Res.string.payment_confirmation_code).uppercase(),
                             color = colors.textSecondary,
                             fontSize = 10.5.sp,
                             fontWeight = FontWeight.Normal
@@ -239,6 +244,31 @@ fun ShoppingOrderDetailScreen(
                             .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
                         Text(text = statusLabel, color = colors.redFill, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+                    }
+                }
+            }
+            // Ticket: the confirmation code as a QR the operator can scan on the day of the trip.
+            if (model.transactionId.isNotBlank()) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        QrCodeImage(
+                            content = model.transactionId,
+                            modifier = Modifier
+                                .size(200.dp)
+                                .clip(RoundedCornerShape(16.dp)),
+                        )
+                        Text(
+                            modifier = Modifier.padding(top = 10.dp),
+                            text = stringResource(Res.string.ticket_qr_caption),
+                            color = colors.textSecondary,
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Center,
+                        )
                     }
                 }
             }
