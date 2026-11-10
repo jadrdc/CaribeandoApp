@@ -86,6 +86,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.qrcode.kotlin)
+            implementation(libs.kvault)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.materialIconsExtended)
             implementation(libs.androidx.lifecycle.viewmodel)

@@ -4,7 +4,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.auth.GoogleAuthUiClient
+import com.agusteam.caribeando.data.database.KVaultSecureStorage
+import com.agusteam.caribeando.data.database.SecureStorage
 import com.agusteam.caribeando.data.database.createDataStore
+import com.liftric.kvault.KVault
 import com.agusteam.caribeando.data.network.createHttpClient
 import com.agusteam.caribeando.domain.usecase.PlatformContext
 import com.agusteam.caribeando.domain.usecase.StartStripeUseCase
@@ -32,6 +35,7 @@ actual val dataStorageDIModule: Module
         single<DataStore<Preferences>> {
             createDataStore(androidContext())
         }
+        single<SecureStorage> { KVaultSecureStorage(KVault(androidContext())) }
         single<CrashReporter> {
             CrashReporter()
         }

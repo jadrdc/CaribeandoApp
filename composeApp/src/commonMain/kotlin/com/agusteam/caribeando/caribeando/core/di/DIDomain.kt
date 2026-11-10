@@ -70,7 +70,7 @@ val diDomainModule = module {
     single<SaveTokenDataUseCase> { SaveTokenDataUseCase(get()) }
     single<GetLocalProfileUseCase> { GetLocalProfileUseCase(get()) }
     single<GetTripProviderDetailsUseCase> { GetTripProviderDetailsUseCase(get()) }
-    single<LocalStoragePreferenceRepository> { LocalStorageDataStore(get()) }
+    single<LocalStoragePreferenceRepository> { LocalStorageDataStore(get(), get()) }
     single<TripRepository> { TripRepositoryImp(get()) }
     single<UserProfileRepository> { UserProfileRepositoryImp(get()) }
     single<GetPaginatedTripsUseCase> { GetPaginatedTripsUseCase(get()) }
