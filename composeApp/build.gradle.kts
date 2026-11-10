@@ -38,6 +38,9 @@ kotlin {
             enable = true
         }
 
+        // Enables commonTest to run on the JVM (:composeApp:testAndroidHostTest).
+        withHostTest {}
+
         @OptIn(ExperimentalKotlinGradlePluginApi::class) compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }

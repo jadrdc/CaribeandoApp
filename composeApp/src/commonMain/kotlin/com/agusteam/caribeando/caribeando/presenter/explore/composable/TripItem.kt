@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.explore.composable
 
+import caribeando.composeapp.generated.resources.Res
+import caribeando.composeapp.generated.resources.reviews_count
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -119,7 +122,7 @@ fun TripItem(
                         fontSize = 12.sp
                     )
                     Text(
-                        text = " (${item.reviewCount} reseñas)",
+                        text = " " + stringResource(Res.string.reviews_count, item.reviewCount),
                         color = colors.grey500,
                         fontWeight = FontWeight.Normal,
                         fontSize = 12.sp

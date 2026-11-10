@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.shopping.composable
 
+import caribeando.composeapp.generated.resources.Res
+import caribeando.composeapp.generated.resources.reviews_count
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -68,7 +71,7 @@ fun ShoppingItemOverview(
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = " ($reviewCount reseñas)",
+                text = " " + stringResource(Res.string.reviews_count, reviewCount),
                 color = colors.grey500,
                 fontSize = 12.5.sp,
                 fontWeight = FontWeight.Normal

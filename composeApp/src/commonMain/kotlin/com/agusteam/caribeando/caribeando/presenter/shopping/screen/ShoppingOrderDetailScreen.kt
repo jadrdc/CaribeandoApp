@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter.shopping.screen
 
+import caribeando.composeapp.generated.resources.cancel_reservation_question
 import caribeando.composeapp.generated.resources.cancellation_refund_window
 import caribeando.composeapp.generated.resources.cancellation_title
 import caribeando.composeapp.generated.resources.cancelling
@@ -401,7 +402,7 @@ private fun CancelConfirmationDialog(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "¿Cancelar esta reserva?",
+                text = stringResource(Res.string.cancel_reservation_question),
                 color = colors.textPrimary,
                 fontSize = 19.sp,
                 lineHeight = 24.7.sp,

@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.reviews_count
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -56,7 +57,7 @@ fun CommentsSection(comments: List<CommentModelResponse>, reviewCount: Int = com
             )
             Text(
                 modifier = Modifier.padding(start = 6.dp),
-                text = "($reviewCount reseñas)",
+                text = stringResource(Res.string.reviews_count, reviewCount),
                 color = colors.textSecondary,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Normal

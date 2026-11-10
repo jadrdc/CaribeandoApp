@@ -41,6 +41,7 @@
     <string name="password">Contraseña</string>
     <string name="confirm_password">Confirmar contraseña</string>
     <string name="finish_signup">Completa tu cuenta</string>
+    <string name="birthdate">Fecha de nacimiento</string>
     <string name="signup">Completar cuenta</string>
     <string name="phone">Teléfono</string>
     <string name="show_password">Mostrar</string>
@@ -192,4 +193,9 @@
     <string name="contact_us_subtitle_hours">Escríbenos por donde te quede más cómodo. Horario: %1$s.</string>
     <string name="contact_us_subtitle_generic">Escríbenos por donde te quede más cómodo.</string>
     <string name="contact_unavailable">No pudimos cargar los canales de contacto. Inténtalo de nuevo en un momento.</string>
+
+    <!-- 2026-11-09: copy moved out of Kotlin into resources -->
+    <string name="reviews_count">(%1$d reseñas)</string>
+    <string name="cancel_reservation_question">¿Cancelar esta reserva?</string>
+    <string name="how_was_trip">¿Cómo estuvo la excursión?</string>
 </resources>

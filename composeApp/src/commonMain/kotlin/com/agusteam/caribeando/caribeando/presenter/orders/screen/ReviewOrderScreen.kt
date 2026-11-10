@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.caribeando.presenter.orders.screen
 
+import caribeando.composeapp.generated.resources.how_was_trip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -171,7 +172,7 @@ fun ReviewOrderScreen(
                     }
 
                     Text(
-                        text = "¿Cómo estuvo la excursión?",
+                        text = stringResource(Res.string.how_was_trip),
                         color = colors.textPrimary,
                         fontSize = 17.sp,
                         lineHeight = 22.95.sp,

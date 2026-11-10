@@ -1,5 +1,7 @@
 package com.agusteam.caribeando.presenter.wishlist.composable
 
+import caribeando.composeapp.generated.resources.reviews_count
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -99,7 +101,7 @@ fun WishItem(
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
-                    text = " (${item.reviewCount} reseñas)",
+                    text = " " + stringResource(Res.string.reviews_count, item.reviewCount),
                     color = colors.grey500,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal

@@ -33,7 +33,9 @@ data class SignupState(
                 email.isNotBlank() &&
                 password.isNotBlank() &&
                 confirmPassword == password &&
-                phone.isNotBlank() && phone.length == 10
+                phone.isNotBlank() && phone.length == 10 &&
+                birthdate != null &&
+                !isEmailError && !isPasswordError && !isPhoneError
     }
 
     fun isFillingInfoCompleted() = phone.isNotBlank() && birthdate != null

@@ -41,6 +41,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.statusBarsPadding
 
 @Composable
 fun FillSignUpAccountScreen(
@@ -68,6 +69,7 @@ fun FillSignUpAccountScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .padding(horizontal = 20.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.SpaceBetween

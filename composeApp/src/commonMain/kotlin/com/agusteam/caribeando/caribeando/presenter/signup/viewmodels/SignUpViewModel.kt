@@ -32,7 +32,7 @@ class SignUpViewModel(
     private suspend fun signUp() {
         setState { copy(isLoading = true) }
         val birthDate: String =
-            state.value.birthdate?.toLocalDateTime(TimeZone.currentSystemDefault())?.date.toString()
+            state.value.birthdate?.toLocalDateTime(TimeZone.currentSystemDefault())?.date?.toString().orEmpty()
 
         if (birthDate.isNotBlank())
             when (val result = signUpUseCase(
@@ -175,7 +175,7 @@ class SignUpViewModel(
                 is SignUpEvent.FillRemainingInfo -> {
                     setState { copy(isLoading = true) }
                     val birthDate: String =
-                        state.value.birthdate?.toLocalDateTime(TimeZone.currentSystemDefault())?.date.toString()
+                        state.value.birthdate?.toLocalDateTime(TimeZone.currentSystemDefault())?.date?.toString().orEmpty()
                     if (birthDate.isNotBlank()) {
                         val result =
                             fillUserInfoUseCase(

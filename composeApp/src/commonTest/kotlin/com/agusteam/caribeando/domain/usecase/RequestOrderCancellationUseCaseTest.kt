@@ -2,6 +2,7 @@ package com.agusteam.caribeando.domain.usecase
 
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.model.CancelOrderResponse
+import com.agusteam.caribeando.data.model.PayBalanceResponse
 import com.agusteam.caribeando.data.model.ReportOrder
 import com.agusteam.caribeando.data.model.UpcomingOrderTripModelResponse
 import com.agusteam.caribeando.domain.interfaces.OrderRepository
@@ -27,6 +28,9 @@ private class FakeOrderRepository(
         throw NotImplementedError("not used by this test")
 
     override suspend fun getPastTrips(): OperationResult<List<UpcomingOrderTripModelResponse>> =
+        throw NotImplementedError("not used by this test")
+
+    override suspend fun payBalance(orderId: String, transactionId: String): OperationResult<PayBalanceResponse> =
         throw NotImplementedError("not used by this test")
 
     override suspend fun reportOrder(model: ReportOrder): OperationResult<Boolean> =

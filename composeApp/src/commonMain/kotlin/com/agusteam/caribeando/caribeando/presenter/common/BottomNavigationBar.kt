@@ -1,5 +1,7 @@
 package com.agusteam.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -89,7 +91,7 @@ fun BottomNavigationBar(
                         )
                         Text(
                             modifier = Modifier.padding(top = 5.dp),
-                            text = item.title,
+                            text = stringResource(item.title),
                             color = tint,
                             fontSize = 10.sp,
                             fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,

@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.Res
+import caribeando.composeapp.generated.resources.birthdate
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
@@ -114,6 +117,9 @@ fun ModernDatePicker(
     val maxSelectableYear = defaultDate.year
 
     var selectedDate by remember { mutableStateOf(defaultDate) }
+    // Until the user picks a date nothing has been reported to the caller, so show a placeholder
+    // instead of a date that looks selected but would leave forms invalid.
+    var hasSelection by remember { mutableStateOf(false) }
     var selectedMonth by remember { mutableStateOf(YearMonth(defaultDate.year, defaultDate.month)) }
     var expanded by remember { mutableStateOf(false) }
     var showMonthDialog by remember { mutableStateOf(false) }
@@ -149,7 +155,7 @@ fun ModernDatePicker(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = selectedDate.formatShort(),
+                        text = if (hasSelection) selectedDate.formatShort() else stringResource(Res.string.birthdate),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -242,6 +248,7 @@ fun ModernDatePicker(
                                     .let {
                                         if (isEnabled) it.clickable {
                                             selectedDate = date
+                                            hasSelection = true
                                             onDateSelected(date)
                                         } else it
                                     },
