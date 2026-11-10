@@ -1,58 +1,28 @@
 package com.agusteam.caribeando.presenter.orders.composable
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.agusteam.caribeando.domain.models.UpcomingOrders
-import org.jetbrains.compose.resources.stringResource
-import caribeando.composeapp.generated.resources.Res
-import caribeando.composeapp.generated.resources.upcoming
-import com.agusteam.caribeando.caribeando.presenter.common.EmptyState
 
+/**
+ * The handoff's "18. Próximos viajes" list -- a real vertical stack, cards 18dp apart.
+ *
+ * 2026-08-20 (design handoff pass): was a `HorizontalPager` (one trip visible at a time, swipe to
+ * see more) with its own "Próximos" title baked in. The spec shows every upcoming trip as a
+ * vertically stacked list of cards under a shared tab header, so the pager and this section's own
+ * title are both dropped -- `OrderHistoryScreen` now owns the "Próximos viajes" / "Viajes
+ * pasados" tab header for both sections.
+ */
 @Composable
 fun UpcomingOrderTripItemSection(
     upcomingTripItemList: List<UpcomingOrders>, goDetails: (UpcomingOrders) -> Unit
 ) {
-    val pagerState = rememberPagerState(pageCount = {
-        upcomingTripItemList.size
-    })
-    Column {
-        Text(
-            text = stringResource(Res.string.upcoming),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        if (upcomingTripItemList.isNotEmpty()) {
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth() // Ensures proper alignment and space for the pager
-            ) { page ->
-                Column(
-                    modifier = Modifier
-                        .padding(end = 16.dp) // Adds spacing between pages
-                        .fillMaxWidth()
-                ) {
-                    UpcomingTripItem(
-                        item = upcomingTripItemList[page],
-                        goDetails = { goDetails(upcomingTripItemList[page]) }
-                    )
-                }
-            }
-        } else {
-            EmptyState(
-                message = "No hay viajes que mostrar",
-                actionText = "Intente nuevamente"
-            )
+    Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
+        upcomingTripItemList.forEach { item ->
+            UpcomingTripItem(item = item, goDetails = { goDetails(item) })
         }
     }
 }

@@ -12,6 +12,7 @@
     <string name="reservation_details">Detalles de la reserva</string>
     <string name="report">Reportar orden</string>
     <string name="report_order_issues">Reportar inconveniente con la orden</string>
+    <string name="report_issue_title">Reportar inconveniente</string>
     <string name="ok">Ok</string>
     <string name="search_hint">¿Cuál es tu próxima aventura?</string>
     <string name="clear">Borrar filtros</string>
@@ -67,4 +68,128 @@
     <string name="cancellation_policy_details">Cancela hasta 24 horas antes de la hora de inicio para obtener un reembolso completo.</string>
     <string name="password_not_matching">Debes usar la misma contraseña para ambos campos</string>
     <string name="terms">Al seleccionar "Completa tu cuenta", acepto los Términos de servicio de appcourse, los Términos de servicio de pagos y la Política de no discriminación, y reconozco la Política de privacidad.</string>
+
+    <!-- 2026-08-20 (design handoff pass): Entrada flow -->
+    <string name="login_subtitle">Excursiones en República Dominicana, reservadas en dos toques.</string>
+    <string name="first_time">¿Primera vez?</string>
+    <string name="or_divider">o</string>
+    <string name="forgot_password_title">¿Olvidó su contraseña?</string>
+    <string name="forgot_password_subtitle">Escribe el correo de tu cuenta y te enviamos un enlace para crear una nueva.</string>
+    <string name="send_link">Enviar enlace</string>
+    <string name="back_to_login">Volver a iniciar sesión</string>
+    <string name="reset_link_sent_toast">Te enviamos un enlace a tu correo</string>
+    <string name="confirm_email_title">Confirma tu correo</string>
+    <string name="confirm_email_body">Te enviamos un enlace a %1$s. Ábrelo para poder reservar excursiones.</string>
+    <string name="confirm_email_panel">Puedes seguir explorando mientras tanto, pero el pago queda bloqueado hasta que confirmes.</string>
+    <string name="resend_email">Reenviar correo</string>
+    <string name="keep_exploring">Seguir explorando</string>
+
+    <!-- 2026-08-20 (design handoff pass): Explorar flow -->
+    <string name="explore">Explorar</string>
+    <string name="category_all">Todo</string>
+    <string name="excursions_count">%1$d excursiones en República Dominicana</string>
+    <string name="no_results_title">Nada por aquí todavía</string>
+    <string name="no_results_subtitle">Ningún viaje coincide con esos filtros.</string>
+
+    <!-- 2026-08-20 (design handoff pass): Reservar flow -->
+    <string name="reviews">Reseñas</string>
+    <string name="processing_payment">Procesando pago…</string>
+
+    <!-- 2026-08-20 (design handoff pass): Viajes flow -->
+    <string name="trips_title">Viajes</string>
+    <string name="rate_action">Calificar</string>
+    <string name="no_trips_title">No hay viajes que mostrar</string>
+    <string name="no_trips_subtitle">Cuando reserves una excursión aparecerá aquí.</string>
+    <string name="explore_trips_action">Explorar excursiones</string>
+    <string name="tell_us_more">Cuéntanos más</string>
+    <string name="review_placeholder">¿Qué debería saber el próximo viajero?</string>
+    <string name="submit_review">Enviar reseña</string>
+    <string name="rate_choose_star_toast">Elige una calificación primero</string>
+    <string name="rate_trip_title">Calificar viaje</string>
+    <string name="rate_success_toast">Gracias por tu reseña</string>
+    <string name="rating_caption_0">Toca una estrella para calificar</string>
+    <string name="rating_caption_1">Muy malo</string>
+    <string name="rating_caption_2">Malo</string>
+    <string name="rating_caption_3">Regular</string>
+    <string name="rating_caption_4">Bueno</string>
+    <string name="rating_caption_5">Excelente</string>
+    <string name="order_label">Orden</string>
+    <string name="report_helper_text">Nuestro equipo responde en menos de 24 horas y el proveedor recibe copia del reporte.</string>
+    <string name="report_success_toast">Reporte enviado. Te contactamos pronto.</string>
+    <string name="keep_reservation">Mantener reserva</string>
+    <string name="cancel_reservation_action">Cancelar reserva</string>
+    <!-- 2026-08-20 (design handoff pass): screen 20 "Pagar faltante" + screen 19's conditional
+         balance-due panel. "Pago total" and "Monto a pagar" already existed (total_payment /
+         payment_to_pay above) and are reused here rather than duplicated. -->
+    <string name="balance_due_label">Falta por pagar</string>
+    <string name="balance_due_description">Pagaste la reserva. El faltante se puede pagar aquí hasta 24 horas antes de la salida.</string>
+    <string name="pay_balance_action">Pagar faltante</string>
+    <string name="balance_covers_full_trip">Con esto queda cubierto el viaje completo.</string>
+    <string name="balance_breakdown_header">Desglose</string>
+    <string name="reservation_paid_label">Reserva pagada</string>
+    <string name="balance_remaining_label">Faltante</string>
+    <string name="pay_amount_button">Pagar %1$s</string>
+    <!-- 2026-08-20 (design handoff pass, part 2): Cuenta flow (screens 26-30). -->
+    <string name="my_trips">Mis viajes</string>
+    <string name="favorites_count_one">%1$d excursión guardada</string>
+    <string name="favorites_count_other">%1$d excursiones guardadas</string>
+    <string name="favorites_empty_title">Todavía sin favoritos</string>
+    <string name="favorites_empty_subtitle">Guarda excursiones con el corazón y vuelve cuando decidas.</string>
+    <string name="contact_us_subtitle">Escríbenos por donde te quede más cómodo. Respondemos de lunes a domingo, de 7:00 a.m. a 9:00 p.m.</string>
+    <string name="contact_whatsapp_label">WhatsApp</string>
+    <!-- The handoff's own copy for these three channel rows is explicitly marked
+         "Replace these with real contact details": these are the spec's own placeholder
+         values (not invented here), kept until the business provides real ones. -->
+    <string name="contact_whatsapp_detail">809 555 0100 · respuesta en minutos</string>
+    <string name="contact_email_detail">hola@caribeando.do · menos de 24 horas</string>
+    <string name="contact_phone_label">Llámanos</string>
+    <string name="contact_phone_detail">809 555 0100</string>
+    <string name="contact_reported_trip_title">¿Es sobre un viaje reservado?</string>
+    <string name="contact_reported_trip_description">Repórtalo desde la orden y el proveedor recibe copia. Llega más rápido que por aquí.</string>
+    <string name="contact_go_my_trips">Ir a mis viajes</string>
+
+    <!-- 2026-10-09 (design handoff, screens 7-9): filter sheet + Calendario -->
+    <string name="when_to_travel">¿Cuándo quisieras viajar?</string>
+    <string name="exact_dates">Fechas exactas</string>
+    <string name="any_date">Cualquier fecha</string>
+    <string name="max_amount">Monto máximo</string>
+    <string name="any_amount">Cualquiera</string>
+    <string name="budget_up_to">Hasta RD$%1$s</string>
+    <string name="see_results_one">Ver 1 resultado</string>
+    <string name="see_results_other">Ver %1$d resultados</string>
+    <string name="calendar_pick_dates">Elige tus fechas</string>
+    <string name="calendar_hint_start">Toca el día de salida</string>
+    <string name="calendar_hint_end">Ahora elige el día de regreso</string>
+    <string name="calendar_hint_restart">Toca cualquier día para empezar de nuevo</string>
+    <string name="calendar_clear">Borrar</string>
+    <string name="calendar_apply">Aplicar fechas</string>
+
+    <!-- 2026-10-09: copy moved out of Kotlin into resources -->
+    <string name="success_title">Listo</string>
+    <string name="success_message">Tu lugar en %1$s está reservado. Te esperamos el %2$s.</string>
+    <string name="amount_paid">Monto pagado</string>
+    <string name="see_my_trips">Ver mis viajes</string>
+    <string name="payment_failed_title">No pudimos procesar el pago</string>
+    <string name="payment_failed_default_reason">Tu banco rechazó la transacción. Intenta otra vez o usa otra tarjeta.</string>
+    <string name="label_trip">Viaje</string>
+    <string name="label_amount">Monto</string>
+    <string name="payment_failed_not_charged">No se te cobró nada.</string>
+    <string name="try_again">Intentar de nuevo</string>
+    <string name="change_payment_method">Cambiar método de pago</string>
+    <string name="back_to_explore">Volver a explorar</string>
+    <string name="error_page_title">Algo salió mal. Por favor, inténtalo de nuevo más tarde.</string>
+    <string name="error_page_subtitle">Si sigue pasando, escríbenos y lo revisamos contigo.</string>
+    <string name="report_placeholder">Describe lo que pasó con la orden. Mientras más detalle, más rápido lo resolvemos.</string>
+    <string name="order_status_upcoming">Próxima</string>
+    <string name="order_status_completed">Completada</string>
+    <string name="cancellation_title">Cancelación</string>
+    <string name="cancellation_refund_window">Si cancelas hasta 24 horas antes de la salida, te devolvemos el monto completo a tu tarjeta (llega en 5 a 10 días hábiles). Con menos de 24 horas, la reserva no es reembolsable.</string>
+    <string name="cancelling">Cancelando…</string>
+    <string name="review_pending">Reseña pendiente</string>
+    <!-- 2026-10-09: Contáctanos now loads its channels from the backend (GET /support/contact) -->
+    <string name="contact_whatsapp_detail_suffix">Respuesta en minutos</string>
+    <string name="contact_email_detail_suffix">menos de 24 horas</string>
+    <string name="contact_us_subtitle_hours">Escríbenos por donde te quede más cómodo. Horario: %1$s.</string>
+    <string name="contact_us_subtitle_generic">Escríbenos por donde te quede más cómodo.</string>
+    <string name="contact_unavailable">No pudimos cargar los canales de contacto. Inténtalo de nuevo en un momento.</string>
 </resources>

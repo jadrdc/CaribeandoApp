@@ -15,6 +15,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 actual fun StripeButton(
     viewModel: PaymentViewModel,
+    label: String?,
     onPaymentSuccessFull: () -> Unit
 ) {
     val stripeBridge = LocalStripe.current
@@ -50,7 +51,7 @@ actual fun StripeButton(
     }
 
     ActionButton(
-        text = stringResource(Res.string.process_payment),
+        text = label ?: stringResource(Res.string.process_payment),
         modifier = Modifier.fillMaxWidth()
     ) {
         viewModel.handleEvent(PaymentEvents.OnStripePaymentStart(StripeConfiguration()))

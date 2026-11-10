@@ -3,15 +3,15 @@ package com.agusteam.caribeando.core.auth
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import com.agusteam.caribeando.R
+import com.agusteam.caribeando.shared.R
 import com.agusteam.caribeando.core.auth.model.SignInResult
 import com.agusteam.caribeando.core.auth.model.UserData
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.Firebase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 

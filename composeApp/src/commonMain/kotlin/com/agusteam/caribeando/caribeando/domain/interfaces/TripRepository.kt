@@ -4,7 +4,7 @@ import com.agusteam.caribeando.caribeando.data.model.CommentModelResponse
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.model.TripDetailsBodyDTO
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 interface TripRepository {
     suspend fun getComments(tripId: String): OperationResult<List<CommentModelResponse>>

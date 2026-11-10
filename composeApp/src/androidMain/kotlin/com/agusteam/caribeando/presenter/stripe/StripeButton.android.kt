@@ -12,7 +12,7 @@ import com.stripe.android.paymentsheet.rememberPaymentSheet
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-actual fun StripeButton(viewModel: PaymentViewModel, onPaymentSuccessFull: () -> Unit) {
+actual fun StripeButton(viewModel: PaymentViewModel, label: String?, onPaymentSuccessFull: () -> Unit) {
     fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
@@ -39,7 +39,7 @@ actual fun StripeButton(viewModel: PaymentViewModel, onPaymentSuccessFull: () ->
     val paymentSheet = rememberPaymentSheet(::onPaymentSheetResult)
 
     ActionButton(
-        text = stringResource(Res.string.process_payment),
+        text = label ?: stringResource(Res.string.process_payment),
         modifier = Modifier.fillMaxWidth()
     ) {
         viewModel.handleEvent(PaymentEvents.OnStripePaymentStart(StripeConfiguration(paymentSheet)))

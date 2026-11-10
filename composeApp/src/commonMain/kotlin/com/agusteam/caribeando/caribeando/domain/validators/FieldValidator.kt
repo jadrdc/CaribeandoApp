@@ -34,7 +34,7 @@ class FieldValidator {
             ValidationResult(validatorType = ValidatorType.PASSWORD_SAME)
         } else {
             ValidationResult(
-                validatorType, "Debes usar la misma password para ambos campos ", true
+                validatorType, "Debes usar la misma contraseña para ambos campos", true
             )
         }
     }

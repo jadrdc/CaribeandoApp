@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter.wishlist.navigation
 
+import com.agusteam.caribeando.presenter.home.navigation.CaribeandoTransitions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
@@ -11,7 +12,11 @@ import com.agusteam.caribeando.presenter.profile.screen.TripProviderProfileScree
 import com.agusteam.caribeando.presenter.wishlist.screen.WishListScreen
 
 @Composable
-fun WishListNavigationFlow() {
+fun WishListNavigationFlow(
+    // 2026-08-20 (design handoff pass, part 2): threaded down to WishListScreen for screen 27's
+    // "Explorar excursiones" empty-state action.
+    onExploreClick: () -> Unit = {},
+) {
     val navController = rememberNavController()
     var route = remember {
         WishListItemDetailScreenRoute(
@@ -20,10 +25,15 @@ fun WishListNavigationFlow() {
 
     NavHost(
         navController = navController,
-        startDestination = WishListNavigation.WishListScreen.route
+        startDestination = WishListNavigation.WishListScreen.route,
+        // 2026-10-09 (design handoff, "Transitions"): push/pop = 300ms fade + slide.
+        enterTransition = { CaribeandoTransitions.enter },
+        exitTransition = { CaribeandoTransitions.exit },
+        popEnterTransition = { CaribeandoTransitions.popEnter },
+        popExitTransition = { CaribeandoTransitions.popExit },
     ) {
         composable(WishListNavigation.WishListScreen.route) {
-            WishListScreen { tripModel ->
+            WishListScreen(onExploreClick = onExploreClick) { tripModel ->
                 route = WishListItemDetailScreenRoute(
                     destiny = tripModel.destiny,
                     tripId = tripModel.id,

@@ -12,7 +12,7 @@ import com.agusteam.caribeando.data.model.UserSignUpRequest
 import com.agusteam.caribeando.data.network.services.SignUpService
 import com.agusteam.caribeando.domain.interfaces.LoginRepository
 import com.agusteam.caribeando.domain.models.TokenMode
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone

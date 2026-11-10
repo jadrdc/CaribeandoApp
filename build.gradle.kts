@@ -2,14 +2,17 @@ plugins {
     // this is necessary to avoid the plugins to be loaded multiple times
     // in each subproject's classloader
     alias(libs.plugins.androidApplication) apply false
-    alias(libs.plugins.androidLibrary) apply false
+    // 2026-08-19: swapped the old com.android.library alias for the AGP 9
+    // com.android.kotlin.multiplatform.library plugin — :composeApp is now a KMP library
+    // module using the new androidLibrary {} DSL, not a plain com.android.library module.
+    alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.jetbrains.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
-    id("com.google.gms.google-services") version "4.4.2" apply false
-    id("com.google.firebase.crashlytics") version "3.0.2" apply false
+    id("com.google.gms.google-services") version "4.5.0" apply false
+    id("com.google.firebase.crashlytics") version "3.0.7" apply false
 }
 buildscript {
     dependencies {

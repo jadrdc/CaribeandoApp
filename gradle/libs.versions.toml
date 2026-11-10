@@ -1,55 +1,130 @@
+# --- 2026-08-19 modernization pass -----------------------------------------------------------
+# Full audit against Maven Central / mvnrepository / GitHub releases done today. Kotlin (2.3.20),
+# Compose Multiplatform (1.11.1), Ktor (3.5.2), Koin (4.2.2), KSP (2.3.9), and Coil3 (3.4.0) were
+# ALL already current as of this pass — verified, not re-bumped. Everything below documents what
+# actually changed and why, plus the handful of deliberate holds carried over from 2026-08-18.
+#
+# Bumped (verified against the real changelog/release notes, not guessed):
+#   - firebaseBom 33.16.0 -> 34.17.0. Firebase's 34.x line raised the KTX modules' functionality
+#     into the main artifacts and dropped standalone `-ktx` publishing — a real breaking change,
+#     but only for code that depends on the `-ktx` artifact suffix. This catalog never declared
+#     `-ktx` modules (firebase-auth/-analytics/-firestore are all the main artifact names
+#     already), so this project isn't exposed to that break. minSdk also rose to API 23 in 34.x;
+#     this project's minSdk is already 24, so no impact there either.
+#   - stripeJava 28.0.0 -> 33.3.0 (client catalog only — caribeando-backend pins its own
+#     stripe-java independently in its build.gradle.kts and needs the same bump made separately).
+#   - datastore 1.1.1 -> 1.2.1.
+#   - appcompat 1.7.0 -> 1.8.0.
+#   - androidx-constraintlayout 2.2.0 -> 2.2.1 (2.2.2 also exists on mvnrepository but with a
+#     forward-dated release date that looked like a placeholder/scheduled entry, not a real
+#     confirmed release — held at the clearly-real 2.2.1 rather than trust that).
+#   - androidx-espresso-core 3.6.1 -> 3.7.0.
+#   - androidx-test-junit 1.2.1 -> 1.3.0.
+#   - lottieComposeVersion 5.0.0 -> 6.7.1. Note: grepping composeApp/src found ZERO actual usage
+#     of any Lottie composable (rememberLottieComposition/LottieAnimation/etc.) despite the
+#     dependency being declared — it may be genuinely dead weight. Left the dependency in place
+#     (removing an unused-but-declared dependency is a bigger call than a version bump) but
+#     flagging it here: worth confirming with Agustin whether this can be dropped entirely.
+#   - mapsComposeVersion 6.2.1 -> 8.4.0. This crosses two major versions with real breaking
+#     changes per the library's own changelog (v7.0.0 bumped its required Compose version,
+#     v8.0.0 bumped its required Maps SDK to 20.0.0) — but this project's actual usage
+#     (MapComponent.android.kt: GoogleMap/rememberCameraPositionState/MapProperties/MapType/
+#     MapUiSettings/Circle) is all long-stable core API untouched by either breaking-change note,
+#     and playServicesMaps was ALREADY pinned to 20.0.0 (the exact version v8.0.0 requires) and
+#     Compose Multiplatform is already far ahead of what v7.0.0 needed. Prerequisites already
+#     satisfied; still worth a real build to confirm, same as everything else in this pass.
+#   - firebaseCrashlytics (the dev.gitlive KMP wrapper, NOT the Gradle plugin below) 2.1.0 -> 2.6.0.
+#   - coreI18n 1.0.0-alpha01 -> 1.0.0 — a real stable release now exists; no reason to stay on an
+#     alpha.
+#   - Root build.gradle.kts Gradle plugin versions (not in this catalog, see that file): the
+#     `com.google.gms.google-services` plugin 4.4.2 -> 4.5.0, and `com.google.firebase.crashlytics`
+#     plugin 3.0.2 -> 3.0.7.
+#   - kotlinxDatetime 0.6.2 -> 0.8.0, PAIRED with a source migration off kotlinx.datetime.Clock/
+#     Instant onto kotlin.time.Clock/Instant across all 12 previously-affected files. This was
+#     explicitly held back on 2026-08-18 because there was no ready-made ISO-8601 serializer for
+#     kotlin.time.Instant at the time — that's no longer true: kotlinx.serialization 1.9.0
+#     (2025-06-27) shipped a genuine built-in `Instant.serializer()` producing the same
+#     `Instant.toString()` ISO-8601 format the old kotlinx.datetime.Instant default used, and
+#     this catalog's kotlinSerialization (1.11.0) is already well past that threshold. See the
+#     per-file changes for exactly how each @Serializable field now opts in
+#     (`@Serializable(with = ...)` / `@OptIn(ExperimentalTime::class)` as needed — `kotlin.time.
+#     Instant`'s serializer is still marked @ExperimentalTime upstream).
+#
+# Verified already current, left untouched:
+#   - kotlin 2.3.20, compose-plugin 1.11.1, koin 4.2.2, ktor-client/ktorClientAuth 3.5.2,
+#     ksp 2.3.9, coil3 3.4.0, playServicesAuth 21.6.0, playServicesMaps 20.0.0, sqlite 2.7.0,
+#     navigation-compose 2.9.2 (2.10.0 only exists as an alpha — not adopted), junit 4.13.2.
+#
+# Removed (confirmed dead — zero references anywhere in either build.gradle.kts or
+# composeApp/src, beyond the catalog entry itself and Gradle's auto-generated accessors):
+#   - composeAuth / compose-auth / gotrue-kt (Supabase auth). This project's real auth story
+#     (per CLAUDE.md, confirmed against actual source) is email/password + Google + Apple Sign-In
+#     with a JWT access/refresh pair against caribeando-backend — no Supabase involved anywhere.
+#     Looks like leftover scaffolding from an earlier direction that was never wired in.
+#   - materialIconsExtended / materialIconsExtendedVersion. The real Material Icons Extended
+#     dependency is `compose.materialIconsExtended` (the Compose Multiplatform artifact itself,
+#     tied to compose-plugin's version) declared directly in composeApp/build.gradle.kts — these
+#     two catalog version entries were never actually referenced by any library entry.
+#   - firebaseCore. Not referenced by any library entry in this catalog or any build.gradle.kts.
+#
+# Deliberately still held back (unchanged from 2026-08-18, reasons still apply):
+#   - AGP: bumped to 9.2.0 as part of TODAY's pass, but only alongside the required module split
+#     (:composeApp -> :androidApp + :composeApp-as-KMP-library) — see the top-level project
+#     structure changes, not this file, for that. AGP 9 is not just a version-catalog change.
+#   - Gradle wrapper bumped 8.13 -> 9.4.1 to match AGP 9.2.0's minimum requirement.
+#   - android-compileSdk bumped 36 -> 37 (Android 17 / API 37): a real build failed AAR-metadata
+#     checks because maps-compose 8.4.0 (and its transitive maps-ktx 6.2.0), plus androidx.core
+#     1.19.0 pulled in via other bumped deps, all require compileSdk 37+. targetSdk stays at 36
+#     deliberately -- only the compile-time API surface needed to move, not the app's declared
+#     runtime-behavior opt-in. Android SDK Platform 37 may need to be installed via the SDK
+#     Manager if Android Studio hasn't already fetched it.
 [versions]
-agp = "8.5.2"
-android-compileSdk = "35"
+agp = "9.2.0"
+android-compileSdk = "37"
 android-minSdk = "24"
-android-targetSdk = "35"
+android-targetSdk = "36"
 androidx-activityCompose = "1.9.3"
-androidx-appcompat = "1.7.0"
-androidx-constraintlayout = "2.2.0"
+androidx-appcompat = "1.8.0"
+androidx-constraintlayout = "2.2.1"
 androidx-core-ktx = "1.15.0"
-androidx-espresso-core = "3.6.1"
-androidx-lifecycle = "2.8.3"
+androidx-espresso-core = "3.7.0"
+androidx-lifecycle = "2.10.0"
 androidx-material = "1.12.0"
-androidx-test-junit = "1.2.1"
-compose-plugin = "1.7.0"
-composeAuth = "2.0.6"
+androidx-test-junit = "1.3.0"
+compose-plugin = "1.11.1"
 constraintlayoutCompose = "1.1.0"
 
 
-firebaseBom = "33.8.0"
-firebaseCore = "1.9.0"
-firebaseCrashlytics = "2.1.0"
+firebaseBom = "34.17.0"
+firebaseCrashlytics = "2.6.0"
 junit = "4.13.2"
-kotlin = "2.0.21"
-kotlinSerialization = "1.7.3"
-koin = "4.0.0"
-kotlinxDatetime = "0.6.1"
-ktor-client = "3.0.3"
-coil3 = "3.0.0-rc02"
-ksp = "2.0.20-1.0.24"
-ktorClientAuth = "3.0.3"
-lottieComposeVersion = "5.0.0"
-mapsComposeVersion = "6.2.1"
-materialIconsExtended = "1.7.6"
-materialIconsExtendedVersion = "1.5.0"
-playServicesAuth = "21.3.0"
-sqlite = "2.5.0-alpha11"
+kotlin = "2.3.20"
+kotlinSerialization = "1.11.0"
+koin = "4.2.2"
+kotlinxDatetime = "0.8.0"
+ktor-client = "3.5.2"
+coil3 = "3.4.0"
+ksp = "2.3.9"
+ktorClientAuth = "3.5.2"
+lottieComposeVersion = "6.7.1"
+mapsComposeVersion = "8.4.0"
+playServicesAuth = "21.6.0"
+sqlite = "2.7.0"
 coilCompose = "2.6.0"
-navigation-compose = "2.8.0-alpha10"
-playServicesMaps = "18.1.0"
+navigation-compose = "2.9.2"
+playServicesMaps = "20.0.0"
 secretsGradlePlugin = "2.0.1"
 pods-google-maps = "9.1.1"
 pods-google-ios-maps-utils = "6.0.0"
-stripeAndroid = "21.3.1"
-stripeJava = "28.0.0"
-datastore = "1.1.1"
-coreI18n = "1.0.0-alpha01"
+stripeAndroid = "23.15.0"
+stripeJava = "33.3.0"
+datastore = "1.2.1"
+coreI18n = "1.0.0"
 
 
 [libraries]
 android-lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieComposeVersion" }
 
-compose-auth = { module = "io.github.jan-tennert.supabase:compose-auth", version.ref = "composeAuth" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -58,7 +133,6 @@ gitlive-firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", ve
 
 
 google-firebase-auth = { module = "com.google.firebase:firebase-auth" }
-gotrue-kt = { module = "io.github.jan-tennert.supabase:gotrue-kt", version.ref = "composeAuth" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorClientAuth" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-client" }
@@ -83,7 +157,6 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil3" }
-coil-network-ktor2 = { module = "io.coil-kt.coil3:coil-network-ktor2", version.ref = "coil3" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
 coil-mp = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
@@ -101,6 +174,7 @@ android-paging-common = { module = "androidx.paging:paging-runtime-ktx", version
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -112,7 +186,6 @@ cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotli
 coil = [
     "coil-compose",
     "coil-compose-core",
-    "coil-network-ktor2",
     "coil-network-ktor3",
     "coil-mp"
 ]

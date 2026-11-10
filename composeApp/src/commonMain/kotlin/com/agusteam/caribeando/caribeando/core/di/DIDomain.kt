@@ -41,6 +41,8 @@ import com.agusteam.caribeando.domain.usecase.ProcessSuccessPaymentOrderUseCase
 import com.agusteam.caribeando.domain.usecase.RatingOrderUseCase
 import com.agusteam.caribeando.domain.usecase.RemoveOrderUseCase
 import com.agusteam.caribeando.domain.usecase.ReportOrderUseCase
+import com.agusteam.caribeando.domain.usecase.PayOrderBalanceUseCase
+import com.agusteam.caribeando.domain.usecase.RequestOrderCancellationUseCase
 import com.agusteam.caribeando.domain.usecase.RequestResetPasswordEmailUseCase
 import com.agusteam.caribeando.domain.usecase.SaveLocalDataUseCase
 import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
@@ -86,6 +88,8 @@ val diDomainModule = module {
     single<GetUpcomingTripOrderUseCase> { GetUpcomingTripOrderUseCase(get()) }
     single<GetPastTripOrderUseCase> { GetPastTripOrderUseCase(get()) }
     single<OrderRepository> { OrderRepositoryImp(get()) }
+    single<RequestOrderCancellationUseCase> { RequestOrderCancellationUseCase(get()) }
+    single<PayOrderBalanceUseCase> { PayOrderBalanceUseCase(get()) }
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }
     single<GetUserProfileUseCase> { GetUserProfileUseCase(get()) }
     single<SaveLocalDataUseCase> { SaveLocalDataUseCase(get()) }

@@ -6,21 +6,16 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import caribeando.composeapp.generated.resources.Res
@@ -29,7 +24,9 @@ import caribeando.composeapp.generated.resources.google_button
 import com.agusteam.caribeando.domain.models.TokenMode
 import com.agusteam.caribeando.presenter.social.SocialSignInEvent
 import com.agusteam.caribeando.presenter.social.SocialSignViewModel
-import com.agusteam.caribeando.presenter.theme.secondary
+import com.agusteam.caribeando.presenter.theme.Radii
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
+import com.agusteam.caribeando.presenter.theme.caribeandoTextStyles
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
@@ -68,29 +65,37 @@ actual fun SocialButton(
     )
 }
 
+/**
+ * The handoff's "SecondaryButton" chrome applied to the Google sign-in row: "Full width,
+ * transparent fill, 1dp #E2E2E2 border, radius 14, 14dp padding, label 600/14 in #003049," with
+ * "google.png at 18." (was a flat 8dp-radius border with a plain 16sp label and no design-token
+ * color). Vertical spacing around the button now lives in the caller (LoginScreen) instead of
+ * being baked into this component, matching how `ActionButton`/`SecondaryButton` don't self-pad
+ * either.
+ */
 @Composable
 private fun GoogleSignInButton(onClick: () -> Unit) {
+    val colors = caribeandoColors
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 32.dp, bottom = 16.dp)
-            .border(1.dp, secondary, RoundedCornerShape(8.dp))
-            .height(52.dp)
-            .clickable(onClick = onClick),
+            .border(1.dp, colors.panelFieldBorder, Radii.buttonShape)
+            .bounceClick(scaleDown = 0.97f) { onClick() }
+            .padding(14.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(Res.drawable.google),
             contentDescription = null,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(18.dp)
         )
 
         Text(
             text = stringResource(Res.string.google_button),
-            style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 16.sp),
-            color = secondary,
-            modifier = Modifier.padding(start = 20.dp)
+            style = caribeandoTextStyles().primaryButtonLabel.copy(fontSize = 14.sp),
+            color = colors.textPrimary,
+            modifier = Modifier.padding(start = 12.dp)
         )
     }
 }

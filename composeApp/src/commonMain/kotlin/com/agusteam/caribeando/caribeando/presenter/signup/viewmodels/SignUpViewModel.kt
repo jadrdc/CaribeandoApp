@@ -12,9 +12,9 @@ import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
 import com.agusteam.caribeando.presenter.signup.state.SignupState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus

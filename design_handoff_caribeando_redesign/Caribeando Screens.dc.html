@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"><style>
+body{margin:0;background:#f0eee9;font-family:Poppins,system-ui,sans-serif}
+a{color:#003049}a:hover{color:#D62828}
+*::-webkit-scrollbar{width:0;height:0}
+</style></helmet>
+
+<div style="padding:52px 56px 64px">
+  <div style="font:600 30px/1.2 Poppins;color:#003049;letter-spacing:-.025em">Caribeando · todas las pantallas</div>
+  <div style="font:400 13px/1.7 Poppins;color:rgba(0,0,0,.55);margin-top:10px;max-width:640px">31 pantallas y estados, más el modo oscuro, en la dirección 1a. Cada marco es el prototipo real corriendo, no una captura, así que lo que cambie en el prototipo cambia aquí. Las fotos son marcos de posición.</div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-top:52px"><span style="font:600 11px Poppins;letter-spacing:.18em;text-transform:uppercase;color:#D62828">Entrada</span><span style="flex:1;height:1px;background:rgba(0,0,0,.12);display:block"></span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;margin-top:26px">
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="login" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Iniciar sesión</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Correo, contraseña y Google. El logo real sobre su crema #F6EDE2.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="signup" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Completa tu cuenta</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Seis campos y los términos verbatim de strings.xml.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="forgot" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">¿Olvidó su contraseña?</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Pantalla nueva: el repositorio tiene el caso de uso pero no la vista.</div>
+    </div>
+  </div>
+
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="confirm" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Cuenta sin confirmar</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Hoy Token.isConfirmed expulsa al usuario; esto le da salida.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-top:60px"><span style="font:600 11px Poppins;letter-spacing:.18em;text-transform:uppercase;color:#D62828">Explorar</span><span style="flex:1;height:1px;background:rgba(0,0,0,.12);display:block"></span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;margin-top:26px">
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="exploreLoading" chrome="false" latency="600000" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Explorar · cargando</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Esqueleto con el mismo ritmo que las tarjetas reales.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="explore" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Explorar</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Buscador plano, chips con los íconos de categoría, precio en rojo.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="filter" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Filtrar</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Montos y fechas como chips en vez de slider y calendario.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="exploreEmpty" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Explorar · sin resultados</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Salida directa: borrar filtros.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="error" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Error</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">El ErrorModal del repositorio, con título, mensaje y Ok.</div>
+    </div>
+  </div>
+
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="calendar" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Calendario</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Rango real sobre ModernDateRangePicker, con la semana empezando en domingo como el repositorio.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="errorFull" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Error de página</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">El ErrorState completo, con el mensaje verbatim y una salida.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-top:60px"><span style="font:600 11px Poppins;letter-spacing:.18em;text-transform:uppercase;color:#D62828">Reservar</span><span style="flex:1;height:1px;background:rgba(0,0,0,.12);display:block"></span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;margin-top:26px">
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="detail" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Detalles del viaje</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Barra fija abajo con total, reserva y Pagar. Desplázalo para ver mapa, incluye y reseñas.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="checkout" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Pagar viaje</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Reserva o total como dos tarjetas, con el monto grande en cada una.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="paying" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Procesando pago</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Bloquea la pantalla mientras Stripe responde.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="success" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Listo</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Código de confirmación y monto pagado, nada más.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="failed" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Pago fallido</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Pantalla nueva sobre order-failure: motivo, monto y dos salidas claras.</div>
+    </div>
+  </div>
+
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="gallery" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Galería de fotos</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">El pager de ShoppingItemHeader a pantalla completa, con tira de miniaturas.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-top:60px"><span style="font:600 11px Poppins;letter-spacing:.18em;text-transform:uppercase;color:#D62828">Viajes</span><span style="flex:1;height:1px;background:rgba(0,0,0,.12);display:block"></span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;margin-top:26px">
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="trips" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Próximos viajes</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">El código de confirmación sube a la tarjeta.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="order" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Detalles de la reserva</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Código, pago, datos del viaje y contacto con el proveedor.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="report" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Reportar inconveniente</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">El botón se apaga hasta que hay mensaje, como en ReportOrderState.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="orderPending" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Reserva con faltante</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Cuando solo se pagó la reserva, el faltante sube arriba con su propio botón.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="balance" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Pagar faltante</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Pantalla nueva: el modelo de reserva la exige y no existía en el repositorio.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="cancel" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Cancelar reserva</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Confirmación con el reembolso a la vista, sobre RemoveOrderUseCase.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="tripsPast" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Viajes pasados</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Filas compactas; Calificar solo en los no evaluados.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="review" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Calificar viaje</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Estrellas de 42px en el oro #FFB400 del repositorio.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="tripsEmpty" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Viajes · vacío</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Mismo mensaje del repositorio, sin la ilustración de 1.4 MB.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-top:60px"><span style="font:600 11px Poppins;letter-spacing:.18em;text-transform:uppercase;color:#D62828">Cuenta</span><span style="flex:1;height:1px;background:rgba(0,0,0,.12);display:block"></span></div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;margin-top:26px">
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="favorites" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Favoritos</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Filas con el corazón lleno para quitar de la lista.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="favoritesEmpty" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Favoritos · vacío</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Explica qué hace el corazón antes de que lo usen.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="profile" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Perfil</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Datos en solo lectura; falta decidir la edición.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="provider" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Perfil del proveedor</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Tres cifras de confianza y sus viajes actuales.</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="contact" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Contáctanos</div>
+      <div style="font:400 11px/1.6 Poppins;color:rgba(0,0,0,.5);margin-top:3px">Estaba en strings.xml y en Perfil, sin pantalla detrás.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-top:60px"><span style="font:600 11px Poppins;letter-spacing:.18em;text-transform:uppercase;color:#D62828">Modo oscuro</span><span style="flex:1;height:1px;background:rgba(0,0,0,.12);display:block"></span></div>
+  <div style="font:400 12px/1.7 Poppins;color:rgba(0,0,0,.5);margin-top:12px;max-width:620px">Mismo layout, dos valores por color. El navy #003049 se aclara para texto y sube a #3E6479 cuando es relleno; el rojo #D62828 se mantiene exacto en los botones y se aclara a #FF6E6E cuando es texto o ícono, porque sobre fondo oscuro no alcanza el contraste mínimo. La crema del logo no cambia: la ilustración trae su propio fondo.</div>
+  <div style="display:flex;flex-wrap:wrap;gap:34px;margin-top:26px">
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="explore" theme="dark" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Explorar · oscuro</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="detail" theme="dark" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Detalles del viaje · oscuro</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="checkout" theme="dark" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Pagar viaje · oscuro</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="order" theme="dark" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Detalles de la reserva · oscuro</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="review" theme="dark" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Calificar viaje · oscuro</div>
+    </div>
+    <div style="width:390px">
+      <div style="position:relative;width:390px;height:844px;overflow:hidden"><dc-import name="Caribeando App" start-screen="profile" theme="dark" chrome="false" latency="0" hint-size="390px,844px" style="position:absolute;left:-48px;top:-44px"></dc-import></div>
+      <div style="font:600 12.5px Poppins;color:#003049;margin-top:14px">Perfil · oscuro</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -10,7 +10,7 @@ import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.data.model.TripsAvailablePaginationRequest
 import com.agusteam.caribeando.data.network.services.TripService
 import com.agusteam.caribeando.domain.interfaces.TripRepository
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 class TripRepositoryImp(private val service: TripService) : TripRepository {
     private val paginationManager = PaginationManager<TripListPaginationResponseItem>()

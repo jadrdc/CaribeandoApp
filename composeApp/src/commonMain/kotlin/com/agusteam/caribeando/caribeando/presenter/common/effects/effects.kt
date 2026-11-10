@@ -13,11 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
 
+// 2026-08-20 (dark-mode audit): this shared shimmer/skeleton loader hardcoded light-mode grey
+// literals even though `CaribeandoExtendedColors` already defines exactly this role pair
+// (`shimmerBase`/`shimmerHighlight`) with proper dark-mode values -- every loading skeleton in
+// the app that uses this modifier (e.g. `SearchBar.kt`) stayed light-grey in dark mode instead
+// of the intended dark-navy-grey tones.
 fun Modifier.shimmerEffect(): Modifier = composed {
+    val colors = caribeandoColors
     var size by remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -33,9 +39,9 @@ fun Modifier.shimmerEffect(): Modifier = composed {
     background(
         brush = Brush.linearGradient(
             colors = listOf(
-                Color(0xFFB8B5B5),
-                Color(0xFF8F8B8B),
-                Color(0xFFB8B5B5),
+                colors.shimmerBase,
+                colors.shimmerHighlight,
+                colors.shimmerBase,
             ),
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())

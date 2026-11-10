@@ -11,10 +11,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.agusteam.caribeando.presenter.theme.CustomFontFamily
-import com.agusteam.caribeando.presenter.theme.grey500
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
 
+// 2026-08-20 (dark-mode audit): the subtitle color was the raw, theme-blind `grey500` val --
+// stayed the light-mode grey shade in dark mode instead of lightening, dropping below AA
+// contrast against the dark page background.
 @Composable
 fun DateComponent(title: String, subTitle: String) {
+    val colors = caribeandoColors
     Column {
         Text(
             style = TextStyle(
@@ -27,7 +31,7 @@ fun DateComponent(title: String, subTitle: String) {
             maxLines = 2,
             lineHeight = 24.sp,
             modifier = Modifier.padding(top = 8.dp).widthIn(max = 120.dp),
-            style = TextStyle(fontWeight = FontWeight.Normal, color = grey500, fontSize = 14.sp),
+            style = TextStyle(fontWeight = FontWeight.Normal, color = colors.grey500, fontSize = 14.sp),
             text = subTitle
         )
     }

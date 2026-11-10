@@ -3,26 +3,52 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    id("com.google.gms.google-services") version "4.4.2" apply false
-    id("com.google.firebase.crashlytics")
-
 }
 
 kotlin {
-    androidTarget {
+    // 2026-08-19: converted from `androidTarget {}` + a top-level `android {}` application block
+    // to the AGP 9 `com.android.kotlin.multiplatform.library` plugin's `androidLibrary {}` DSL.
+    // AGP 9 no longer allows the KMP plugin and com.android.application together in one module
+    // (this module used to be both at once) — the actual Android application entry point
+    // (MainActivity, the Application class, the manifest, launcher icons/resources,
+    // google-services.json, the Firebase/Crashlytics/secrets Gradle plugins) now lives in the
+    // sibling :androidApp module, which depends on this one.
+    //
+    // androidResources IS enabled here (unlike a first draft of this split): GoogleServiceProvider.kt
+    // (androidMain) reads R.string.firebase_auth for the Google Sign-In web client ID. Because AGP's
+    // android.nonTransitiveRClass=true means a module's generated R class only contains that module's
+    // OWN resources — and :composeApp can never see :androidApp's resources, since the dependency
+    // points the other way (:androidApp -> :composeApp) — this module needs its own small
+    // src/androidMain/res/values/strings.xml carrying just the strings its own code references.
+    // namespace deliberately DIFFERS from :androidApp's ("com.agusteam.caribeando"): a real
+    // build failed with "Namespace ... is used in multiple modules" once this module started
+    // shipping its own res/ with the same namespace as :androidApp. GoogleServiceProvider.kt's
+    // R import was updated to com.agusteam.caribeando.shared.R to match.
+    android {
+        namespace = "com.agusteam.caribeando.shared"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+
         @OptIn(ExperimentalKotlinGradlePluginApi::class) compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
+    // iosX64 (Intel simulator) intentionally dropped 2026-08-18: several KMP deps in this
+    // project's current catalog (Coil3 3.5.0 / androidx.sqlite 2.7.0 era) no longer publish
+    // iosX64 variants, since Apple deprecated Intel Macs. iosArm64 (real device) and
+    // iosSimulatorArm64 (Apple Silicon simulator) still fully cover development and shipping.
     listOf(
-        iosX64(), iosArm64(), iosSimulatorArm64()
+        iosArm64(), iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -47,17 +73,17 @@ kotlin {
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.firestore)
             implementation(libs.play.services.auth)
+            implementation(libs.androidx.core.i18n)
 
         }
         commonMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
-
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.materialIconsExtended)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
@@ -83,43 +109,11 @@ kotlin {
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
-    }
-}
-
-android {
-    namespace = "com.agusteam.caribeando"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    defaultConfig {
-        applicationId = "com.agusteam.caribeando"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        commonTest.dependencies {
+            // Added 2026-08-18 alongside the cancellation/refund feature's first real unit test
+            // (RequestOrderCancellationUseCaseTest) — commonTest previously had no test framework
+            // wired in at all (ComposeAppCommonTest.kt was an empty stub with zero imports).
+            implementation(kotlin("test"))
         }
     }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
-dependencies {
-    implementation(libs.androidx.core.i18n)
-    implementation(libs.firebase.auth)
-    debugImplementation(compose.uiTooling)
-}
-
-secrets {
-    propertiesFileName = "secrets.properties"
-    defaultPropertiesFileName = "local.defaults.properties"
 }

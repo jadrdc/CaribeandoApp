@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"><style>
+body{margin:0;background:#f0eee9;font-family:Poppins,system-ui,sans-serif}
+a{color:light-dark(#003049,#E8F1F6)}a:hover{color:light-dark(#D62828,#FF6E6E)}
+*::-webkit-scrollbar{width:0;height:0}
+input,textarea,button{font-family:Poppins,system-ui,sans-serif}
+input:focus,textarea:focus{outline:none}
+@keyframes scrIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-320px 0}100%{background-position:320px 0}}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+</style></helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-search" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4,10C4,6.686 6.686,4 10,4C13.314,4 16,6.686 16,10C16,13.314 13.314,16 10,16C6.686,16 4,13.314 4,10ZM10,2C5.582,2 2,5.582 2,10C2,14.418 5.582,18 10,18C11.849,18 13.551,17.373 14.906,16.32L19.293,20.707C19.683,21.098 20.317,21.098 20.707,20.707C21.098,20.317 21.098,19.683 20.707,19.293L16.32,14.906C17.373,13.551 18,11.849 18,10C18,5.582 14.418,2 10,2Z"></path></symbol>
+<symbol id="ic-filter" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M16,8C15.448,8 15,8.448 15,9C15,9.552 15.448,10 16,10C16.552,10 17,9.552 17,9C17,8.448 16.552,8 16,8ZM16,12C14.694,12 13.583,11.165 13.171,10H6C5.448,10 5,9.552 5,9C5,8.448 5.448,8 6,8H13.171C13.583,6.835 14.694,6 16,6C17.657,6 19,7.343 19,9C19,10.657 17.657,12 16,12ZM9,15C9,14.448 8.552,14 8,14C7.448,14 7,14.448 7,15C7,15.552 7.448,16 8,16C8.552,16 9,15.552 9,15ZM18,14H10.829C10.417,12.835 9.306,12 8,12C6.343,12 5,13.343 5,15C5,16.657 6.343,18 8,18C9.306,18 10.417,17.165 10.829,16H18C18.552,16 19,15.552 19,15C19,14.448 18.552,14 18,14Z"></path></symbol>
+<symbol id="ic-wish" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M8,11C9.105,11 10,10.105 10,9C10,7.895 9.105,7 8,7C6.895,7 6,7.895 6,9C6,10.105 6.895,11 8,11ZM13,8C12.448,8 12,8.448 12,9C12,9.552 12.448,10 13,10H25C25.552,10 26,9.552 26,9C26,8.448 25.552,8 25,8H13ZM12,16C12,15.448 12.448,15 13,15H25C25.552,15 26,15.448 26,16C26,16.552 25.552,17 25,17H13C12.448,17 12,16.552 12,16ZM8,18C9.105,18 10,17.105 10,16C10,14.895 9.105,14 8,14C6.895,14 6,14.895 6,16C6,17.105 6.895,18 8,18ZM10,23C10,24.105 9.105,25 8,25C6.895,25 6,24.105 6,23C6,21.895 6.895,21 8,21C9.105,21 10,21.895 10,23ZM13,22C12.448,22 12,22.448 12,23C12,23.552 12.448,24 13,24H25C25.552,24 26,23.552 26,23C26,22.448 25.552,22 25,22H13Z"></path></symbol>
+<symbol id="ic-trip" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M7,2H6.439L6.147,2.479L0.647,11.479L0.328,12L0.647,12.521L6.147,21.521L6.439,22H7H17H17.561L17.853,21.521L23.353,12.521L23.672,12L23.353,11.479L17.853,2.479L17.561,2H17H7ZM2.672,12L7.561,4H16.439L21.328,12L16.439,20H7.561L2.672,12ZM9,12C9,10.343 10.343,9 12,9C13.657,9 15,10.343 15,12C15,13.657 13.657,15 12,15C10.343,15 9,13.657 9,12ZM12,7C9.239,7 7,9.239 7,12C7,14.761 9.239,17 12,17C14.761,17 17,14.761 17,12C17,9.239 14.761,7 12,7Z"></path></symbol>
+<symbol id="ic-profile" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12,3C7.029,3 3,7.029 3,12C3,13.85 3.558,15.57 4.516,17C5.507,15.519 6.927,14.348 8.599,13.665C7.615,12.752 7,11.448 7,10C7,7.239 9.239,5 12,5C14.761,5 17,7.239 17,10C17,11.448 16.385,12.752 15.401,13.665C17.073,14.348 18.493,15.519 19.484,17C20.442,15.57 21,13.85 21,12C21,7.029 16.971,3 12,3ZM18.12,18.599C16.923,16.45 14.63,15 12,15C9.37,15 7.077,16.45 5.88,18.599C7.486,20.089 9.637,21 12,21C14.363,21 16.514,20.089 18.12,18.599ZM12,13C13.657,13 15,11.657 15,10C15,8.343 13.657,7 12,7C10.343,7 9,8.343 9,10C9,11.657 10.343,13 12,13ZM1,12C1,5.925 5.925,1 12,1C18.075,1 23,5.925 23,12C23,18.075 18.075,23 12,23C5.925,23 1,18.075 1,12Z"></path></symbol>
+<symbol id="ic-fav" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6,11.863C6,9.177 8.177,7 10.863,7C12.488,7 14.007,7.813 14.908,9.165L15.113,9.473C15.535,10.106 16.465,10.106 16.887,9.473L17.092,9.165C17.993,7.813 19.512,7 21.138,7C23.823,7 26,9.177 26,11.863V13.071C26,14.681 25.36,16.225 24.222,17.364L16.262,25.324C16.117,25.469 15.883,25.469 15.738,25.324L7.778,17.364C6.64,16.225 6,14.681 6,13.071V11.863ZM10.863,5C7.072,5 4,8.072 4,11.863V13.071C4,15.212 4.85,17.265 6.364,18.778L14.324,26.738C15.25,27.664 16.75,27.664 17.676,26.738L25.636,18.778C27.15,17.265 28,15.212 28,13.071V11.863C28,8.072 24.928,5 21.138,5C19.159,5 17.292,5.853 16,7.313C14.708,5.853 12.842,5 10.863,5Z"></path></symbol>
+<symbol id="ic-favfill" viewBox="0 0 24 24"><path fill="currentColor" d="M4.853,13.647L11.34,19.413C11.716,19.748 12.284,19.748 12.66,19.413L19.147,13.647C20.326,12.599 21,11.098 21,9.521V8.95C21,6.216 18.784,4 16.05,4C14.738,4 13.479,4.521 12.55,5.45L12.047,5.953C12.021,5.979 11.979,5.979 11.953,5.953L11.45,5.45C10.521,4.521 9.262,4 7.95,4C5.216,4 3,6.216 3,8.95V9.521C3,11.098 3.674,12.599 4.853,13.647Z"></path></symbol>
+<symbol id="ic-beach" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M18,7C16.895,7 16,7.895 16,9C16,9.552 15.552,10 15,10C14.448,10 14,9.552 14,9C14,6.791 15.791,5 18,5C19.195,5 20.267,5.524 21,6.354C21.733,5.524 22.805,5 24,5C26.209,5 28,6.791 28,9C28,9.552 27.552,10 27,10C26.448,10 26,9.552 26,9C26,7.895 25.104,7 24,7C23.255,7 22.605,7.407 22.261,8.011C22.34,8.004 22.419,8 22.5,8C23.881,8 25,9.119 25,10.5C25,11.052 24.552,11.5 24,11.5C23.448,11.5 23,11.052 23,10.5C23,10.224 22.776,10 22.5,10C22.224,10 22,10.224 22,10.5V10.877C22,13.697 21.654,16.507 20.97,19.243C20.836,19.778 20.293,20.104 19.757,19.97C19.222,19.836 18.896,19.293 19.03,18.757C19.674,16.18 20,13.533 20,10.877V10.5C20,10.224 19.776,10 19.5,10C19.224,10 19,10.224 19,10.5C19,11.052 18.552,11.5 18,11.5C17.448,11.5 17,11.052 17,10.5C17,9.119 18.119,8 19.5,8C19.58,8 19.66,8.004 19.739,8.011C19.395,7.407 18.745,7 18,7ZM11.517,7.578C10.943,7.048 10.057,7.048 9.483,7.578L4.261,12.398C3.329,13.258 3.829,14.767 5,14.976V18C5,19.105 5.895,20 7,20H10.5H14C15.104,20 16,19.105 16,18V14.976C17.171,14.767 17.671,13.258 16.739,12.398L11.517,7.578ZM7,15V18H9.5V17C9.5,16.448 9.948,16 10.5,16C11.052,16 11.5,16.448 11.5,17V18H14V15H7ZM6.558,13L10.5,9.361L14.442,13H6.558ZM7.055,22.832C7.627,22.45 8.373,22.45 8.945,22.832C10.189,23.662 11.81,23.662 13.055,22.832C13.627,22.45 14.373,22.45 14.945,22.832C16.19,23.662 17.81,23.662 19.055,22.832C19.627,22.45 20.373,22.45 20.945,22.832L22.445,23.832C22.905,24.138 23.526,24.014 23.832,23.555C24.138,23.095 24.014,22.474 23.555,22.168L22.055,21.168C20.81,20.338 19.19,20.338 17.945,21.168C17.373,21.55 16.627,21.55 16.055,21.168C14.81,20.338 13.189,20.338 11.945,21.168C11.373,21.55 10.627,21.55 10.055,21.168C8.81,20.338 7.189,20.338 5.945,21.168L4.445,22.168C3.986,22.474 3.862,23.095 4.168,23.555C4.474,24.014 5.095,24.138 5.555,23.832L7.055,22.832ZM7.055,26.832C7.627,26.45 8.373,26.45 8.945,26.832C10.189,27.662 11.81,27.662 13.055,26.832C13.627,26.45 14.373,26.45 14.945,26.832C16.19,27.662 17.81,27.662 19.055,26.832C19.627,26.45 20.373,26.45 20.945,26.832L22.445,27.832C22.905,28.138 23.526,28.014 23.832,27.555C24.138,27.095 24.014,26.474 23.555,26.168L22.055,25.168C20.81,24.338 19.19,24.338 17.945,25.168C17.373,25.55 16.627,25.55 16.055,25.168C14.81,24.338 13.189,24.338 11.945,25.168C11.373,25.55 10.627,25.55 10.055,25.168C8.81,24.338 7.189,24.338 5.945,25.168L4.445,26.168C3.986,26.474 3.862,27.095 4.168,27.555C4.474,28.014 5.095,28.138 5.555,27.832L7.055,26.832Z"></path></symbol>
+<symbol id="ic-mountain" viewBox="0 0 24 23"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M5,1C5,0.448 4.552,0 4,0C3.448,0 3,0.448 3,1V2.465L0.445,4.168C-0.014,4.474 -0.138,5.095 0.168,5.555C0.474,6.014 1.095,6.138 1.555,5.832L3,4.869V6.465L0.445,8.168C-0.014,8.474 -0.138,9.095 0.168,9.555C0.474,10.014 1.095,10.138 1.555,9.832L3,8.869V15H1C0.448,15 -0,15.448 -0,16C-0,16.552 0.448,17 1,17H3V18C3,18.552 3.448,19 4,19C4.552,19 5,18.552 5,18V17H6.987C6.995,17 7.003,17 7.012,17H19.5C19.776,17 20,17.224 20,17.5C20,17.776 19.776,18 19.5,18H10.5C9.119,18 8,19.119 8,20.5C8,21.881 9.119,23 10.5,23H18C18.552,23 19,22.552 19,22C19,21.448 18.552,21 18,21H10.5C10.224,21 10,20.776 10,20.5C10,20.224 10.224,20 10.5,20H19.5C20.881,20 22,18.881 22,17.5C22,16.119 20.881,15 19.5,15H8.943L12.961,9.375L13.586,10C14.367,10.781 15.633,10.781 16.414,10L18.414,8H20.826L22.241,9.651C22.6,10.07 23.232,10.119 23.651,9.759C24.07,9.4 24.119,8.769 23.759,8.349L18.59,2.319C17.745,1.333 16.199,1.401 15.444,2.458L6.485,15H5V8.869L6.445,9.832C6.905,10.138 7.526,10.014 7.832,9.555C8.138,9.095 8.014,8.474 7.555,8.168L5,6.465V4.869L6.445,5.832C6.905,6.138 7.526,6.014 7.832,5.555C8.138,5.095 8.014,4.474 7.555,4.168L5,2.465V1ZM19.111,6L17.072,3.62L14.139,7.725L15,8.586L17,6.586C17.375,6.211 17.884,6 18.414,6H19.111Z"></path></symbol>
+<symbol id="ic-hiking" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M14.658,7.447C15.152,6.459 16.354,6.059 17.342,6.553L22.17,8.967C22.531,9.147 22.829,9.432 23.024,9.785L27.748,18.288C27.913,18.585 28,18.919 28,19.259V25C28,26.105 27.105,27 26,27H20H12H6.281C4.98,27 4.025,25.777 4.34,24.515L6.876,14.371C7.064,13.622 7.667,13.047 8.424,12.895L12.324,12.115L14.658,7.447ZM26,25H21V24C21,21.239 18.761,19 16,19C13.239,19 11,21.239 11,24V25H6.281L7.531,20H10C10.552,20 11,19.552 11,19C11,18.448 10.552,18 10,18H8.031L8.817,14.856L8.621,13.876L8.817,14.856L12.717,14.076C13.322,13.955 13.837,13.562 14.113,13.01L16.447,8.342L21.276,10.756L22.523,13H19C18.448,13 18,13.448 18,14C18,14.552 18.448,15 19,15H23.634L24.189,16H21C20.448,16 20,16.448 20,17C20,17.552 20.448,18 21,18H25C25.097,18 25.19,17.986 25.279,17.961L26,19.259V25ZM13,24V25L19,25V24C19,22.343 17.657,21 16,21C14.343,21 13,22.343 13,24Z"></path></symbol>
+<symbol id="ic-camping" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M21,6C21,5.448 20.552,5 20,5C19.448,5 19,5.448 19,6L19,6.002C18.999,7.658 17.656,9 16,9C15.448,9 15,9.448 15,10C15,10.552 15.448,11 16,11C17.022,11 17.973,10.693 18.765,10.167C18.309,11.244 17.243,12 16,12C15.448,12 15,12.448 15,13C15,13.552 15.448,14 16,14C17.126,14 18.164,13.628 19,13V15H10.309C10.252,15 10.195,15.003 10.139,15.01L10.125,15.008C10.008,14.993 9.888,14.999 9.77,15.026C9.652,15.054 9.542,15.103 9.445,15.168C9.256,15.294 9.121,15.477 9.052,15.681C9.021,15.729 8.993,15.778 8.967,15.829L4.467,24.829C3.969,25.826 4.694,27 5.809,27H10H14.98C14.994,27 15.008,27 15.022,27H25.191C26.306,27 27.031,25.826 26.533,24.829L22.033,15.829C21.826,15.415 21.442,15.125 21,15.032V13C21.836,13.628 22.874,14 24,14C24.552,14 25,13.552 25,13C25,12.448 24.552,12 24,12C22.757,12 21.691,11.244 21.235,10.167C22.027,10.693 22.978,11 24,11C24.552,11 25,10.552 25,10C25,9.448 24.552,9 24,9C22.343,9 21,7.657 21,6ZM20,17H11.618L15.618,25H24.382L20.382,17H20ZM10,9C9.448,9 9,9.448 9,10C9,10.552 9.448,11 10,11C10.552,11 11,10.552 11,10C11,9.448 10.552,9 10,9ZM13,10C13,11.657 11.657,13 10,13C8.343,13 7,11.657 7,10C7,8.343 8.343,7 10,7C11.657,7 13,8.343 13,10ZM9,20.236L6.618,25H9V20.236ZM11,25H13.382L11,20.236V25Z"></path></symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M5,10C5,6.134 8.134,3 12,3C15.866,3 19,6.134 19,10C19,10.61 18.792,11.411 18.377,12.368C17.969,13.309 17.392,14.33 16.73,15.357C15.406,17.411 13.792,19.413 12.656,20.747C12.303,21.161 11.697,21.161 11.344,20.747C10.208,19.413 8.594,17.411 7.27,15.357C6.608,14.33 6.031,13.309 5.623,12.368C5.208,11.411 5,10.61 5,10ZM12,1C7.029,1 3,5.029 3,10C3,11.007 3.327,12.101 3.788,13.163C4.255,14.24 4.893,15.36 5.589,16.441C6.983,18.602 8.661,20.68 9.822,22.044C10.973,23.395 13.027,23.395 14.178,22.044C15.339,20.68 17.017,18.602 18.41,16.441C19.107,15.36 19.745,14.24 20.212,13.163C20.673,12.101 21,11.007 21,10C21,5.029 16.971,1 12,1ZM10,10C10,8.895 10.895,8 12,8C13.105,8 14,8.895 14,10C14,11.105 13.105,12 12,12C10.895,12 10,11.105 10,10ZM12,6C9.791,6 8,7.791 8,10C8,12.209 9.791,14 12,14C14.209,14 16,12.209 16,10C16,7.791 14.209,6 12,6Z"></path></symbol>
+<symbol id="ic-cash" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M7,8C5.895,8 5,8.895 5,10V23C5,24.105 5.895,25 7,25H25C26.105,25 27,24.105 27,23V10C27,8.895 26.105,8 25,8H7ZM7,10H25V23H7V10ZM14,16C14,14.895 14.895,14 16,14C17.105,14 18,14.895 18,16C18,17.105 17.105,18 16,18C14.895,18 14,17.105 14,16ZM16,12C13.791,12 12,13.791 12,16C12,18.209 13.791,20 16,20C18.209,20 20,18.209 20,16C20,13.791 18.209,12 16,12ZM10,12C10,12.552 9.552,13 9,13C8.448,13 8,12.552 8,12C8,11.448 8.448,11 9,11C9.552,11 10,11.448 10,12ZM23,22C23.552,22 24,21.552 24,21C24,20.448 23.552,20 23,20C22.448,20 22,20.448 22,21C22,21.552 22.448,22 23,22Z"></path></symbol>
+<symbol id="ic-clock" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M3,12C3,7.029 7.029,3 12,3C16.971,3 21,7.029 21,12C21,16.971 16.971,21 12,21C7.029,21 3,16.971 3,12ZM12,1C5.925,1 1,5.925 1,12C1,18.075 5.925,23 12,23C18.075,23 23,18.075 23,12C23,5.925 18.075,1 12,1ZM12,6C12,5.448 11.552,5 11,5C10.448,5 10,5.448 10,6V12V12.566L10.486,12.858L15.486,15.858C15.959,16.142 16.573,15.988 16.858,15.514C17.142,15.041 16.988,14.427 16.514,14.142L12,11.434V6Z"></path></symbol>
+<symbol id="ic-address" viewBox="0 0 32 32"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M17.414,5C16.633,4.219 15.367,4.219 14.586,5L9.293,10.293L9.293,10.293L3.293,16.293C2.902,16.683 2.902,17.317 3.293,17.707C3.683,18.098 4.317,18.098 4.707,17.707L6.072,16.342C6.025,16.554 6,16.774 6,17C6,17.768 6.289,18.469 6.764,19C6.289,19.531 6,20.232 6,21C6,21.768 6.289,22.469 6.764,23C6.289,23.531 6,24.232 6,25C6,26.657 7.343,28 9,28H13H19H23C24.657,28 26,26.657 26,25C26,24.232 25.711,23.531 25.236,23C25.711,22.469 26,21.768 26,21C26,20.232 25.711,19.531 25.236,19C25.711,18.469 26,17.768 26,17C26,16.774 25.975,16.554 25.928,16.342L27.293,17.707C27.683,18.098 28.317,18.098 28.707,17.707C29.098,17.317 29.098,16.683 28.707,16.293L26,13.586V8C26,7.448 25.552,7 25,7C24.448,7 24,7.448 24,8V11.586L22.708,10.294L22.706,10.292L17.414,5ZM8.342,14.072L10.414,12L21.586,12L23.658,14.072C23.446,14.025 23.226,14 23,14H9C8.774,14 8.554,14.025 8.342,14.072ZM16,6.414L12.414,10L19.586,10L16,6.414ZM24,17C24,16.448 23.552,16 23,16H9C8.448,16 8,16.448 8,17C8,17.552 8.448,18 9,18H12.268C12.613,17.402 13.26,17 14,17H18C18.74,17 19.387,17.402 19.732,18H23C23.552,18 24,17.552 24,17ZM8,21C8,20.448 8.448,20 9,20H12V22H9C8.448,22 8,21.552 8,21ZM14,26V23V19H18V23V26H14ZM23,22H20V20H23C23.552,20 24,20.448 24,21C24,21.552 23.552,22 23,22ZM20,26H23C23.552,26 24,25.552 24,25C24,24.448 23.552,24 23,24H20V26ZM9,24C8.448,24 8,24.448 8,25C8,25.552 8.448,26 9,26H12V24H9Z"></path></symbol>
+<symbol id="ic-back" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11,6L5,12M5,12L11,18M5,12L19,12"></path></symbol>
+<symbol id="ic-chev" viewBox="0 0 16 16"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M6,12L9.929,8.071C9.968,8.032 9.968,7.968 9.929,7.929L6,4"></path></symbol>
+<symbol id="ic-cancel" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12,4C7.582,4 4,7.582 4,12C4,16.418 7.582,20 12,20C16.418,20 20,16.418 20,12C20,7.582 16.418,4 12,4ZM2,12C2,6.477 6.477,2 12,2C17.523,2 22,6.477 22,12C22,17.523 17.523,22 12,22C6.477,22 2,17.523 2,12ZM15.707,8.293C16.098,8.683 16.098,9.317 15.707,9.707L13.414,12L15.707,14.293C16.098,14.683 16.098,15.317 15.707,15.707C15.317,16.098 14.683,16.098 14.293,15.707L12,13.414L9.707,15.707C9.317,16.098 8.683,16.098 8.293,15.707C7.902,15.317 7.902,14.683 8.293,14.293L10.586,12L8.293,9.707C7.902,9.317 7.902,8.683 8.293,8.293C8.683,7.902 9.317,7.902 9.707,8.293L12,10.586L14.293,8.293C14.683,7.902 15.317,7.902 15.707,8.293Z"></path></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></symbol>
+</defs></svg>
+
+<div ref="{{ rootRef }}" style="display:flex;align-items:flex-start;gap:34px;padding:44px 48px;font-family:Poppins,system-ui,sans-serif">
+<div style="width:390px;height:844px;background:light-dark(#fff,#101E28);border:1px solid rgba(0,0,0,.1);border-radius:38px;overflow:hidden;box-shadow:0 3px 16px rgba(0,0,0,.09);display:flex;flex-direction:column;position:relative;flex:none">
+
+  <div style="height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;flex:none;z-index:5"><span style="font:600 13px Poppins;color:light-dark(#003049,#E8F1F6)">9:41</span><span style="width:16px;height:9px;border:1.2px solid light-dark(#003049,#3E6479);border-radius:2px;display:block"></span></div>
+
+  <div style="flex:1;position:relative;overflow:hidden">
+
+  <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Login" style="position:absolute;inset:0;overflow-y:auto;padding:24px 24px 32px;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="width:62px;height:62px;border-radius:18px;background:#F6EDE2;display:flex;align-items:center;justify-content:center;margin-top:28px"><img src="brand/logo.png" alt="Caribeando" style="width:48px;height:48px;object-fit:cover;border-radius:12px;display:block"></div>
+    <div style="font:600 27px/1.2 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em;margin-top:26px">Iniciar sesión</div>
+    <div style="font:400 13px/1.5 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:6px">Excursiones en República Dominicana, reservadas en dos toques.</div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:28px">
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 15px">
+        <div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Correo electrónico</div>
+        <input value="{{ fEmail }}" onChange="{{ onEmail }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 15px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px">
+        <div style="flex:1;min-width:0">
+          <div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Contraseña</div>
+          <input type="password" value="{{ fPass }}" onChange="{{ onPass }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+        <span style="font:500 11.5px Poppins;color:light-dark(#003049,#E8F1F6);flex:none">Mostrar</span>
+      </div>
+    </div>
+    <div onClick="{{ doLogin }}" style="margin-top:20px;background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Iniciar sesión</div>
+    <div onClick="{{ goForgot }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:16px;cursor:pointer">¿Olvidó su contraseña?</div>
+    <div style="display:flex;align-items:center;gap:12px;margin:24px 0"><span style="flex:1;height:1px;background:light-dark(#E2E2E2,#22343F);display:block"></span><span style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE)">o</span><span style="flex:1;height:1px;background:light-dark(#E2E2E2,#22343F);display:block"></span></div>
+    <div onClick="{{ doLogin }}" style="border:1px solid light-dark(#E2E2E2,#263B47);border-radius:14px;padding:13px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer"><img src="brand/google.png" alt="" style="width:18px;height:18px;display:block"><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Continue with Google</span></div>
+    <div style="flex:1"></div>
+    <div onClick="{{ goSignup }}" style="text-align:center;font:400 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:28px;cursor:pointer">¿Primera vez? <span style="color:light-dark(#D62828,#FF6E6E);font-weight:600">Unirse a la cuenta</span></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isSignup }}">
+  <div data-screen-label="Signup" style="position:absolute;inset:0;overflow-y:auto;padding:8px 24px 32px;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div onClick="{{ goLogin }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+    <div style="font:600 25px/1.2 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em;margin-top:20px">Completa tu cuenta</div>
+    <div style="display:flex;flex-direction:column;gap:11px;margin-top:22px">
+      <div style="display:flex;gap:11px">
+        <div style="flex:1;background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 14px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Nombre</div><input value="{{ fName }}" onChange="{{ onName }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+        <div style="flex:1;background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 14px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Apellido</div><input value="{{ fLast }}" onChange="{{ onLast }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+      </div>
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 14px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Correo electrónico</div><input value="{{ fEmail }}" onChange="{{ onEmail }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 14px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Teléfono</div><input value="{{ fPhone }}" onChange="{{ onPhone }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 14px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Contraseña</div><input type="password" value="{{ fPass }}" onChange="{{ onPass }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 14px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Confirmar contraseña</div><input type="password" value="{{ fConf }}" onChange="{{ onConf }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+    </div>
+    <sc-if value="{{ hasErr }}"><div style="display:flex;align-items:center;gap:7px;margin-top:12px"><svg width="15" height="15" style="color:light-dark(#D62828,#FF6E6E);flex:none"><use href="#ic-cancel"></use></svg><span style="font:400 11.5px/1.4 Poppins;color:light-dark(#D62828,#FF6E6E)">{{ err }}</span></div></sc-if>
+    <div style="font:400 10.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:18px">Al seleccionar "Completa tu cuenta", acepto los Términos de servicio de appcourse, los Términos de servicio de pagos y la Política de no discriminación, y reconozco la Política de privacidad.</div>
+    <div onClick="{{ doSignup }}" style="margin-top:16px;background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Completar cuenta</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isExplore }}">
+  <div data-screen-label="Explorar" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="padding:6px 20px 0;flex:none">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div><div style="font:600 26px/1.15 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em">Explorar</div><div style="font:400 12px/1.4 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">{{ countLabel }}</div></div>
+        <div onClick="{{ goProfile }}" style="width:38px;height:38px;border-radius:19px;background:#F6EDE2;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" style="color:#D62828"><use href="#ic-profile"></use></svg></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <div onClick="{{ openFilter }}" style="flex:1;height:46px;background:light-dark(#F4F5F6,#182934);border-radius:14px;display:flex;align-items:center;gap:9px;padding:0 14px;cursor:pointer">
+          <svg width="17" height="17" style="color:light-dark(#5F6A70,#9FB2BE);flex:none"><use href="#ic-search"></use></svg>
+          <span style="font:400 13px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ searchLabel }}</span>
+        </div>
+        <div onClick="{{ openFilter }}" style="width:46px;height:46px;border-radius:14px;background:light-dark(#003049,#3E6479);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:#fff"><use href="#ic-filter"></use></svg></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px;overflow-x:auto;padding-bottom:2px">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+          <sc-if value="{{ c.on }}"><div onClick="{{ c.pick }}" style="flex:none;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:light-dark(#003049,#3E6479);font:500 12.5px Poppins;color:#fff;cursor:pointer;white-space:nowrap"><svg width="15" height="15" style="color:#fff;flex:none"><use href="{{ c.icon }}"></use></svg>{{ c.label }}</div></sc-if>
+          <sc-if value="{{ c.off }}"><div onClick="{{ c.pick }}" style="flex:none;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1px solid light-dark(#E2E2E2,#263B47);font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer;white-space:nowrap"><svg width="15" height="15" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="{{ c.icon }}"></use></svg>{{ c.label }}</div></sc-if>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:22px 20px 24px">
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:26px">
+        <div><div style="height:216px;border-radius:18px;background:linear-gradient(90deg,light-dark(#F1F3F4,#17262F) 0%,light-dark(#E6E9EB,#1E303B) 40%,light-dark(#F1F3F4,#17262F) 80%);background-size:320px 100%;animation:shimmer 1.3s infinite linear"></div><div style="height:14px;width:62%;border-radius:7px;background:light-dark(#F1F3F4,#17262F);margin-top:14px"></div><div style="height:12px;width:40%;border-radius:6px;background:light-dark(#F1F3F4,#17262F);margin-top:9px"></div></div>
+        <div><div style="height:216px;border-radius:18px;background:linear-gradient(90deg,light-dark(#F1F3F4,#17262F) 0%,light-dark(#E6E9EB,#1E303B) 40%,light-dark(#F1F3F4,#17262F) 80%);background-size:320px 100%;animation:shimmer 1.3s infinite linear"></div><div style="height:14px;width:52%;border-radius:7px;background:light-dark(#F1F3F4,#17262F);margin-top:14px"></div><div style="height:12px;width:36%;border-radius:6px;background:light-dark(#F1F3F4,#17262F);margin-top:9px"></div></div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ feedEmpty }}">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 24px 0;animation:fadeIn .3s">
+        <div style="width:78px;height:78px;border-radius:22px;background:#F6EDE2;display:flex;align-items:center;justify-content:center"><img src="brand/logo.png" alt="" style="width:58px;height:58px;object-fit:cover;border-radius:16px;opacity:.55;display:block"></div>
+        <div style="font:600 16px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:20px">Nada por aquí todavía</div>
+        <div style="font:400 12.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:6px">Ningún viaje coincide con esos filtros.</div>
+        <div onClick="{{ clearFilter }}" style="font:600 13px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:18px;cursor:pointer">Borrar filtros</div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ feedShown }}">
+      <div style="display:flex;flex-direction:column;gap:28px">
+      <sc-for list="{{ feed }}" as="t" hint-placeholder-count="2">
+        <div style="animation:fadeIn .35s">
+          <div style="position:relative">
+            <div onClick="{{ t.open }}" style="height:216px;border-radius:18px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));display:flex;align-items:flex-end;cursor:pointer"><span style="font:500 8.5px/1 Poppins;letter-spacing:.12em;text-transform:uppercase;color:light-dark(#93A1AA,#6E828F);padding:8px 10px">foto · {{ t.name }}</span></div>
+            <div onClick="{{ t.fav }}" style="position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:17px;background:light-dark(rgba(255,255,255,.94),rgba(12,26,34,.88));display:flex;align-items:center;justify-content:center;cursor:pointer">
+              <sc-if value="{{ t.isFav }}"><svg width="18" height="18" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-favfill"></use></svg></sc-if>
+              <sc-if value="{{ t.notFav }}"><svg width="18" height="18" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-fav"></use></svg></sc-if>
+            </div>
+          </div>
+          <div onClick="{{ t.open }}" style="cursor:pointer">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:12px;gap:12px">
+              <div style="font:600 16px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ t.name }}</div>
+              <div style="display:flex;align-items:center;gap:4px;flex:none"><svg width="13" height="13" style="color:#FFB400"><use href="#ic-star"></use></svg><span style="font:600 12px Poppins;color:light-dark(#003049,#E8F1F6)">{{ t.rating }}</span><span style="font:400 12px Poppins;color:light-dark(#757575,#8FA1AC)">{{ t.reviews }}</span></div>
+            </div>
+            <div style="font:400 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ t.meta }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:600 17px Poppins;color:light-dark(#D62828,#FF6E6E)">{{ t.priceMain }}</span><span style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ t.priceSub }}</span></div>
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:20px;height:20px;border-radius:10px;background:light-dark(#E7EBEE,#223440);display:block"></span><span style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ t.prov }}</span></div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}">
+  <div data-screen-label="Detalle del viaje" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:1;overflow-y:auto;padding-bottom:96px">
+      <div style="position:relative;height:300px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));display:flex;align-items:flex-end"><span style="font:500 8.5px/1 Poppins;letter-spacing:.12em;text-transform:uppercase;color:light-dark(#93A1AA,#6E828F);padding:10px 14px">foto · {{ d.name }}</span>
+        <div onClick="{{ goBack }}" style="position:absolute;top:14px;left:16px;width:36px;height:36px;border-radius:18px;background:light-dark(rgba(255,255,255,.94),rgba(12,26,34,.88));display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+        <div onClick="{{ favCurrent }}" style="position:absolute;top:14px;right:16px;width:36px;height:36px;border-radius:18px;background:light-dark(rgba(255,255,255,.94),rgba(12,26,34,.88));display:flex;align-items:center;justify-content:center;cursor:pointer">
+          <sc-if value="{{ d.isFav }}"><svg width="18" height="18" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-favfill"></use></svg></sc-if>
+          <sc-if value="{{ d.notFav }}"><svg width="18" height="18" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-fav"></use></svg></sc-if>
+        </div>
+        <div onClick="{{ openGallery }}" style="position:absolute;bottom:14px;right:16px;padding:5px 10px;border-radius:999px;background:light-dark(rgba(255,255,255,.94),rgba(12,26,34,.88));font:500 10px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">{{ galLabel }}</div>
+      </div>
+
+      <div style="padding:20px 20px 0">
+        <div style="font:600 22px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em">{{ d.name }}</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:8px"><svg width="14" height="14" style="color:#FFB400"><use href="#ic-star"></use></svg><span style="font:600 12.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ d.rating }}</span><span style="font:400 12.5px Poppins;color:light-dark(#757575,#8FA1AC)">{{ d.reviewsLong }}</span></div>
+        <div style="font:400 13px/1.65 Poppins;color:light-dark(#3F4A52,#C7D6DF);margin-top:14px">{{ d.desc }}</div>
+        <div style="font:600 12.5px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:8px;cursor:pointer">Leer más</div>
+
+        <div onClick="{{ goProvider }}" style="display:flex;align-items:center;gap:12px;margin-top:22px;padding:13px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;cursor:pointer">
+          <span style="width:42px;height:42px;border-radius:21px;background:light-dark(#E7EBEE,#223440);display:block;flex:none"></span>
+          <div style="flex:1;min-width:0"><div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ d.prov }}</div><div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">{{ d.provMeta }}</div></div>
+          <svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099);flex:none"><use href="#ic-chev"></use></svg>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-pin"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Destino</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ d.place }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-address"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Lugar de salida</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ d.meet }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-clock"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Hora de salida</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ d.leave }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-clock"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Hora de llegada</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ d.arrive }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-cash"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Pago de reserva</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ d.depLabel }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-cash"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Pago total</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ d.priceLabel }}</div></div></div>
+        </div>
+
+        <div style="height:150px;border-radius:16px;background:light-dark(#E8EEF1,#132430);margin-top:24px;position:relative;overflow:hidden">
+          <svg width="350" height="150" viewBox="0 0 350 150" style="display:block"><g style="stroke:light-dark(#DBE4E9,#1B2E3A)" stroke-width="1"><path d="M0 40h350M0 80h350M0 120h350M70 0v150M150 0v150M230 0v150M300 0v150"></path></g><path d="M-10 70 C50 55 110 78 170 62 C230 46 300 70 360 58 L360 160 L-10 160 Z" style="fill:light-dark(#D7E1E7,#1E3441)"></path></svg>
+          <div style="position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center"><svg width="26" height="26" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-pin"></use></svg></div>
+        </div>
+
+        <div style="margin-top:26px"><div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6)">Incluye</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:12px">
+          <sc-for list="{{ d.inc }}" as="s" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:9px"><span style="width:5px;height:5px;border-radius:3px;background:#D62828;display:block;flex:none"></span><span style="font:400 12.5px Poppins;color:light-dark(#3F4A52,#C7D6DF)">{{ s.text }}</span></div></sc-for>
+          </div>
+        </div>
+
+        <div style="margin-top:26px;padding:15px;background:light-dark(#F4F5F6,#182934);border-radius:16px"><div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Políticas de cancelación</div><div style="font:400 12px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:5px">Cancela hasta 24 horas antes de la hora de inicio para obtener un reembolso completo.</div></div>
+
+        <div style="margin-top:28px"><div style="display:flex;align-items:baseline;justify-content:space-between"><div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6)">Reseñas</div><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ d.reviewsLong }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-top:14px">
+          <sc-for list="{{ comments }}" as="c" hint-placeholder-count="2">
+            <div><div style="display:flex;align-items:center;gap:9px"><span style="width:30px;height:30px;border-radius:15px;background:light-dark(#E7EBEE,#223440);display:block"></span><div><div style="font:600 12.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ c.name }}</div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ c.date }}</div></div></div><div style="font:400 12px/1.6 Poppins;color:light-dark(#3F4A52,#C7D6DF);margin-top:8px">{{ c.text }}</div></div>
+          </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:absolute;left:0;right:0;bottom:0;background:light-dark(rgba(255,255,255,.97),rgba(16,30,40,.97));border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+      <div><div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6)">{{ d.priceLabel }}</div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">por persona · reserva {{ d.depLabel }}</div></div>
+      <div onClick="{{ goCheckout }}" style="flex:1;max-width:158px;background:#D62828;border-radius:14px;padding:14px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Pagar</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isCheckout }}">
+  <div data-screen-label="Pagar viaje" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:1;overflow-y:auto;padding:8px 20px 96px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div onClick="{{ goBack }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+        <div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6)">Pagar viaje</div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:20px;padding:12px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px">
+        <div style="width:78px;height:78px;border-radius:12px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));flex:none"></div>
+        <div style="flex:1;min-width:0"><div style="font:600 14px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ d.name }}</div><div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:4px">{{ d.meta }}</div><div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">{{ d.prov }}</div></div>
+      </div>
+
+      <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Monto a pagar</div>
+      <div style="display:flex;flex-direction:column;gap:11px;margin-top:12px">
+        <sc-if value="{{ payDeposit }}">
+        <div onClick="{{ pickDeposit }}" style="border:1.6px solid light-dark(#D62828,#FF6E6E);background:light-dark(#FDF4F4,#2A1618);border-radius:16px;padding:15px;cursor:pointer">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Pago de reserva solamente</span><span style="box-sizing:border-box;width:22px;height:22px;border-radius:999px;border:6px solid light-dark(#D62828,#FF6E6E);display:block;flex:none"></span></div>
+          <div style="font:600 20px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:8px">{{ d.depLabel }}</div>
+          <div style="font:400 11.5px/1.5 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:4px">{{ depositCopy }}</div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ notPayDeposit }}">
+        <div onClick="{{ pickDeposit }}" style="border:1px solid light-dark(#E2E2E2,#263B47);border-radius:16px;padding:15px;cursor:pointer">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Pago de reserva solamente</span><span style="box-sizing:border-box;width:22px;height:22px;border-radius:999px;border:1.5px solid light-dark(#CFD5DA,#3A4F5C);display:block;flex:none"></span></div>
+          <div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:8px">{{ d.depLabel }}</div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ payTotal }}">
+        <div onClick="{{ pickTotal }}" style="border:1.6px solid light-dark(#D62828,#FF6E6E);background:light-dark(#FDF4F4,#2A1618);border-radius:16px;padding:15px;cursor:pointer">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Pago total</span><span style="box-sizing:border-box;width:22px;height:22px;border-radius:999px;border:6px solid light-dark(#D62828,#FF6E6E);display:block;flex:none"></span></div>
+          <div style="font:600 20px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:8px">{{ d.priceLabel }}</div>
+          <div style="font:400 11.5px/1.5 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:4px">{{ totalCopy }}</div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ notPayTotal }}">
+        <div onClick="{{ pickTotal }}" style="border:1px solid light-dark(#E2E2E2,#263B47);border-radius:16px;padding:15px;cursor:pointer">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Pago total</span><span style="box-sizing:border-box;width:22px;height:22px;border-radius:999px;border:1.5px solid light-dark(#CFD5DA,#3A4F5C);display:block;flex:none"></span></div>
+          <div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:8px">{{ d.priceLabel }}</div>
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Información de pago</div>
+      <div style="margin-top:12px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;padding:15px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:11px"><span style="width:34px;height:24px;border-radius:5px;background:light-dark(#003049,#3E6479);display:block;flex:none"></span><div><div style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">•••• 4242</div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Visa · vence 09/28</div></div></div>
+        <svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg>
+      </div>
+
+      <div style="margin-top:22px;padding-top:16px;border-top:1px solid light-dark(#EEF0F1,#1E3039);display:flex;align-items:baseline;justify-content:space-between"><span style="font:500 13px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Monto a pagar ahora</span><span style="font:600 20px Poppins;color:light-dark(#003049,#E8F1F6)">{{ payNow }}</span></div>
+      <div style="font:400 11px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:8px">Cancela hasta 24 horas antes de la hora de inicio para obtener un reembolso completo.</div>
+    </div>
+
+    <div style="position:absolute;left:0;right:0;bottom:0;background:light-dark(rgba(255,255,255,.97),rgba(16,30,40,.97));border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 18px">
+      <div onClick="{{ doPay }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Procesar pago</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isSuccess }}">
+  <div data-screen-label="Pago listo" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:24px;animation:fadeIn .3s">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="width:104px;height:104px;border-radius:30px;background:#F6EDE2;display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(.2,.8,.2,1)"><img src="brand/logo.png" alt="" style="width:80px;height:80px;object-fit:cover;border-radius:22px;display:block"></div>
+      <div style="font:600 26px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px;letter-spacing:-.02em">Listo</div>
+      <div style="font:400 13px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:8px;max-width:250px">Tu lugar en {{ d.name }} está reservado. Te esperamos el {{ d.date }}.</div>
+      <div style="margin-top:26px;padding:16px 22px;border:1px dashed light-dark(#CFD5DA,#3A4F5C);border-radius:16px"><div style="font:400 10.5px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Código de confirmación</div><div style="font:600 20px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:4px;letter-spacing:.06em">{{ orderCode }}</div></div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-top:20px"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Monto pagado</span><span style="font:600 15px Poppins;color:light-dark(#D62828,#FF6E6E)">{{ paidLabel }}</span></div>
+    </div>
+    <div onClick="{{ goTrips }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Ver mis viajes</div>
+    <div onClick="{{ goExplore }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:14px;cursor:pointer">Seguir explorando</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isTrips }}">
+  <div data-screen-label="Viajes" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="padding:6px 20px 0;flex:none">
+      <div style="font:600 26px/1.15 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em">Viajes</div>
+      <div style="display:flex;gap:22px;margin-top:18px;border-bottom:1px solid light-dark(#EEF0F1,#1E3039)">
+        <sc-if value="{{ tripTabUp }}"><div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6);padding-bottom:11px;border-bottom:2px solid light-dark(#D62828,#FF6E6E);cursor:pointer">Próximos viajes</div></sc-if>
+        <sc-if value="{{ notTripTabUp }}"><div onClick="{{ showUpcoming }}" style="font:400 13.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);padding-bottom:11px;cursor:pointer">Próximos viajes</div></sc-if>
+        <sc-if value="{{ tripTabOld }}"><div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6);padding-bottom:11px;border-bottom:2px solid light-dark(#D62828,#FF6E6E);cursor:pointer">Viajes pasados</div></sc-if>
+        <sc-if value="{{ notTripTabOld }}"><div onClick="{{ showPast }}" style="font:400 13.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);padding-bottom:11px;cursor:pointer">Viajes pasados</div></sc-if>
+      </div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:20px 20px 24px">
+      <sc-if value="{{ tripTabUp }}">
+      <div style="display:flex;flex-direction:column;gap:18px">
+      <sc-for list="{{ upcoming }}" as="o" hint-placeholder-count="1">
+        <div onClick="{{ o.open }}" style="border:1px solid light-dark(#EDEFF1,#22353F);border-radius:18px;overflow:hidden;cursor:pointer;animation:fadeIn .3s">
+          <div style="height:150px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));position:relative"><div style="position:absolute;top:12px;left:12px;padding:6px 11px;border-radius:10px;background:light-dark(rgba(255,255,255,.95),rgba(16,30,40,.92));font:600 11px Poppins;color:light-dark(#003049,#E8F1F6)">{{ o.date }}</div></div>
+          <div style="padding:14px">
+            <div style="font:600 15px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ o.name }}</div>
+            <div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:4px">{{ o.prov }} · {{ o.people }}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid light-dark(#F2F4F5,#1C2E38)">
+              <div><div style="font:400 10px Poppins;letter-spacing:.08em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Código</div><div style="font:600 13px Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:.05em">{{ o.code }}</div></div>
+              <div style="font:600 12px Poppins;color:light-dark(#D62828,#FF6E6E)">{{ o.status }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+      </div>
+      <sc-if value="{{ upcomingEmpty }}">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 24px 0"><div style="width:78px;height:78px;border-radius:22px;background:#F6EDE2;display:flex;align-items:center;justify-content:center"><img src="brand/logo.png" alt="" style="width:58px;height:58px;object-fit:cover;border-radius:16px;opacity:.55;display:block"></div><div style="font:600 16px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:20px">No hay viajes que mostrar</div><div style="font:400 12.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:6px">Cuando reserves una excursión aparecerá aquí.</div><div onClick="{{ goExplore }}" style="font:600 13px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:18px;cursor:pointer">Explorar excursiones</div></div>
+      </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ tripTabOld }}">
+      <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ past }}" as="o" hint-placeholder-count="2">
+        <div style="border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;padding:12px;display:flex;gap:12px;align-items:center;animation:fadeIn .3s">
+          <div style="width:66px;height:66px;border-radius:12px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));flex:none"></div>
+          <div style="flex:1;min-width:0"><div style="font:600 13.5px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ o.name }}</div><div style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ o.date }} · {{ o.prov }}</div>
+            <sc-if value="{{ o.rated }}"><div style="display:flex;align-items:center;gap:4px;margin-top:7px"><svg width="12" height="12" style="color:#FFB400"><use href="#ic-star"></use></svg><span style="font:500 11px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ o.myRating }}</span></div></sc-if>
+          </div>
+          <sc-if value="{{ o.notRated }}"><div onClick="{{ o.rate }}" style="padding:8px 13px;border-radius:999px;background:#D62828;font:600 11.5px Poppins;color:#fff;flex:none;cursor:pointer">Calificar</div></sc-if>
+        </div>
+      </sc-for>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isReview }}">
+  <div data-screen-label="Calificar viaje" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:1;overflow-y:auto;padding:8px 20px 96px">
+      <div style="display:flex;align-items:center;gap:12px"><div onClick="{{ goTrips }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div><div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6)">Calificar viaje</div></div>
+      <div style="display:flex;gap:12px;margin-top:20px;align-items:center"><div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));flex:none"></div><div><div style="font:600 14px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ r.name }}</div><div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ r.date }} · {{ r.prov }}</div></div></div>
+      <div style="font:600 17px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:30px">¿Cómo estuvo la excursión?</div>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <sc-for list="{{ stars }}" as="s" hint-placeholder-count="5">
+          <sc-if value="{{ s.on }}"><div onClick="{{ s.pick }}" style="cursor:pointer"><svg width="42" height="42" style="color:#FFB400"><use href="#ic-star"></use></svg></div></sc-if>
+          <sc-if value="{{ s.off }}"><div onClick="{{ s.pick }}" style="cursor:pointer"><svg width="42" height="42" style="color:light-dark(#E2E2E2,#2C4050)"><use href="#ic-star"></use></svg></div></sc-if>
+        </sc-for>
+      </div>
+      <div style="font:400 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:12px">{{ starLabel }}</div>
+      <div style="font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:28px">Cuéntanos más</div>
+      <textarea value="{{ comment }}" onChange="{{ onComment }}" placeholder="¿Qué debería saber el próximo viajero?" style="width:100%;box-sizing:border-box;height:118px;margin-top:10px;background:light-dark(#F4F5F6,#182934);border:none;border-radius:16px;padding:14px;font:400 13px/1.6 Poppins;color:light-dark(#003049,#E8F1F6);resize:none"></textarea>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:light-dark(rgba(255,255,255,.97),rgba(16,30,40,.97));border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 18px"><div onClick="{{ sendReview }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Enviar reseña</div></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isFavs }}">
+  <div data-screen-label="Favoritos" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="padding:6px 20px 0;flex:none"><div style="font:600 26px/1.15 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em">Favoritos</div><div style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">{{ favCountLabel }}</div></div>
+    <div style="flex:1;overflow-y:auto;padding:20px 20px 24px">
+      <sc-if value="{{ favsEmpty }}">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 24px 0"><div style="width:78px;height:78px;border-radius:22px;background:#F6EDE2;display:flex;align-items:center;justify-content:center"><img src="brand/logo.png" alt="" style="width:58px;height:58px;object-fit:cover;border-radius:16px;opacity:.55;display:block"></div><div style="font:600 16px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:20px">Todavía sin favoritos</div><div style="font:400 12.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:6px">Guarda excursiones con el corazón y vuelve cuando decidas.</div><div onClick="{{ goExplore }}" style="font:600 13px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:18px;cursor:pointer">Explorar excursiones</div></div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ favList }}" as="t" hint-placeholder-count="2">
+        <div style="border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;padding:12px;display:flex;gap:12px;animation:fadeIn .3s">
+          <div onClick="{{ t.open }}" style="width:88px;height:88px;border-radius:12px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));flex:none;cursor:pointer"></div>
+          <div onClick="{{ t.open }}" style="flex:1;min-width:0;cursor:pointer"><div style="font:600 13.5px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ t.name }}</div><div style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ t.meta }}</div><div style="display:flex;align-items:center;gap:4px;margin-top:5px"><svg width="12" height="12" style="color:#FFB400"><use href="#ic-star"></use></svg><span style="font:500 11px Poppins;color:light-dark(#003049,#E8F1F6)">{{ t.rating }}</span><span style="font:400 11px Poppins;color:light-dark(#757575,#8FA1AC)">{{ t.reviews }}</span></div><div style="font:600 14px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:7px">{{ t.priceMain }}</div></div>
+          <div onClick="{{ t.fav }}" style="width:32px;height:32px;border-radius:16px;background:light-dark(#FDF4F4,#2A1618);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer"><svg width="17" height="17" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-favfill"></use></svg></div>
+        </div>
+      </sc-for>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile }}">
+  <div data-screen-label="Perfil" style="position:absolute;inset:0;overflow-y:auto;padding:6px 20px 28px;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="font:600 26px/1.15 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em">Perfil</div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:22px">
+      <div style="width:66px;height:66px;border-radius:33px;background:#F6EDE2;display:flex;align-items:center;justify-content:center;flex:none"><svg width="32" height="32" style="color:#D62828"><use href="#ic-profile"></use></svg></div>
+      <div><div style="font:600 18px Poppins;color:light-dark(#003049,#E8F1F6)">{{ userName }}</div><div style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ userSince }}</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1px;margin-top:26px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+      <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Nombre</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ fName }}</span></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Apellido</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ fLast }}</span></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Correo electrónico</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ fEmail }}</span></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Teléfono</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ fPhone }}</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;margin-top:14px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+      <div onClick="{{ goFavs }}" style="padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="#ic-fav"></use></svg><span style="flex:1;font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">Favoritos</span><svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div onClick="{{ goTrips }}" style="padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="#ic-trip"></use></svg><span style="flex:1;font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">Mis viajes</span><svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div onClick="{{ goContact }}" style="padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="#ic-address"></use></svg><span style="flex:1;font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">Contáctanos</span><svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg></div>
+    </div>
+    <div onClick="{{ doLogout }}" style="text-align:center;font:600 14px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:30px;cursor:pointer">Cerrar sesión</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProvider }}">
+  <div data-screen-label="Perfil del proveedor" style="position:absolute;inset:0;overflow-y:auto;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="height:150px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));position:relative"><div onClick="{{ goBack }}" style="position:absolute;top:14px;left:16px;width:36px;height:36px;border-radius:18px;background:light-dark(rgba(255,255,255,.94),rgba(12,26,34,.88));display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div></div>
+    <div style="padding:0 20px 28px">
+      <div style="display:flex;align-items:flex-end;gap:14px;margin-top:-30px">
+        <div style="width:70px;height:70px;border-radius:20px;background:#F6EDE2;border:3px solid #fff;display:flex;align-items:center;justify-content:center;flex:none"><img src="brand/logo.png" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:14px;display:block"></div>
+        <div style="padding-bottom:4px"><div style="font:500 9.5px Poppins;letter-spacing:.16em;text-transform:uppercase;color:light-dark(#D62828,#FF6E6E)">Agencia</div><div style="font:600 18px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:3px">{{ p.name }}</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:12px"><svg width="14" height="14" style="color:#FFB400"><use href="#ic-star"></use></svg><span style="font:600 12.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ p.rating }}</span><span style="font:400 12.5px Poppins;color:light-dark(#757575,#8FA1AC)">{{ p.reviews }}</span></div>
+      <div style="display:flex;margin-top:22px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+        <div style="flex:1;padding:15px 12px;text-align:center"><div style="font:600 19px Poppins;color:light-dark(#003049,#E8F1F6)">{{ p.offered }}</div><div style="font:400 10.5px/1.35 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">Viajes ofrecidos</div></div>
+        <div style="width:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+        <div style="flex:1;padding:15px 12px;text-align:center"><div style="font:600 19px Poppins;color:light-dark(#003049,#E8F1F6)">{{ p.current }}</div><div style="font:400 10.5px/1.35 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">Viajes actuales</div></div>
+        <div style="width:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+        <div style="flex:1;padding:15px 12px;text-align:center"><div style="font:600 19px Poppins;color:light-dark(#003049,#E8F1F6)">{{ p.months }}</div><div style="font:400 10.5px/1.35 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">Meses en Caribeando</div></div>
+      </div>
+      <div style="font:400 13px/1.65 Poppins;color:light-dark(#3F4A52,#C7D6DF);margin-top:20px">{{ p.desc }}</div>
+      <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Viajes actuales</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
+      <sc-for list="{{ p.trips }}" as="t" hint-placeholder-count="2">
+        <div onClick="{{ t.open }}" style="border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;padding:12px;display:flex;gap:12px;cursor:pointer">
+          <div style="width:72px;height:72px;border-radius:12px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));flex:none"></div>
+          <div style="flex:1;min-width:0"><div style="font:600 13.5px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ t.name }}</div><div style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ t.meta }}</div><div style="font:600 14px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:8px">{{ t.priceMain }}</div></div>
+        </div>
+      </sc-for>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isOrder }}">
+  <div data-screen-label="Detalles de la reserva" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:1;overflow-y:auto">
+      <div style="position:relative;height:210px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));display:flex;align-items:flex-end"><span style="font:500 8.5px/1 Poppins;letter-spacing:.12em;text-transform:uppercase;color:light-dark(#93A1AA,#6E828F);padding:10px 14px">foto · {{ ord.name }}</span>
+        <div onClick="{{ goBack }}" style="position:absolute;top:14px;left:16px;width:36px;height:36px;border-radius:18px;background:light-dark(rgba(255,255,255,.94),rgba(12,26,34,.88));display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+      </div>
+      <div style="padding:20px 20px 28px">
+        <div style="font:500 9.5px Poppins;letter-spacing:.16em;text-transform:uppercase;color:light-dark(#D62828,#FF6E6E)">Detalles de la reserva</div>
+        <div style="font:600 21px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em;margin-top:7px">{{ ord.name }}</div>
+        <div style="font:400 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:5px">{{ ord.meta }}</div>
+
+        <div style="margin-top:22px;padding:16px;border:1px dashed light-dark(#CFD5DA,#3A4F5C);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+          <div><div style="font:400 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Código de confirmación</div><div style="font:600 19px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:4px;letter-spacing:.06em">{{ ord.code }}</div></div>
+          <div style="padding:6px 11px;border-radius:999px;background:#F6EDE2;font:600 11px Poppins;color:#D62828;flex:none">{{ ord.status }}</div>
+        </div>
+
+        <sc-if value="{{ ord.pending }}">
+        <div style="margin-top:14px;padding:16px;background:light-dark(#FDF4F4,#2A1618);border-radius:16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><span style="font:600 13px Poppins;color:light-dark(#003049,#E8F1F6)">Falta por pagar</span><span style="font:600 19px Poppins;color:light-dark(#D62828,#FF6E6E)">{{ ord.missingLabel }}</span></div>
+          <div style="font:400 11.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:6px">Pagaste la reserva. El faltante se puede pagar aquí hasta 24 horas antes de la salida.</div>
+          <div onClick="{{ goBalance }}" style="margin-top:13px;background:#D62828;border-radius:12px;padding:13px;text-align:center;font:600 14px Poppins;color:#fff;cursor:pointer">Pagar faltante</div>
+        </div>
+        </sc-if>
+
+        <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Información de pago</div>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:1px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+          <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Monto pagado</span><span style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.paidLabel }}</span></div>
+          <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+          <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Pago total</span><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.totalLabel }}</span></div>
+          <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+          <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Personas</span><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.people }}</span></div>
+        </div>
+
+        <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Datos del viaje</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-pin"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Destino</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ ord.place }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-address"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Lugar de salida</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ ord.meet }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-clock"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Hora de salida</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ ord.leave }}</div></div></div>
+          <div style="display:flex;gap:10px"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none;margin-top:1px"><use href="#ic-clock"></use></svg><div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Hora de llegada</div><div style="font:500 12.5px/1.35 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:2px">{{ ord.arrive }}</div></div></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;margin-top:24px;padding:13px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px">
+          <span style="width:42px;height:42px;border-radius:21px;background:light-dark(#E7EBEE,#223440);display:block;flex:none"></span>
+          <div style="flex:1;min-width:0"><div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.prov }}</div><div style="font:500 11.5px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:3px">Escríbele al proveedor</div></div>
+          <svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099);flex:none"><use href="#ic-chev"></use></svg>
+        </div>
+
+        <div style="margin-top:20px;padding:15px;background:light-dark(#F4F5F6,#182934);border-radius:16px"><div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">Políticas de cancelación</div><div style="font:400 12px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:5px">Cancela hasta 24 horas antes de la hora de inicio para obtener un reembolso completo.</div></div>
+
+        <div onClick="{{ goReport }}" style="text-align:center;font:600 13px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:26px;cursor:pointer">Reportar inconveniente con la orden</div>
+        <div onClick="{{ askCancel }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:16px;text-decoration:underline;cursor:pointer">Cancelar reserva</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isGallery }}">
+  <div data-screen-label="Galería" style="position:absolute;inset:0;background:#0B1B24;display:flex;flex-direction:column;animation:fadeIn .25s">
+    <div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
+      <div onClick="{{ goBack }}" style="width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" style="color:#fff"><use href="#ic-cancel"></use></svg></div>
+      <div style="font:500 12px Poppins;color:rgba(255,255,255,.75)">{{ galLabel }}</div>
+      <div onClick="{{ favCurrent }}" style="width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;cursor:pointer">
+        <sc-if value="{{ d.isFav }}"><svg width="18" height="18" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-favfill"></use></svg></sc-if>
+        <sc-if value="{{ d.notFav }}"><svg width="18" height="18" style="color:#fff"><use href="#ic-fav"></use></svg></sc-if>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0 8px">
+      <div style="width:100%;height:420px;background:linear-gradient(160deg,#1E3440,#15262F);border-radius:8px;display:flex;align-items:center;justify-content:center"><span style="font:500 9px Poppins;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.35)">foto {{ galN }} · {{ d.name }}</span></div>
+    </div>
+    <div style="flex:none;padding:0 20px"><div style="font:500 13px/1.5 Poppins;color:#fff">{{ galCaption }}</div><div style="font:400 11.5px Poppins;color:rgba(255,255,255,.55);margin-top:4px">{{ d.place }} · {{ d.prov }}</div></div>
+    <div style="flex:none;display:flex;gap:8px;padding:18px 20px 26px;overflow-x:auto">
+      <sc-for list="{{ gal }}" as="g" hint-placeholder-count="6">
+        <sc-if value="{{ g.on }}"><div onClick="{{ g.pick }}" style="flex:none;width:58px;height:58px;border-radius:7px;background:linear-gradient(160deg,#2A4553,#1B2F3A);border:2px solid #fff;cursor:pointer"></div></sc-if>
+        <sc-if value="{{ g.off }}"><div onClick="{{ g.pick }}" style="flex:none;width:58px;height:58px;border-radius:7px;background:linear-gradient(160deg,#1E3440,#15262F);opacity:.55;cursor:pointer"></div></sc-if>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isCalendar }}">
+  <div data-screen-label="Calendario" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:none;padding:8px 20px 16px;border-bottom:1px solid light-dark(#EEF0F1,#1E3039)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div onClick="{{ goBack }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+        <div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6)">¿Cuándo quisieras viajar?</div>
+      </div>
+      <div style="font:600 20px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:16px;letter-spacing:-.02em">{{ rangeLabel }}</div>
+      <div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:3px">{{ rangeHint }}</div>
+      <div style="display:flex;margin-top:16px">
+        <sc-for list="{{ dows }}" as="w" hint-placeholder-count="7"><div style="flex:1;text-align:center;font:500 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">{{ w.label }}</div></sc-for>
+      </div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:18px 20px 24px">
+      <sc-for list="{{ months }}" as="m" hint-placeholder-count="2">
+        <div style="margin-bottom:26px">
+          <div style="font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);text-transform:capitalize">{{ m.title }}</div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:12px">
+            <sc-for list="{{ m.cells }}" as="c" hint-placeholder-count="35">
+              <sc-if value="{{ c.empty }}"><div style="aspect-ratio:1"></div></sc-if>
+              <sc-if value="{{ c.disabled }}"><div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font:400 13px Poppins;color:light-dark(#CFD5DA,#5A6E7A)">{{ c.label }}</div></sc-if>
+              <sc-if value="{{ c.edge }}"><div onClick="{{ c.pick }}" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:light-dark(#003049,#3E6479);border-radius:999px;font:600 13px Poppins;color:#fff;cursor:pointer">{{ c.label }}</div></sc-if>
+              <sc-if value="{{ c.mid }}"><div onClick="{{ c.pick }}" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:light-dark(#EAF0F3,#1D3542);border-radius:999px;font:500 13px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">{{ c.label }}</div></sc-if>
+              <sc-if value="{{ c.plain }}"><div onClick="{{ c.pick }}" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font:400 13px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">{{ c.label }}</div></sc-if>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:none;border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+      <div onClick="{{ clearRange }}" style="font:600 13px Poppins;color:light-dark(#003049,#E8F1F6);text-decoration:underline;cursor:pointer">Borrar</div>
+      <div onClick="{{ applyRange }}" style="flex:1;max-width:200px;background:#D62828;border-radius:14px;padding:14px;text-align:center;font:600 14.5px Poppins;color:#fff;cursor:pointer">Aplicar fechas</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isConfirm }}">
+  <div data-screen-label="Cuenta sin confirmar" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:24px;animation:fadeIn .3s">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="width:96px;height:96px;border-radius:28px;background:#F6EDE2;display:flex;align-items:center;justify-content:center;animation:pop .45s cubic-bezier(.2,.8,.2,1)"><img src="brand/logo.png" alt="" style="width:72px;height:72px;object-fit:cover;border-radius:20px;display:block"></div>
+      <div style="font:600 24px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px;letter-spacing:-.02em">Confirma tu correo</div>
+      <div style="font:400 13px/1.65 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:10px;max-width:280px">Te enviamos un enlace a <span style="color:light-dark(#003049,#E8F1F6);font-weight:600">{{ fEmail }}</span>. Ábrelo para poder reservar excursiones.</div>
+      <div style="margin-top:22px;padding:14px 16px;background:light-dark(#F4F5F6,#182934);border-radius:14px;font:400 11.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);max-width:300px">Puedes seguir explorando mientras tanto, pero el pago queda bloqueado hasta que confirmes.</div>
+    </div>
+    <div onClick="{{ resend }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Reenviar correo</div>
+    <div onClick="{{ goExplore }}" style="margin-top:12px;border:1px solid light-dark(#E2E2E2,#263B47);border-radius:14px;padding:14px;text-align:center;font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">Seguir explorando</div>
+    <div onClick="{{ doLogout }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:16px;cursor:pointer">Cerrar sesión</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isErrorFull }}">
+  <div data-screen-label="Error de página" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:24px;animation:fadeIn .3s">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <svg width="100" height="100" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-cancel"></use></svg>
+      <div style="font:500 18px/1.45 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:24px;max-width:290px">Algo salió mal. Por favor, inténtalo de nuevo más tarde.</div>
+      <div style="font:400 12px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:12px;max-width:270px">Si sigue pasando, escríbenos y lo revisamos contigo.</div>
+    </div>
+    <div onClick="{{ retryLoad }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Intentar de nuevo</div>
+    <div onClick="{{ goContact }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:16px;cursor:pointer">Contáctanos</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}">
+  <div data-screen-label="Contáctanos" style="position:absolute;inset:0;overflow-y:auto;padding:8px 20px 28px;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div onClick="{{ goBack }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+    <div style="font:600 25px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em;margin-top:22px">Contáctanos</div>
+    <div style="font:400 13px/1.65 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:8px">Escríbenos por donde te quede más cómodo. Respondemos de lunes a domingo, de 7:00 a.m. a 9:00 p.m.</div>
+    <div style="display:flex;flex-direction:column;margin-top:24px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+      <div style="padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="#ic-address"></use></svg><div style="flex:1"><div style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">WhatsApp</div><div style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">809 555 0100 · respuesta en minutos</div></div><svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div style="padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="#ic-pin"></use></svg><div style="flex:1"><div style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">Correo</div><div style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">hola@caribeando.do · menos de 24 horas</div></div><svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div style="padding:15px;display:flex;align-items:center;gap:12px;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="#ic-clock"></use></svg><div style="flex:1"><div style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">Teléfono</div><div style="font:400 11px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">809 555 0100</div></div><svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg></div>
+    </div>
+    <div style="margin-top:22px;padding:16px;background:light-dark(#F4F5F6,#182934);border-radius:16px">
+      <div style="font:600 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">¿Es sobre un viaje reservado?</div>
+      <div style="font:400 11.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:5px">Repórtalo desde la orden y el proveedor recibe copia. Llega más rápido que por aquí.</div>
+      <div onClick="{{ goTrips }}" style="font:600 12.5px Poppins;color:light-dark(#D62828,#FF6E6E);margin-top:12px;cursor:pointer">Ir a mis viajes</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isBalance }}">
+  <div data-screen-label="Pagar faltante" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:1;overflow-y:auto;padding:8px 20px 96px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div onClick="{{ goBack }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+        <div style="font:600 17px Poppins;color:light-dark(#003049,#E8F1F6)">Pagar faltante</div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:20px;padding:12px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px">
+        <div style="width:78px;height:78px;border-radius:12px;background:linear-gradient(160deg,light-dark(#E9EDF0,#1B2B35),light-dark(#DCE3E8,#16232C));flex:none"></div>
+        <div style="flex:1;min-width:0"><div style="font:600 14px/1.3 Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.name }}</div><div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:4px">{{ ord.meta }}</div><div style="font:400 11.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:2px">Orden {{ ord.code }}</div></div>
+      </div>
+
+      <div style="margin-top:26px;padding:18px;background:light-dark(#FDF4F4,#2A1618);border-radius:18px">
+        <div style="font:400 10.5px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Monto a pagar</div>
+        <div style="font:600 34px/1.1 Poppins;color:light-dark(#D62828,#FF6E6E);letter-spacing:-.02em;margin-top:6px">{{ ord.missingLabel }}</div>
+        <div style="font:400 11.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:8px">Con esto queda cubierto el viaje completo.</div>
+      </div>
+
+      <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Desglose</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:1px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+        <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Pago total</span><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.totalLabel }}</span></div>
+        <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+        <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Reserva pagada</span><span style="font:500 13.5px Poppins;color:light-dark(#003049,#E8F1F6)">− {{ ord.paidLabel }}</span></div>
+        <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+        <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center;background:light-dark(#FBFBFC,#0D1A23)"><span style="font:600 12.5px Poppins;color:light-dark(#003049,#E8F1F6)">Faltante</span><span style="font:600 15px Poppins;color:light-dark(#D62828,#FF6E6E)">{{ ord.missingLabel }}</span></div>
+      </div>
+
+      <div style="font:600 15px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px">Información de pago</div>
+      <div style="margin-top:12px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;padding:15px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:11px"><span style="width:34px;height:24px;border-radius:5px;background:light-dark(#003049,#3E6479);display:block;flex:none"></span><div><div style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">•••• 4242</div><div style="font:400 10.5px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Visa · vence 09/28</div></div></div>
+        <svg width="16" height="16" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-chev"></use></svg>
+      </div>
+      <div style="font:400 11px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:14px">Cancela hasta 24 horas antes de la hora de inicio para obtener un reembolso completo.</div>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:light-dark(rgba(255,255,255,.97),rgba(16,30,40,.97));border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 18px">
+      <div onClick="{{ payBalance }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Pagar {{ ord.missingLabel }}</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isFailed }}">
+  <div data-screen-label="Pago fallido" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:24px;animation:fadeIn .3s">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="width:96px;height:96px;border-radius:28px;background:light-dark(#FDF4F4,#2A1618);display:flex;align-items:center;justify-content:center;animation:pop .45s cubic-bezier(.2,.8,.2,1)"><svg width="46" height="46" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-cancel"></use></svg></div>
+      <div style="font:600 24px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);margin-top:26px;letter-spacing:-.02em">No pudimos procesar el pago</div>
+      <div style="font:400 13px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:10px;max-width:270px">{{ failReason }}</div>
+      <div style="margin-top:24px;width:100%;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+        <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Viaje</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ d.name }}</span></div>
+        <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+        <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Monto</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ payNow }}</span></div>
+        <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+        <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Método</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">•••• 4242</span></div>
+      </div>
+      <div style="font:400 11.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:16px">No se te cobró nada. Guardamos tu lugar por 30 minutos.</div>
+    </div>
+    <div onClick="{{ retryPay }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Intentar de nuevo</div>
+    <div onClick="{{ goCheckoutBack }}" style="margin-top:12px;border:1px solid light-dark(#E2E2E2,#263B47);border-radius:14px;padding:14px;text-align:center;font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">Cambiar método de pago</div>
+    <div onClick="{{ goExplore }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:16px;cursor:pointer">Volver a explorar</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isReport }}">
+  <div data-screen-label="Reportar orden" style="position:absolute;inset:0;display:flex;flex-direction:column;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div style="flex:1;overflow-y:auto;padding:8px 20px 96px">
+      <div style="display:flex;align-items:center;gap:12px"><div onClick="{{ goBack }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div><div style="font:600 16px Poppins;color:light-dark(#003049,#E8F1F6)">Reportar inconveniente</div></div>
+      <div style="font:600 21px/1.3 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em;margin-top:22px">Cuéntanos tu problema</div>
+      <div style="font:400 12.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:8px">Orden {{ ord.code }} · {{ ord.name }}</div>
+      <textarea value="{{ report }}" onChange="{{ onReport }}" placeholder="Describe lo que pasó con la orden. Mientras más detalle, más rápido lo resolvemos." style="width:100%;box-sizing:border-box;height:240px;margin-top:20px;background:light-dark(#fff,#101E28);border:1px solid light-dark(#E2E2E2,#263B47);border-radius:16px;padding:14px;font:400 13px/1.6 Poppins;color:light-dark(#003049,#E8F1F6);resize:none"></textarea>
+      <div style="font:400 11px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:12px">Nuestro equipo responde en menos de 24 horas y el proveedor recibe copia del reporte.</div>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:light-dark(rgba(255,255,255,.97),rgba(16,30,40,.97));border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 18px">
+      <sc-if value="{{ reportValid }}"><div onClick="{{ sendReport }}" style="background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Reportar orden</div></sc-if>
+      <sc-if value="{{ reportInvalid }}"><div style="background:light-dark(#EDB4B4,#5E2A2A);border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff">Reportar orden</div></sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isForgot }}">
+  <div data-screen-label="Recuperar contraseña" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:8px 24px 28px;animation:scrIn .3s cubic-bezier(.2,.8,.2,1)">
+    <div onClick="{{ goLogin }}" style="width:38px;height:38px;border-radius:12px;background:light-dark(#F4F5F6,#182934);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="19" height="19" style="color:light-dark(#003049,#E8F1F6)"><use href="#ic-back"></use></svg></div>
+    <div style="font:600 25px/1.25 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em;margin-top:24px">¿Olvidó su contraseña?</div>
+    <div style="font:400 13px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:8px">Escribe el correo de tu cuenta y te enviamos un enlace para crear una nueva.</div>
+    <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;padding:11px 15px;margin-top:24px"><div style="font:500 10px Poppins;letter-spacing:.1em;text-transform:uppercase;color:light-dark(#5F6A70,#9FB2BE)">Correo electrónico</div><input value="{{ fEmail }}" onChange="{{ onEmail }}" style="width:100%;border:none;background:transparent;font:400 14px Poppins;color:light-dark(#003049,#E8F1F6);padding:3px 0 0;margin:0"></div>
+    <div onClick="{{ sendReset }}" style="margin-top:20px;background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Enviar enlace</div>
+    <div style="flex:1"></div>
+    <div onClick="{{ goLogin }}" style="text-align:center;font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">Volver a iniciar sesión</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ sheet }}">
+  <div style="position:absolute;inset:0;background:light-dark(rgba(0,48,73,.34),rgba(0,0,0,.62));animation:fadeIn .2s;z-index:20" onClick="{{ closeFilter }}"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;max-height:88%;background:light-dark(#fff,#101E28);border-radius:26px 26px 0 0;z-index:21;animation:sheetUp .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column">
+    <div style="padding:10px 0 0;flex:none"><div style="width:40px;height:4px;border-radius:2px;background:light-dark(#DDE2E6,#344854);margin:0 auto"></div></div>
+    <div style="flex:1;overflow-y:auto;padding:18px 20px 0">
+      <div style="display:flex;align-items:center;justify-content:space-between"><div style="font:600 18px Poppins;color:light-dark(#003049,#E8F1F6)">Filtrar</div><div onClick="{{ closeFilter }}" style="cursor:pointer"><svg width="22" height="22" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-cancel"></use></svg></div></div>
+      <div style="background:light-dark(#F4F5F6,#182934);border-radius:14px;display:flex;align-items:center;gap:9px;padding:0 14px;height:46px;margin-top:18px">
+        <svg width="17" height="17" style="color:light-dark(#5F6A70,#9FB2BE);flex:none"><use href="#ic-search"></use></svg>
+        <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="¿Cuál es tu próxima aventura?" style="flex:1;border:none;background:transparent;font:400 13px Poppins;color:light-dark(#003049,#E8F1F6);padding:0;margin:0">
+      </div>
+      <div style="font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:24px">Tipos de excursión</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+          <sc-if value="{{ c.on }}"><div onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;background:light-dark(#003049,#3E6479);font:500 12.5px Poppins;color:#fff;cursor:pointer"><svg width="15" height="15" style="color:#fff;flex:none"><use href="{{ c.icon }}"></use></svg>{{ c.label }}</div></sc-if>
+          <sc-if value="{{ c.off }}"><div onClick="{{ c.pick }}" style="display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;border:1px solid light-dark(#E2E2E2,#263B47);font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer"><svg width="15" height="15" style="color:light-dark(#003049,#E8F1F6);flex:none"><use href="{{ c.icon }}"></use></svg>{{ c.label }}</div></sc-if>
+        </sc-for>
+      </div>
+      <div style="font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:24px">Monto máximo</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <sc-for list="{{ budgets }}" as="b" hint-placeholder-count="4">
+          <sc-if value="{{ b.on }}"><div onClick="{{ b.pick }}" style="padding:9px 14px;border-radius:999px;background:light-dark(#003049,#3E6479);font:500 12.5px Poppins;color:#fff;cursor:pointer">{{ b.label }}</div></sc-if>
+          <sc-if value="{{ b.off }}"><div onClick="{{ b.pick }}" style="padding:9px 14px;border-radius:999px;border:1px solid light-dark(#E2E2E2,#263B47);font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">{{ b.label }}</div></sc-if>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px"><div style="font:600 14px Poppins;color:light-dark(#003049,#E8F1F6)">¿Cuándo quisieras viajar?</div><div onClick="{{ goCalendar }}" style="font:600 12px Poppins;color:light-dark(#D62828,#FF6E6E);cursor:pointer">Fechas exactas</div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <sc-if value="{{ hasRange }}"><div onClick="{{ goCalendar }}" style="display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;background:light-dark(#003049,#3E6479);font:500 12.5px Poppins;color:#fff;cursor:pointer">{{ rangeLabel }}</div></sc-if>
+        <sc-for list="{{ dates }}" as="v" hint-placeholder-count="4">
+          <sc-if value="{{ v.on }}"><div onClick="{{ v.pick }}" style="padding:9px 14px;border-radius:999px;background:light-dark(#003049,#3E6479);font:500 12.5px Poppins;color:#fff;cursor:pointer">{{ v.label }}</div></sc-if>
+          <sc-if value="{{ v.off }}"><div onClick="{{ v.pick }}" style="padding:9px 14px;border-radius:999px;border:1px solid light-dark(#E2E2E2,#263B47);font:500 12.5px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">{{ v.label }}</div></sc-if>
+        </sc-for>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+    <div style="flex:none;border-top:1px solid light-dark(#EEF0F1,#1E3039);padding:14px 20px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px">
+      <div onClick="{{ clearFilter }}" style="font:600 13px Poppins;color:light-dark(#003049,#E8F1F6);text-decoration:underline;cursor:pointer">Borrar filtros</div>
+      <div onClick="{{ applyFilter }}" style="flex:1;max-width:200px;background:#D62828;border-radius:14px;padding:14px;text-align:center;font:600 14.5px Poppins;color:#fff;cursor:pointer">{{ applyLabel }}</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ paying }}">
+  <div style="position:absolute;inset:0;background:light-dark(rgba(255,255,255,.86),rgba(10,22,32,.9));display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:30;animation:fadeIn .2s">
+    <div style="width:44px;height:44px;border-radius:22px;border:3px solid light-dark(#F0DCDC,#3A2426);border-top-color:light-dark(#D62828,#FF6E6E);animation:spin .8s linear infinite"></div>
+    <div style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6);margin-top:18px">Procesando pago…</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ cancelAsk }}">
+  <div style="position:absolute;inset:0;background:light-dark(rgba(0,48,73,.34),rgba(0,0,0,.62));animation:fadeIn .2s;z-index:24" onClick="{{ dismissCancel }}"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;background:light-dark(#fff,#101E28);border-radius:26px 26px 0 0;z-index:25;animation:sheetUp .32s cubic-bezier(.2,.8,.2,1);padding:10px 20px 24px">
+    <div style="width:40px;height:4px;border-radius:2px;background:light-dark(#DDE2E6,#344854);margin:0 auto 20px"></div>
+    <div style="font:600 19px/1.3 Poppins;color:light-dark(#003049,#E8F1F6);letter-spacing:-.02em">¿Cancelar esta reserva?</div>
+    <div style="font:400 12.5px/1.65 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:10px">{{ refundCopy }}</div>
+    <div style="margin-top:18px;display:flex;flex-direction:column;gap:1px;border:1px solid light-dark(#EDEFF1,#22353F);border-radius:16px;overflow:hidden">
+      <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Orden</span><span style="font:500 13px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.code }}</span></div>
+      <div style="height:1px;background:light-dark(#F2F4F5,#1C2E38)"></div>
+      <div style="padding:14px 15px;display:flex;justify-content:space-between;align-items:center"><span style="font:400 12px Poppins;color:light-dark(#5F6A70,#9FB2BE)">Reembolso</span><span style="font:600 14px Poppins;color:light-dark(#003049,#E8F1F6)">{{ ord.paidLabel }}</span></div>
+    </div>
+    <div onClick="{{ doCancel }}" style="margin-top:18px;background:#D62828;border-radius:14px;padding:15px;text-align:center;font:600 15px Poppins;color:#fff;cursor:pointer">Cancelar reserva</div>
+    <div onClick="{{ dismissCancel }}" style="margin-top:12px;padding:14px;text-align:center;font:600 14px Poppins;color:light-dark(#003049,#E8F1F6);cursor:pointer">Mantener reserva</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ hasError }}">
+  <div style="position:absolute;inset:0;background:light-dark(rgba(0,48,73,.34),rgba(0,0,0,.62));z-index:35;display:flex;align-items:center;justify-content:center;padding:26px;animation:fadeIn .2s">
+    <div style="width:100%;background:light-dark(#fff,#101E28);border-radius:18px;padding:20px;animation:pop .32s cubic-bezier(.2,.8,.2,1)">
+      <div style="display:flex;align-items:center;gap:10px"><svg width="22" height="22" style="color:light-dark(#D62828,#FF6E6E);flex:none"><use href="#ic-cancel"></use></svg><div style="font:600 16px Poppins;color:light-dark(#003049,#E8F1F6)">{{ errTitle }}</div></div>
+      <div style="font:400 12.5px/1.6 Poppins;color:light-dark(#5F6A70,#9FB2BE);margin-top:12px">{{ errMsg }}</div>
+      <div onClick="{{ clearError }}" style="margin-top:20px;background:#D62828;border-radius:12px;padding:13px;text-align:center;font:600 14px Poppins;color:#fff;cursor:pointer">Ok</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}">
+  <div style="position:absolute;left:20px;right:20px;bottom:26px;z-index:40;background:light-dark(#003049,#3E6479);border-radius:14px;padding:13px 16px;font:500 12.5px Poppins;color:#fff;text-align:center;animation:toastIn .3s cubic-bezier(.2,.8,.2,1)">{{ toast }}</div>
+  </sc-if>
+
+  </div>
+
+  <sc-if value="{{ navVisible }}">
+  <div style="flex:none;border-top:1px solid light-dark(#EEF0F1,#1E3039);display:flex;justify-content:space-around;padding:12px 0 26px;background:light-dark(#fff,#101E28);z-index:10">
+    <div onClick="{{ goExplore }}" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;width:70px">
+      <sc-if value="{{ tabExplore }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="22" height="22" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-search"></use></svg><span style="font:500 10px Poppins;color:light-dark(#D62828,#FF6E6E)">Explorar</span></div></sc-if>
+      <sc-if value="{{ notTabExplore }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="22" height="22" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-search"></use></svg><span style="font:400 10px Poppins;color:light-dark(#8A9298,#7E9099)">Explorar</span></div></sc-if>
+    </div>
+    <div onClick="{{ goFavs }}" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;width:70px">
+      <sc-if value="{{ tabFavs }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="23" height="23" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-wish"></use></svg><span style="font:500 10px Poppins;color:light-dark(#D62828,#FF6E6E)">Favoritos</span></div></sc-if>
+      <sc-if value="{{ notTabFavs }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="23" height="23" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-wish"></use></svg><span style="font:400 10px Poppins;color:light-dark(#8A9298,#7E9099)">Favoritos</span></div></sc-if>
+    </div>
+    <div onClick="{{ goTrips }}" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;width:70px">
+      <sc-if value="{{ tabTrips }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="22" height="22" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-trip"></use></svg><span style="font:500 10px Poppins;color:light-dark(#D62828,#FF6E6E)">Viajes</span></div></sc-if>
+      <sc-if value="{{ notTabTrips }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="22" height="22" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-trip"></use></svg><span style="font:400 10px Poppins;color:light-dark(#8A9298,#7E9099)">Viajes</span></div></sc-if>
+    </div>
+    <div onClick="{{ goProfile }}" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;width:70px">
+      <sc-if value="{{ tabProfile }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="22" height="22" style="color:light-dark(#D62828,#FF6E6E)"><use href="#ic-profile"></use></svg><span style="font:500 10px Poppins;color:light-dark(#D62828,#FF6E6E)">Perfil</span></div></sc-if>
+      <sc-if value="{{ notTabProfile }}"><div style="display:flex;flex-direction:column;align-items:center;gap:5px"><svg width="22" height="22" style="color:light-dark(#8A9298,#7E9099)"><use href="#ic-profile"></use></svg><span style="font:400 10px Poppins;color:light-dark(#8A9298,#7E9099)">Perfil</span></div></sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+
+<sc-if value="{{ chrome }}" hint-placeholder-val="{{ true }}">
+<div style="width:250px;padding-top:8px">
+  <div style="font:600 12px Poppins;color:light-dark(#003049,#E8F1F6)">Caribeando · dirección 1a</div>
+  <div style="font:400 11px/1.7 Poppins;color:rgba(0,0,0,.5);margin-top:8px">Prototipo navegable. Todo es tocable: buscar y filtrar, guardar con el corazón, abrir un viaje, pagar reserva o total, calificar un viaje pasado, cerrar sesión.</div>
+  <div style="font:400 11px/1.7 Poppins;color:rgba(0,0,0,.5);margin-top:12px">Las fotos son marcos de posición. Íconos, colores y tipografía salen del repositorio.</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:720,&quot;height&quot;:940},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;signup&quot;,&quot;forgot&quot;,&quot;confirm&quot;,&quot;explore&quot;,&quot;exploreLoading&quot;,&quot;exploreEmpty&quot;,&quot;filter&quot;,&quot;calendar&quot;,&quot;error&quot;,&quot;errorFull&quot;,&quot;detail&quot;,&quot;gallery&quot;,&quot;checkout&quot;,&quot;paying&quot;,&quot;success&quot;,&quot;failed&quot;,&quot;trips&quot;,&quot;tripsPast&quot;,&quot;tripsEmpty&quot;,&quot;order&quot;,&quot;orderPending&quot;,&quot;balance&quot;,&quot;cancel&quot;,&quot;report&quot;,&quot;review&quot;,&quot;favorites&quot;,&quot;favoritesEmpty&quot;,&quot;profile&quot;,&quot;provider&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;depositFirst&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;failPayment&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;latency&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:2500,&quot;step&quot;:100,&quot;default&quot;:1100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;chrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;}}">
+class Component extends DCLogic {
+  TRIPS = [
+    {id:'t1',name:'Bahía de las Águilas',place:'Pedernales',date:'Sáb 22 ago',dur:'12 h',price:3200,dep:1500,rating:'4.9',reviews:127,prov:'Ruta Caribe Tours',provId:'p1',cat:'Playa',meet:'Parque Independencia',leave:'6:00 a.m.',arrive:'8:30 p.m.',
+     desc:'Un día completo en la playa más remota del país. Salimos de Santo Domingo antes del amanecer, cruzamos en lancha desde La Cueva de las Águilas y pasamos la tarde en siete kilómetros de arena blanca sin un solo edificio.',
+     inc:['Transporte ida y vuelta','Lancha a la bahía','Almuerzo criollo','Guía certificado','Entrada al Parque Nacional Jaragua']},
+    {id:'t2',name:'27 Charcos de Damajagua',place:'Puerto Plata',date:'Dom 23 ago',dur:'8 h',price:2450,dep:900,rating:'4.8',reviews:94,prov:'Verde Trópico Expediciones',provId:'p2',cat:'Senderismo',meet:'Imbert, km 12',leave:'7:30 a.m.',arrive:'4:00 p.m.',
+     desc:'Subimos el río saltando de charco en charco hasta el número 27. Cada salto es opcional y el guía va delante marcando la ruta.',
+     inc:['Casco y chaleco','Guía local','Almuerzo','Transporte desde Puerto Plata']},
+    {id:'t3',name:'Salto El Limón',place:'Samaná',date:'Sáb 22 ago',dur:'6 h',price:1950,dep:600,rating:'4.7',reviews:61,prov:'Aventuras Quisqueya',provId:'p3',cat:'Senderismo',meet:'El Limón, plaza',leave:'8:00 a.m.',arrive:'2:00 p.m.',
+     desc:'Cabalgata de 40 minutos entre palmas hasta una cascada de 52 metros, con tiempo suficiente para nadar en la poza.',
+     inc:['Caballo y guía','Refrigerio','Entrada al salto']},
+    {id:'t4',name:'Isla Saona desde Bayahíbe',place:'Bayahíbe',date:'Vie 5 sep',dur:'10 h',price:4100,dep:2000,rating:'4.9',reviews:208,prov:'Bayahíbe Náutica',provId:'p4',cat:'Playa',meet:'Muelle de Bayahíbe',leave:'8:00 a.m.',arrive:'6:00 p.m.',
+     desc:'Catamarán a la ida, lancha rápida a la vuelta y una parada en la piscina natural donde el agua no pasa de la cintura.',
+     inc:['Catamarán y lancha','Barra libre','Almuerzo buffet en la playa','Parada en la piscina natural']},
+    {id:'t5',name:'Los Haitises y Caño Hondo',place:'Sabana de la Mar',date:'Dom 23 ago',dur:'9 h',price:3600,dep:1200,rating:'4.6',reviews:48,prov:'Verde Trópico Expediciones',provId:'p2',cat:'Playa',meet:'Sabana de la Mar',leave:'7:00 a.m.',arrive:'4:30 p.m.',
+     desc:'Manglares, cuevas con pictografías taínas y una tarde en las piscinas de Caño Hondo.',
+     inc:['Paseo en bote','Guía naturalista','Almuerzo','Entrada al parque']},
+    {id:'t6',name:'Pico Duarte, 3 días',place:'Jarabacoa',date:'Sáb 12 sep',dur:'3 días',price:8500,dep:3000,rating:'4.8',reviews:33,prov:'Aventuras Quisqueya',provId:'p3',cat:'Montaña',meet:'La Ciénaga, Jarabacoa',leave:'5:00 a.m.',arrive:'Día 3, 5:00 p.m.',
+     desc:'El techo del Caribe en tres jornadas, con campamento en La Compartición y mulas para la carga.',
+     inc:['Guía de montaña','Mulas y carga','Campamento y comidas','Permiso del parque']}
+  ];
+  PROVS = {
+    p1:{name:'Ruta Caribe Tours',rating:'4.9',reviews:'(312 reseñas)',offered:12,current:4,months:26,desc:'Operador de excursiones de un día desde Santo Domingo. Grupos de máximo 18 personas y guías certificados por el Ministerio de Turismo.'},
+    p2:{name:'Verde Trópico Expediciones',rating:'4.7',reviews:'(142 reseñas)',offered:9,current:3,months:18,desc:'Especialistas en parques nacionales y manglares del este del país.'},
+    p3:{name:'Aventuras Quisqueya',rating:'4.8',reviews:'(94 reseñas)',offered:15,current:6,months:34,desc:'Montaña, senderismo y expediciones de varios días en la Cordillera Central.'},
+    p4:{name:'Bayahíbe Náutica',rating:'4.9',reviews:'(208 reseñas)',offered:7,current:5,months:11,desc:'Salidas diarias a Saona y Catalina con flota propia de catamaranes.'}
+  };
+  COMMENTS = [
+    {name:'Yamilé R.',date:'Hace 2 semanas',text:'Todo salió a tiempo y el guía se sabía cada rincón. El almuerzo en la playa fue mejor de lo que esperaba.'},
+    {name:'Andrés M.',date:'Hace 1 mes',text:'Vale cada peso. Solo lleven efectivo para las bebidas extra y protector solar de sobra.'}
+  ];
+  CATS = [
+    {label:'Todo',icon:'#ic-search'},
+    {label:'Playa',icon:'#ic-beach'},
+    {label:'Montaña',icon:'#ic-mountain'},
+    {label:'Senderismo',icon:'#ic-hiking'},
+    {label:'Camping',icon:'#ic-camping'}
+  ];
+  BUDGETS = [{label:'Cualquiera',v:99999},{label:'Hasta RD$2,000',v:2000},{label:'Hasta RD$4,000',v:4000},{label:'Hasta RD$6,000',v:6000}];
+  DATES = [{label:'Cualquier fecha',v:''},{label:'Sáb 22 ago',v:'Sáb 22 ago'},{label:'Dom 23 ago',v:'Dom 23 ago'},{label:'Vie 5 sep',v:'Vie 5 sep'}];
+
+  PRESETS = {
+    exploreLoading:{screen:'explore', tab:'explore', loading:true},
+    exploreEmpty:{screen:'explore', tab:'explore', cat:'Camping', loading:false},
+    filter:{screen:'explore', tab:'explore', sheet:true, loading:false},
+    trips:{screen:'trips', tab:'trips'},
+    tripsPast:{screen:'trips', tab:'trips', tripTab:'old'},
+    tripsEmpty:{screen:'trips', tab:'trips', upcoming:[]},
+    favorites:{screen:'favorites', tab:'favorites'},
+    favoritesEmpty:{screen:'favorites', tab:'favorites', favs:[]},
+    profile:{screen:'profile', tab:'profile'},
+    paying:{screen:'checkout', paying:true},
+    success:{screen:'success', paid:3200},
+    review:{screen:'review', starN:4, comment:'El guía nos esperó aunque llegamos tarde y el almuerzo estuvo buenísimo.'},
+    report:{screen:'report', report:'La guagua llegó 40 minutos tarde al punto de salida y perdimos la primera parada.'},
+    orderPending:{screen:'order', orderIdx:1},
+    balance:{screen:'balance', orderIdx:1},
+    failed:{screen:'failed', tripId:'t1'},
+    cancel:{screen:'order', orderIdx:1, cancelAsk:true},
+    gallery:{screen:'gallery', tripId:'t1', galIdx:2},
+    calendar:{screen:'calendar', calStart:'2026-08-22', calEnd:'2026-08-29'},
+    confirm:{screen:'confirm'},
+    errorFull:{screen:'errorFull'},
+    contact:{screen:'contact'},
+    error:{screen:'explore', tab:'explore', loading:false, errTitle:'Algo salió mal', errMsg:'No pudimos cargar las excursiones. Revisa tu conexión e intenta nuevamente.'}
+  };
+  constructor(props){
+    super(props);
+    const key = props.startScreen || 'login';
+    const preset = this.PRESETS[key];
+    const s = preset ? preset.screen : key;
+    this.state = {
+      screen: s, tab: 'explore', hist: [], loading: s === 'explore',
+      sheet:false, cat:'Todo', budget:99999, dateSel:'', query:'',
+      favs:['t4'], tripId:'t1', provId:'p1',
+      pay:'deposit', paying:false, code:'CRB-4821', paid:0,
+      tripTab:'up', rateId:'t2', starN:0, comment:'', toast:'',
+      name:'Ana', last:'Peralta', email:'ana.peralta@correo.com', phone:'809 555 0142', pass:'', conf:'', err:'',
+      orderIdx:0, report:'', errTitle:'', errMsg:'', cancelAsk:false, failReason:'',
+      galIdx:0, calStart:'', calEnd:'', rangeStart:'', rangeEnd:'',
+      upcoming:[
+        {tripId:'t4',date:'Vie 5 sep',code:'CRB-3390',people:'2 personas',status:'Confirmado',paid:4100},
+        {tripId:'t1',date:'Sáb 22 ago',code:'CRB-2071',people:'2 personas',status:'Reserva pagada',paid:1500}
+      ],
+      past:[{tripId:'t2',date:'12 jul',rated:false,my:''},{tripId:'t6',date:'3 may',rated:true,my:'4 · Excelente guía'}]
+    };
+    if(preset) Object.assign(this.state, preset);
+  }
+  root = React.createRef();
+  applyTheme(){
+    const el = this.root && this.root.current;
+    if(el) el.style.colorScheme = (String(this.props.theme) === 'dark') ? 'dark' : 'light';
+  }
+  componentDidMount(){ this.applyTheme(); if(this.state.loading) this.tick(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  latency(){ const l = this.props.latency; return (l === 0 || l) ? l : 1100; }
+  tick(){ const t=this.latency(); if(!t){ this.setState({loading:false}); return; } setTimeout(()=>this.setState({loading:false}), t); }
+  fmt(n){ return 'RD$' + n.toLocaleString('en-US'); }
+  MONTHS = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  ABBR = {ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,oct:10,nov:11,dic:12};
+  TODAY = '2026-08-19';
+  iso(y,m,d){ return y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0'); }
+  tripIso(t){
+    const parts = t.date.split(' ');
+    const day = parseInt(parts[1], 10);
+    const mon = this.ABBR[parts[2]] || 8;
+    return this.iso(2026, mon, day);
+  }
+  shortDate(is){
+    if(!is) return '';
+    const p = is.split('-');
+    return parseInt(p[2],10) + ' ' + this.MONTHS[parseInt(p[1],10)-1].slice(0,3);
+  }
+  monthGrids(){
+    const st = this.state;
+    return [[2026,8],[2026,9]].map(pair=>{
+      const y = pair[0], m = pair[1];
+      const lead = new Date(y, m-1, 1).getDay();
+      const total = new Date(y, m, 0).getDate();
+      const cells = [];
+      for(let i=0;i<lead;i++) cells.push({empty:true, label:''});
+      for(let d=1;d<=total;d++){
+        const is = this.iso(y,m,d);
+        const past = is < this.TODAY;
+        const edge = is === st.calStart || (!!st.calEnd && is === st.calEnd);
+        const mid = !!st.calStart && !!st.calEnd && is > st.calStart && is < st.calEnd;
+        cells.push({empty:false, label:String(d), disabled:past, edge:!past&&edge, mid:!past&&!edge&&mid,
+          plain: !past && !edge && !mid, pick: ()=>this.pickDay(is)});
+      }
+      return {title: this.MONTHS[m-1] + ' ' + y, cells: cells};
+    });
+  }
+  pickDay(is){
+    this.setState(s=>{
+      if(!s.calStart || (s.calStart && s.calEnd)) return {calStart:is, calEnd:''};
+      if(is < s.calStart) return {calStart:is, calEnd:s.calStart};
+      if(is === s.calStart) return {calStart:is, calEnd:''};
+      return {calEnd:is};
+    });
+  }
+  trip(id){ return this.TRIPS.find(t=>t.id===id) || this.TRIPS[0]; }
+  push(screen, extra){ this.setState(s=>Object.assign({hist:s.hist.concat([s.screen]), screen:screen}, extra||{})); }
+  tab(screen, tab){ this.setState({screen:screen, tab:tab, hist:[], sheet:false}); }
+  back(){ this.setState(s=>{ const h=s.hist.slice(); const prev=h.pop(); return {screen: prev || 'explore', hist:h}; }); }
+  flash(msg){ this.setState({toast:msg}); setTimeout(()=>this.setState({toast:''}), 2200); }
+  toggleFav(id){ this.setState(s=>({favs: s.favs.indexOf(id)>=0 ? s.favs.filter(x=>x!==id) : s.favs.concat([id])})); }
+
+  filtered(){
+    const q = this.state.query.trim().toLowerCase();
+    return this.TRIPS.filter(t=>{
+      if(this.state.cat !== 'Todo' && t.cat !== this.state.cat) return false;
+      if(t.price > this.state.budget) return false;
+      if(this.state.dateSel && t.date !== this.state.dateSel) return false;
+      if(this.state.rangeStart){
+        const is = this.tripIso(t), end = this.state.rangeEnd || this.state.rangeStart;
+        if(is < this.state.rangeStart || is > end) return false;
+      }
+      if(q && (t.name+' '+t.place+' '+t.prov).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+  }
+  card(t){
+    const dep = this.props.depositFirst;
+    return {
+      id:t.id, name:t.name, rating:t.rating, reviews:'('+t.reviews+')',
+      meta: t.place + ' · ' + t.date + ' · ' + t.dur, prov: t.prov,
+      priceMain: dep ? 'Reserva ' + this.fmt(t.dep) : this.fmt(t.price),
+      priceSub: dep ? 'de ' + this.fmt(t.price) + ' total' : 'por persona',
+      isFav: this.state.favs.indexOf(t.id)>=0, notFav: this.state.favs.indexOf(t.id)<0,
+      open: ()=>this.push('detail',{tripId:t.id}),
+      fav: (e)=>{ if(e&&e.stopPropagation) e.stopPropagation(); this.toggleFav(t.id); }
+    };
+  }
+
+  renderVals(){
+    const st = this.state, sc = st.screen;
+    const t = this.trip(st.tripId);
+    const feed = this.filtered();
+    const rateTrip = this.trip(st.rateId);
+    const prov = this.PROVS[st.provId] || this.PROVS.p1;
+    const oRaw = st.upcoming[st.orderIdx] || st.upcoming[0] || {tripId:'t4',date:'Vie 5 sep',code:'CRB-3390',people:'2 personas',status:'Confirmado',paid:4100};
+    const oT = this.trip(oRaw.tripId);
+    const filterCount = (st.cat!=='Todo'?1:0)+(st.budget!==99999?1:0)+(st.dateSel?1:0)+(st.rangeStart?1:0)+(st.query.trim()?1:0);
+    const starWords = ['','Muy malo','Malo','Regular','Bueno','Excelente'];
+    const payAmount = st.pay==='deposit' ? t.dep : t.price;
+
+    return {
+      isLogin: sc==='login', isSignup: sc==='signup', isExplore: sc==='explore', isDetail: sc==='detail',
+      isCheckout: sc==='checkout', isSuccess: sc==='success', isTrips: sc==='trips', isReview: sc==='review',
+      isFavs: sc==='favorites', isProfile: sc==='profile', isProvider: sc==='provider',
+      isOrder: sc==='order', isReport: sc==='report', isForgot: sc==='forgot',
+      isBalance: sc==='balance', isFailed: sc==='failed',
+      isGallery: sc==='gallery', isCalendar: sc==='calendar', isConfirm: sc==='confirm',
+      isErrorFull: sc==='errorFull', isContact: sc==='contact',
+      openGallery: ()=>this.push('gallery'),
+      galLabel: (st.galIdx+1) + ' / 6', galN: st.galIdx+1,
+      galCaption: ['La bahía desde el mirador','Salida en lancha','Siete kilómetros de arena','Almuerzo criollo en la playa','Camino al Parque Jaragua','De vuelta al atardecer'][st.galIdx],
+      gal: [0,1,2,3,4,5].map(i=>({on: i===st.galIdx, off: i!==st.galIdx, pick: ()=>this.setState({galIdx:i})})),
+
+      goCalendar: ()=>this.push('calendar',{sheet:false, calStart:st.rangeStart, calEnd:st.rangeEnd}),
+      dows: [{label:'D'},{label:'L'},{label:'M'},{label:'M'},{label:'J'},{label:'V'},{label:'S'}],
+      months: this.monthGrids(),
+      rangeLabel: st.calStart ? (st.calEnd ? this.shortDate(st.calStart) + ' – ' + this.shortDate(st.calEnd) : this.shortDate(st.calStart)) : 'Elige tus fechas',
+      rangeHint: st.calStart ? (st.calEnd ? 'Toca cualquier día para empezar de nuevo' : 'Ahora elige el día de regreso') : 'Toca el día de salida',
+      hasRange: !!st.rangeStart,
+      clearRange: ()=>this.setState({calStart:'', calEnd:'', rangeStart:'', rangeEnd:''}),
+      applyRange: ()=>this.setState(s=>({screen:'explore', hist:[], sheet:true, rangeStart:s.calStart, rangeEnd:s.calEnd, dateSel:''})),
+
+      resend: ()=>this.flash('Te reenviamos el enlace de confirmación'),
+      retryLoad: ()=>{ this.setState({screen:'explore', tab:'explore', hist:[], loading:true}); this.tick(); },
+      goContact: ()=>this.push('contact'),
+      cancelAsk: st.cancelAsk,
+      askCancel: ()=>this.setState({cancelAsk:true}),
+      dismissCancel: ()=>this.setState({cancelAsk:false}),
+      refundCopy: 'Faltan más de 24 horas para la salida, así que el reembolso es completo. El proveedor recibe el aviso al instante.',
+      doCancel: ()=>{
+        this.setState(s=>({cancelAsk:false, screen:'trips', tab:'trips', hist:[], upcoming: s.upcoming.filter((x,i)=>i!==s.orderIdx), orderIdx:0}));
+        this.flash('Reserva cancelada. El reembolso llega en 5 días hábiles.');
+      },
+      goBalance: ()=>this.push('balance'),
+      payBalance: ()=>{
+        const miss = (oT.price - (oRaw.paid || 0));
+        const wait = this.latency() ? Math.max(600, Number(this.latency())) : 0;
+        this.setState({paying:true});
+        setTimeout(()=>{
+          this.setState(s=>({
+            paying:false, screen:'success', hist:[], paid:miss, tripId:oRaw.tripId, code:oRaw.code,
+            upcoming: s.upcoming.map((x,i)=> i===s.orderIdx ? Object.assign({}, x, {paid:oT.price, status:'Pagado completo'}) : x)
+          }));
+        }, wait);
+      },
+      failReason: st.failReason || 'Tu banco rechazó la transacción. Intenta otra vez o usa otra tarjeta.',
+      retryPay: ()=>this.setState({screen:'checkout', hist:[]}),
+      goCheckoutBack: ()=>this.setState({screen:'checkout', hist:[]}),
+      chrome: String(this.props.chrome) !== 'false',
+      rootRef: this.root,
+      ord: {
+        name:oT.name, place:oT.place, meet:oT.meet, leave:oT.leave, arrive:oT.arrive, prov:oT.prov,
+        meta: oT.place+' · '+oRaw.date+' · '+oT.dur, code:oRaw.code, status:oRaw.status, people:oRaw.people,
+        paidLabel:this.fmt(oRaw.paid || oT.price), totalLabel:this.fmt(oT.price),
+        pending: (oRaw.paid || oT.price) < oT.price,
+        missingLabel: this.fmt(oT.price - (oRaw.paid || oT.price))
+      },
+      goReport: ()=>this.push('report'),
+      report: st.report,
+      onReport: (e)=>this.setState({report:e.target.value}),
+      reportValid: !!st.report.trim(), reportInvalid: !st.report.trim(),
+      sendReport: ()=>{ this.setState(s=>({screen: s.hist.length ? s.hist[s.hist.length-1] : 'trips', hist:[], report:''})); this.flash('Reporte enviado. Te contactamos pronto.'); },
+      goForgot: ()=>this.setState({screen:'forgot'}),
+      sendReset: ()=>{ this.setState({screen:'login'}); this.flash('Te enviamos un enlace a tu correo'); },
+      errTitle: st.errTitle, errMsg: st.errMsg, hasError: !!st.errTitle,
+      clearError: ()=>this.setState({errTitle:'', errMsg:''}),
+      navVisible: ['explore','favorites','trips','profile'].indexOf(sc)>=0,
+      tabExplore: st.tab==='explore', notTabExplore: st.tab!=='explore',
+      tabFavs: st.tab==='favorites', notTabFavs: st.tab!=='favorites',
+      tabTrips: st.tab==='trips', notTabTrips: st.tab!=='trips',
+      tabProfile: st.tab==='profile', notTabProfile: st.tab!=='profile',
+
+      loading: st.loading,
+      feed: feed.map(x=>this.card(x)),
+      feedShown: !st.loading && feed.length>0,
+      feedEmpty: !st.loading && feed.length===0,
+      countLabel: feed.length===1 ? '1 excursión en República Dominicana' : feed.length + ' excursiones en República Dominicana',
+      searchLabel: st.query.trim() ? st.query : '¿Cuál es tu próxima aventura?',
+
+      cats: this.CATS.map(c=>({label:c.label, icon:c.icon, on: st.cat===c.label, off: st.cat!==c.label, pick: ()=>this.setState({cat:c.label})})),
+      budgets: this.BUDGETS.map(b=>({label:b.label, on: st.budget===b.v, off: st.budget!==b.v, pick: ()=>this.setState({budget:b.v})})),
+      dates: this.DATES.map(d=>({label:d.label, on: st.dateSel===d.v && !st.rangeStart, off: !(st.dateSel===d.v && !st.rangeStart), pick: ()=>this.setState({dateSel:d.v, rangeStart:'', rangeEnd:''})})),
+      sheet: st.sheet,
+      query: st.query,
+      onQuery: (e)=>this.setState({query:e.target.value}),
+      openFilter: ()=>this.setState({sheet:true}),
+      closeFilter: ()=>this.setState({sheet:false}),
+      clearFilter: ()=>this.setState({cat:'Todo', budget:99999, dateSel:'', query:'', sheet:false, rangeStart:'', rangeEnd:'', calStart:'', calEnd:''}),
+      applyFilter: ()=>this.setState({sheet:false}),
+      applyLabel: filterCount ? (feed.length===1 ? 'Ver 1 resultado' : 'Ver ' + feed.length + ' resultados') : 'Filtrar',
+
+      d: {
+        name:t.name, place:t.place, date:t.date, meta: t.place+' · '+t.date+' · '+t.dur,
+        rating:t.rating, reviewsLong:'('+t.reviews+' reseñas)', desc:t.desc, prov:t.prov,
+        provMeta:'Agencia · '+t.rating+' ('+t.reviews+')', meet:t.meet, leave:t.leave, arrive:t.arrive,
+        priceLabel:this.fmt(t.price), depLabel:this.fmt(t.dep),
+        inc: t.inc.map(s=>({text:s})),
+        isFav: st.favs.indexOf(t.id)>=0, notFav: st.favs.indexOf(t.id)<0
+      },
+      comments: this.COMMENTS,
+      favCurrent: ()=>this.toggleFav(t.id),
+      goProvider: ()=>this.push('provider',{provId:t.provId}),
+      goCheckout: ()=>this.push('checkout'),
+
+      payDeposit: st.pay==='deposit', notPayDeposit: st.pay!=='deposit',
+      payTotal: st.pay==='total', notPayTotal: st.pay!=='total',
+      pickDeposit: ()=>this.setState({pay:'deposit'}),
+      pickTotal: ()=>this.setState({pay:'total'}),
+      depositCopy: 'Paga el monto de reserva ('+this.fmt(t.dep)+') ahora y paga luego el faltante.',
+      totalCopy: 'Paga el total ('+this.fmt(t.price)+') ahora y estarás listo.',
+      payNow: this.fmt(payAmount),
+      paying: st.paying,
+      doPay: ()=>{
+        const wait = this.latency() ? Math.max(600, Number(this.latency())) : 0;
+        this.setState({paying:true});
+        if(String(this.props.failPayment) === 'true'){
+          setTimeout(()=>this.setState({paying:false, screen:'failed', hist:[]}), wait);
+          return;
+        }
+        setTimeout(()=>{
+          const code = 'CRB-' + (4000 + Math.floor(Math.random()*900));
+          this.setState(s=>({
+            paying:false, screen:'success', hist:[], code:code, paid:payAmount, orderIdx:0,
+            upcoming:[{tripId:t.id, date:t.date, code:code, people:'2 personas', status:'Confirmado', paid:payAmount}].concat(s.upcoming)
+          }));
+        }, wait);
+      },
+      orderCode: st.code, paidLabel: this.fmt(st.paid || payAmount),
+
+      tripTabUp: st.tripTab==='up', notTripTabUp: st.tripTab!=='up',
+      tripTabOld: st.tripTab==='old', notTripTabOld: st.tripTab!=='old',
+      showUpcoming: ()=>this.setState({tripTab:'up'}),
+      showPast: ()=>this.setState({tripTab:'old'}),
+      upcoming: st.upcoming.map((o,i)=>{ const x=this.trip(o.tripId); return {name:x.name, prov:x.prov, date:o.date, code:o.code, people:o.people, status:o.status, open: ()=>this.push('order',{orderIdx:i})}; }),
+      upcomingEmpty: st.upcoming.length===0,
+      past: st.past.map(o=>{ const x=this.trip(o.tripId); return {name:x.name, prov:x.prov, date:o.date, rated:o.rated, notRated:!o.rated, myRating:o.my, rate: ()=>this.push('review',{rateId:o.tripId, starN:0, comment:''})}; }),
+
+      r: {name:rateTrip.name, prov:rateTrip.prov, date:(st.past.find(o=>o.tripId===st.rateId)||{date:''}).date},
+      stars: [1,2,3,4,5].map(n=>({on: n<=st.starN, off: n>st.starN, pick: ()=>this.setState({starN:n})})),
+      starLabel: st.starN ? starWords[st.starN] : 'Toca una estrella para calificar',
+      comment: st.comment,
+      onComment: (e)=>this.setState({comment:e.target.value}),
+      sendReview: ()=>{
+        if(!st.starN){ this.flash('Elige una calificación primero'); return; }
+        this.setState(s=>({screen:'trips', tripTab:'old', hist:[], past: s.past.map(o=> o.tripId===s.rateId ? Object.assign({}, o, {rated:true, my: s.starN+' · Tu reseña'}) : o)}));
+        this.flash('Gracias por tu reseña');
+      },
+
+      favList: this.TRIPS.filter(x=>st.favs.indexOf(x.id)>=0).map(x=>this.card(x)),
+      favsEmpty: st.favs.length===0,
+      favCountLabel: st.favs.length===1 ? '1 excursión guardada' : st.favs.length + ' excursiones guardadas',
+
+      p: Object.assign({}, prov, {trips: this.TRIPS.filter(x=>x.provId===st.provId).map(x=>this.card(x))}),
+
+      userName: st.name + ' ' + st.last,
+      userSince: 'En Caribeando desde marzo 2025',
+      fName: st.name, fLast: st.last, fEmail: st.email, fPhone: st.phone, fPass: st.pass, fConf: st.conf,
+      onName:(e)=>this.setState({name:e.target.value}), onLast:(e)=>this.setState({last:e.target.value}),
+      onEmail:(e)=>this.setState({email:e.target.value}), onPhone:(e)=>this.setState({phone:e.target.value}),
+      onPass:(e)=>this.setState({pass:e.target.value}), onConf:(e)=>this.setState({conf:e.target.value}),
+      err: st.err, hasErr: !!st.err,
+      doLogin: ()=>{ this.setState({screen:'explore', tab:'explore', hist:[], loading:true, err:''}); this.tick(); },
+      goSignup: ()=>this.setState({screen:'signup', err:''}),
+      goLogin: ()=>this.setState({screen:'login', err:''}),
+      doSignup: ()=>{
+        if(st.pass && st.conf && st.pass !== st.conf){ this.setState({err:'Debes usar la misma contraseña para ambos campos'}); return; }
+        this.setState({screen:'explore', tab:'explore', hist:[], loading:true, err:''}); this.tick();
+      },
+      doLogout: ()=>this.setState({screen:'login', tab:'explore', hist:[], err:''}),
+
+      goBack: ()=>this.back(),
+      goExplore: ()=>this.tab('explore','explore'),
+      goFavs: ()=>this.tab('favorites','favorites'),
+      goTrips: ()=>this.tab('trips','trips'),
+      goProfile: ()=>this.tab('profile','profile'),
+      toast: st.toast, hasToast: !!st.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.core.di
 
+import com.agusteam.caribeando.presenter.profile.viewmodels.ContactUsViewModel
 import com.agusteam.caribeando.presenter.explore.viewmodels.ExploreViewModel
 import com.agusteam.caribeando.presenter.home.viewmodel.HomeViewModel
 import com.agusteam.caribeando.presenter.orders.viewmodels.OrderHistoryViewModel
@@ -11,6 +12,7 @@ import com.agusteam.caribeando.presenter.shopping.viewmodels.ReportOrderViewMode
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingItemDetailsViewModel
 import com.agusteam.caribeando.presenter.shopping.viewmodels.ShoppingOrderDetailViewModel
 import com.agusteam.caribeando.presenter.signup.viewmodels.AppleSignUpViewModel
+import com.agusteam.caribeando.presenter.signup.viewmodels.ForgotPasswordViewModel
 import com.agusteam.caribeando.presenter.signup.viewmodels.LoginViewModel
 import com.agusteam.caribeando.presenter.signup.viewmodels.SignUpViewModel
 import com.agusteam.caribeando.presenter.stripe.PaymentViewModel
@@ -21,6 +23,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel<SignUpViewModel> { SignUpViewModel(get(), get(), get(), get(), get()) }
     viewModel<LoginViewModel> { LoginViewModel(get(), get(), get(), get(), get()) }
+    viewModel<ForgotPasswordViewModel> { ForgotPasswordViewModel(get(), get()) }
     viewModel<ExploreViewModel> { ExploreViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel<ProfileViewModel> { ProfileViewModel(get(), get(), get(), get(), get()) }
     viewModel<OrderHistoryViewModel> { OrderHistoryViewModel(get(), get(), get()) }
@@ -31,8 +34,8 @@ val viewModelModule = module {
     }
     viewModel<AppleSignUpViewModel> { AppleSignUpViewModel(get(), get(), get()) }
     viewModel<WishListOrderDetailViewModel> { WishListOrderDetailViewModel(get(), get()) }
-    viewModel<ShoppingOrderDetailViewModel> { ShoppingOrderDetailViewModel() }
-    viewModel<WishListItemViewModel> { WishListItemViewModel(get(), get()) }
+    viewModel<ShoppingOrderDetailViewModel> { ShoppingOrderDetailViewModel(get(), get()) }
+    viewModel<WishListItemViewModel> { WishListItemViewModel(get(), get(), get()) }
     viewModel<HomeViewModel> { HomeViewModel() }
     viewModel<RatingOrderViewModel> { RatingOrderViewModel(get(), get()) }
     viewModel<ReportOrderViewModel> { ReportOrderViewModel(get(), get()) }
@@ -46,7 +49,10 @@ val viewModelModule = module {
             get(),
             get(),
             get(), get(),
+            get(),
         )
     }
     viewModel<TripProviderViewModel> { TripProviderViewModel(get(), get(), get()) }
+    // 2026-10-09: "Contáctanos" now loads real contact details from the backend.
+    viewModel<ContactUsViewModel> { ContactUsViewModel(get()) }
 }

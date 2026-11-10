@@ -1,5 +1,10 @@
-package com.agusteam.caribeando.caribeando.presenter.common
+package com.agusteam.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.Res
+import caribeando.composeapp.generated.resources.review_pending
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
+import com.agusteam.caribeando.presenter.theme.caribeandoTextStyles
+import org.jetbrains.compose.resources.stringResource
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,23 +30,30 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
+/**
+ * 2026-10-09 (design handoff, dark-mode/palette pass): was a hardcoded orange
+ * (#FFF3E0 / #FF9800) that isn't in the design system and didn't change in dark mode. Now uses
+ * the handoff's red-tint panel + red-as-text roles (theme-aware), the shared Poppins metadata
+ * style, and the copy lives in strings.xml.
+ */
 @Composable
 fun PendingReview(onClick:()->Unit) {
+    val colors = caribeandoColors
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.clickable { onClick() }
-            .background(Color(0xFFFFF3E0), shape = RoundedCornerShape(16.dp))
+            .background(colors.redTint, shape = RoundedCornerShape(16.dp))
             .padding(start = 10.dp, top = 4.dp, bottom = 4.dp, end = 2.dp)
     ) {
-        ClockIcon(modifier = Modifier.size(18.dp))
+        ClockIcon(modifier = Modifier.size(18.dp), color = colors.redText)
         Spacer(Modifier.width(8.dp))
         Text(
             minLines = 2,
             maxLines = 2,
             modifier = Modifier.widthIn(max = 80.dp),
-            text = "Reseña pendiente",
-            color = Color(0xFFFF9800),
-            style = MaterialTheme.typography.bodySmall
+            text = stringResource(Res.string.review_pending),
+            color = colors.redText,
+            style = caribeandoTextStyles().metadataSmall
         )
     }
 }

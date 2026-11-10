@@ -35,7 +35,7 @@ import com.agusteam.caribeando.presenter.common.NavigationBar
 import com.agusteam.caribeando.presenter.common.ObserveAsEvents
 import com.agusteam.caribeando.presenter.localDateToInstant
 import com.agusteam.caribeando.presenter.signup.viewmodels.SignUpViewModel
-import com.agusteam.caribeando.presenter.theme.primary
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -68,7 +68,7 @@ fun FillSignUpAccountScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 20.dp)
                 .imePadding(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -150,7 +150,10 @@ fun FillSignUpAccountScreen(
                     .clickable(enabled = false) {},
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = primary)
+                // 2026-08-20 (dark-mode audit): cosmetic-only -- `primary` and `colors.redFill`
+                // are identical in both themes, so this was never a visible bug, just
+                // inconsistent with sibling screens which all use `colors.redFill`.
+                CircularProgressIndicator(color = caribeandoColors.redFill)
             }
         }
     }

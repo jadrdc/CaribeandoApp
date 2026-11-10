@@ -15,6 +15,7 @@ class GetUpcomingTripOrderUseCase(private val orderRepository: OrderRepository) 
                 val results = result.data.map {
                     UpcomingOrders(
                         transactionId = it.id,
+                        orderId = it.orderId,
                         tripName = it.tripScheduleModel.tripModel.name,
                         tripDestiny = it.tripScheduleModel.tripModel.destiny,
                         tripImage = it.tripScheduleModel.tripModel.images.firstOrNull() ?: "",
@@ -30,7 +31,8 @@ class GetUpcomingTripOrderUseCase(private val orderRepository: OrderRepository) 
                         dateFrom = formatInstant(it.tripScheduleModel.leaving_time),
                         dateTo = formatInstant(it.tripScheduleModel.returning_time),
                         totalPayment = it.tripScheduleModel.total_payment,
-                        scheduledId = it.scheduledId
+                        scheduledId = it.scheduledId,
+                        paidAmount = it.tripScheduleModel.paid_amount
                     )
                 }
                 OperationResult.Success(results)

@@ -10,39 +10,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.agusteam.caribeando.presenter.shopping.model.ShoppingDetailModel
-import com.agusteam.caribeando.presenter.theme.grey500
-import com.agusteam.caribeando.presenter.theme.secondary
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
 import org.jetbrains.compose.resources.stringResource
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.trip_info
 
 @Composable
-fun TripItemPayDetail(details:List<ShoppingDetailModel>) {
+fun TripItemPayDetail(details: List<ShoppingDetailModel>) {
+    val colors = caribeandoColors
     Column {
         Text(
             text = stringResource(Res.string.trip_info),
-            color = secondary,
-            fontSize = 18.sp,
+            color = colors.textPrimary,
+            fontSize = 15.sp,
             fontWeight = FontWeight.SemiBold
         )
         details.forEach { item ->
             Column(Modifier.padding(top = 16.dp)) {
                 Text(
                     text = item.title,
-                    color = secondary,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
+                    color = colors.textSecondary,
+                    fontSize = 10.5.sp,
+                    fontWeight = FontWeight.Normal
                 )
                 Text(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 2.dp),
                     text = item.description,
-                    color = grey500,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
+                    color = colors.textPrimary,
+                    fontSize = 12.5.sp,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
         HorizontalDivider(
+            color = colors.hairline,
             modifier = Modifier.padding(top = 16.dp),
         )
     }

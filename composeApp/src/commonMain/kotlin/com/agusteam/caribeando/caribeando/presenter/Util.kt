@@ -1,7 +1,7 @@
 package com.agusteam.caribeando.presenter
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
@@ -123,6 +123,22 @@ fun formatMoney(amount: Int): String {
         }
     }.reversed() // Reverse back to the correct order
     return "$$formatted.00" // Add the dollar sign and decimal part
+}
+
+/**
+ * 2026-08-20 (screens 1-30 re-verification pass): `TripModel.price` is a real `Double` (unlike
+ * the payment-flow screens' amounts, which all originate from an already-whole-dollar `Int`
+ * route/state field and only pass through `Double` in transit) -- `TripItem.kt`/`WishItem.kt`
+ * were calling `formatMoney(item.price.toInt())`, silently truncating any real cents (e.g. 49.99
+ * displayed as "$49.00"). This overload rounds to the nearest cent instead of truncating to the
+ * nearest whole dollar.
+ */
+fun formatMoney(amount: Double): String {
+    val totalCents = (amount * 100).roundToInt()
+    val integerPart = totalCents / 100
+    val decimalPart = kotlin.math.abs(totalCents % 100)
+    val formattedInteger = integerPart.toString().reversed().chunked(3).joinToString(",").reversed()
+    return "$$formattedInteger.${decimalPart.toString().padStart(2, '0')}"
 }
 
 fun formatPhone(phone: String): String {

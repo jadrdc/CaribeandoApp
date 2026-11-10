@@ -2,8 +2,8 @@ package com.agusteam.caribeando.presenter.signup.state
 
 import com.agusteam.caribeando.core.base.ViewModelState
 import com.agusteam.caribeando.domain.models.ErrorModel
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.ZoneOffset
 import kotlin.time.Duration.Companion.days

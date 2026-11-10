@@ -1,9 +1,9 @@
 package com.agusteam.caribeando.presenter.signup.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,14 +33,26 @@ import com.agusteam.caribeando.presenter.common.ErrorModal
 import com.agusteam.caribeando.presenter.common.ModernDatePicker
 import com.agusteam.caribeando.presenter.common.NavigationBar
 import com.agusteam.caribeando.presenter.common.ObserveAsEvents
+import com.agusteam.caribeando.presenter.common.bounceClick
 import com.agusteam.caribeando.presenter.localDateToInstant
 import com.agusteam.caribeando.presenter.signup.viewmodels.SignUpViewModel
-import com.agusteam.caribeando.presenter.theme.primary
+import com.agusteam.caribeando.presenter.theme.caribeandoColors
+import com.agusteam.caribeando.presenter.theme.caribeandoTextStyles
 import kotlinx.datetime.TimeZone
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 
+/**
+ * The handoff's screen 2, "Completa tu cuenta": back button, title, "Nombre + Apellido side by
+ * side (11dp gap)," then Correo/Teléfono/Contraseña/Confirmar contraseña, a terms paragraph, and
+ * PrimaryButton "Completar cuenta."
+ *
+ * 2026-08-20 (design handoff pass): the handoff's field list doesn't include a birthdate --
+ * kept `ModernDatePicker` anyway, since `SignUpViewModel`'s `isValid()` requires a birthdate and
+ * the backend's `signUpUser` call takes one; dropping it would break account creation. This is a
+ * real gap in the handoff, not a judgment call about matching it exactly.
+ */
 @Composable
 fun SignUpAccountScreen(
     viewModel: SignUpViewModel = koinViewModel(),
@@ -50,6 +61,8 @@ fun SignUpAccountScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val event = viewModel.events
+    val colors = caribeandoColors
+    val textStyles = caribeandoTextStyles()
 
     ObserveAsEvents(event) { event ->
         if (event is SignUpViewModel.SignUpEvent.FillRemainingInfo) {
@@ -63,7 +76,7 @@ fun SignUpAccountScreen(
         })
     Box {
         Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             LazyColumn(
@@ -73,32 +86,31 @@ fun SignUpAccountScreen(
                     NavigationBar(title = stringResource(Res.string.finish_signup)) { onBackPressed() }
                 }
                 item {
-                    Box(Modifier.padding(top = 16.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(11.dp)
+                    ) {
                         EditInputField(
+                            modifier = Modifier.weight(1f),
                             query = state.name,
                             labelText = stringResource(Res.string.name),
                             onQueryChange = {
                                 viewModel.onEventHandler(
-                                    SignUpViewModel.SignUpEvent.OnNameChanged(
-                                        it
-                                    )
+                                    SignUpViewModel.SignUpEvent.OnNameChanged(it)
                                 )
-                            }, modifier = Modifier
+                            },
+                        )
+                        EditInputField(
+                            modifier = Modifier.weight(1f),
+                            query = state.lastName,
+                            labelText = stringResource(Res.string.lastname),
+                            onQueryChange = {
+                                viewModel.onEventHandler(
+                                    SignUpViewModel.SignUpEvent.OnLastNameChanged(it)
+                                )
+                            },
                         )
                     }
-                }
-                item {
-                    EditInputField(
-                        query = state.lastName,
-                        labelText = stringResource(Res.string.lastname),
-                        onQueryChange = {
-                            viewModel.onEventHandler(
-                                SignUpViewModel.SignUpEvent.OnLastNameChanged(
-                                    it
-                                )
-                            )
-                        }, modifier = Modifier
-                    )
                 }
                 item {
                     EditInputField(
@@ -172,10 +184,15 @@ fun SignUpAccountScreen(
                     })
                 }
                 item {
+                    // 2026-08-20 (design handoff pass): "the terms paragraph at 400/10.5/1.6 #5F6A70"
+                    // -- was a generic 14sp/Normal default-colored line.
                     Text(
                         text = stringResource(Res.string.terms),
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 14.sp
+                        style = textStyles.bodyDescription.copy(
+                            fontSize = 10.5.sp,
+                            lineHeight = 16.8.sp,
+                        ),
+                        color = colors.textSecondary,
                     )
                 }
             }
@@ -192,12 +209,11 @@ fun SignUpAccountScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable(enabled = false) {}, // Prevents interaction
+                    .bounceClick(enabled = false, indication = null) {}, // Prevents interaction
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = primary)
+                CircularProgressIndicator(color = colors.redFill)
             }
         }
     }
 }
-

@@ -5,13 +5,12 @@ import com.agusteam.caribeando.caribeando.data.util.CrashReporter
 import com.agusteam.caribeando.core.base.GenericViewModel
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.domain.usecase.GetTripDetailsUseCase
-import com.agusteam.caribeando.domain.usecase.GetTripsIncludedServicesUseCase
 import com.agusteam.caribeando.presenter.wishlist.state.WishListOrderDetailState
 import kotlinx.coroutines.launch
 
 class WishListOrderDetailViewModel(
     private val logger: CrashReporter,
-    val getTripDetailsUseCase: GetTripDetailsUseCase,
+    val getTripDetailsUseCase: GetTripDetailsUseCase
 ) : GenericViewModel<WishListOrderDetailState, WishListOrderDetailViewModel.OrderDetailsEvent>(
     WishListOrderDetailState()
 ) {
@@ -35,33 +34,24 @@ class WishListOrderDetailViewModel(
     }
 
     private suspend fun getTripDetails(tripId: String) {
-        if (tripId.isNotBlank()) {
-            setState { copy(isLoadingContent = true) }
-            when (val result = getTripDetailsUseCase(tripId)) {
-                is OperationResult.Success -> {
-                    updateState {
-                        val model = result.data
-                        copy(
-                            itemProviderState = itemProviderState.copy(
-                                businessImage = model.businessImage
-                            ),
-                            description = model.description,
-                            cancellationPolicy = model.cancellationPolicy,
-                            galleryPhotos = model.images,
-                            includedServices = model.services
-                        )
-                    }
-                }
-
-                is OperationResult.Error -> {
-                    logger.recordException(result.exception)
-
-                }
+        if (tripId.isBlank()) return
+        setState { copy(isLoadingContent = true) }
+        when (val result = getTripDetailsUseCase(tripId)) {
+            is OperationResult.Success -> updateState {
+                val model = result.data
+                copy(
+                    description = model.description,
+                    galleryPhotos = model.images,
+                    cancellationPolicy = model.cancellationPolicy,
+                    itemProviderState = itemProviderState.copy(businessImage = model.businessImage),
+                    isLoadingContent = false,
+                    includedServices = model.services
+                )
             }
-            setState { copy(isLoadingContent = false) }
+            is OperationResult.Error -> logger.recordException(result.exception)
         }
+        setState { copy(isLoadingContent = false) }
     }
-
 
     sealed interface OrderDetailsEvent {
         data class OrderDetailsLoadIncludeServices(

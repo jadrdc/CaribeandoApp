@@ -17,6 +17,10 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun WishListScreen(
     viewModel: WishListItemViewModel = koinViewModel(),
+    // 2026-08-20 (design handoff pass, part 2): screen 27's empty-state "Explorar excursiones"
+    // action -- same pattern as OrderHistoryNavigationFlow's onExploreClick, threaded down from
+    // wherever this nested flow's caller can reach the Explorar tab's NavHost.
+    onExploreClick: () -> Unit = {},
     goDetails: (TripModel) -> Unit
 ) {
 
@@ -24,7 +28,7 @@ fun WishListScreen(
     val state = viewModel.state.collectAsStateWithLifecycle()
     if (state.value.errorState) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            ErrorState()
+            ErrorState(onRetry = { viewModel.handleEvent(WishListItemViewModel.WishListEvent.RefreshContent) })
         }
     } else {
         PullToRefreshContainer(
@@ -38,7 +42,14 @@ fun WishListScreen(
                 WishListItemSectionLoading()
             } else {
 
-                WishListSection(state.value.favoriteItems, goDetails)
+                WishListSection(
+                    favoriteItems = state.value.favoriteItems,
+                    onRemove = { tripId ->
+                        viewModel.handleEvent(WishListItemViewModel.WishListEvent.RemoveFavorite(tripId))
+                    },
+                    onExploreClick = onExploreClick,
+                    goDetails = goDetails
+                )
             }
         }
     }

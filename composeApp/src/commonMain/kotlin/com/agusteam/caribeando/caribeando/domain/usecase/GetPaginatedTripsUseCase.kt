@@ -3,7 +3,7 @@ package com.agusteam.caribeando.domain.usecase
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.model.TripListPaginationResponseItem
 import com.agusteam.caribeando.domain.interfaces.TripRepository
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 class GetPaginatedTripsUseCase(private val repository: TripRepository) {
     suspend fun loadMore(

@@ -1,9 +1,10 @@
 package com.agusteam.caribeando.presenter.explore.state
 
 import com.agusteam.caribeando.domain.models.CategoryModel
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
@@ -36,5 +37,31 @@ data class ExploreFilterState(
             DateTimeUnit.MONTH
         ),
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
-    ).toInstant(TimeZone.currentSystemDefault())
-)
+    ).toInstant(TimeZone.currentSystemDefault()),
+
+    // 2026-10-09 (design handoff, screens 7-8): date filter modes. A single-day chip
+    // (`selectedDateChip`) and an exact range picked on the Calendario screen
+    // (`selectedHasExactRange`) are mutually exclusive -- setting one clears the other; both
+    // unset means "Cualquier fecha". The `selected*` values are the pending choice inside the
+    // filter sheet; the `current*` values are what was last applied (mirrors the existing
+    // selectedAmount/currentAmount pair).
+    val selectedDateChip: LocalDate? = null,
+    val selectedHasExactRange: Boolean = false,
+    val currentDateChip: LocalDate? = null,
+    val currentHasExactRange: Boolean = false,
+) {
+    /** True when the sheet's pending choices differ from the last applied filter. */
+    fun hasPendingChanges(appliedCategoryId: String?): Boolean =
+        (selectedCategoryModel?.id ?: "") != (appliedCategoryId ?: "") ||
+            searchText != currentSearch ||
+            selectedAmount != currentAmount ||
+            selectedDateChip != currentDateChip ||
+            selectedHasExactRange != currentHasExactRange ||
+            (selectedHasExactRange && (selectedLeavingTimeStart != leavingTimeStart ||
+                selectedReturningTimeEnd != returningTimeEnd))
+
+    /** True when any filter beyond the category is active in the last applied filter. */
+    val hasAppliedFilters: Boolean
+        get() = currentSearch.isNotBlank() || currentAmount != maximumAmount ||
+            currentDateChip != null || currentHasExactRange
+}

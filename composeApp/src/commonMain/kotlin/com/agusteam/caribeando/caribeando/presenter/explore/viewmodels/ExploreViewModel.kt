@@ -26,10 +26,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
@@ -223,8 +226,16 @@ class ExploreViewModel(
                 copy(
                     filterState = filterState.copy(
                         selectedCategoryModel = categoryState.selectedCategoryModel,
-                        searchText = "",
-                        selectedAmount = filterState.currentAmount
+                        // 2026-10-09: was "" -- dismissing the sheet wiped an applied search
+                        // from the sheet's field even though the feed was still filtered by it.
+                        searchText = filterState.currentSearch,
+                        selectedAmount = filterState.currentAmount,
+                        // 2026-10-09: closing without applying now also discards pending date
+                        // changes (chip / exact range), same as category/search/amount above.
+                        selectedLeavingTimeStart = filterState.leavingTimeStart,
+                        selectedReturningTimeEnd = filterState.returningTimeEnd,
+                        selectedDateChip = filterState.currentDateChip,
+                        selectedHasExactRange = filterState.currentHasExactRange,
                     ), shouldBottomModal = value
                 )
             }
@@ -239,7 +250,9 @@ class ExploreViewModel(
                     selectedReturningTimeEnd = Instant.fromEpochMilliseconds(filterState.returningTimeEnd.toEpochMilliseconds()),
                     selectedAmount = filterState.currentAmount,
                     selectedCategoryModel = categoryState.selectedCategoryModel,
-                    searchText = filterState.currentSearch
+                    searchText = filterState.currentSearch,
+                    selectedDateChip = filterState.currentDateChip,
+                    selectedHasExactRange = filterState.currentHasExactRange,
                 )
             )
         }
@@ -304,6 +317,64 @@ class ExploreViewModel(
             }
         }
         setState { copy(isLoading = false) }
+    }
+
+    /**
+     * 2026-10-09 (design handoff, screen 7): a single-day chip. `null` = "Cualquier fecha"
+     * (back to the default now..+3 months window). Mutually exclusive with an exact range.
+     */
+    private suspend fun selectDateChip(date: LocalDate?) {
+        val tz = TimeZone.currentSystemDefault()
+        setState {
+            if (date == null) {
+                copy(
+                    filterState = filterState.copy(
+                        selectedDateChip = null,
+                        selectedHasExactRange = false,
+                        selectedLeavingTimeStart = Clock.System.now(),
+                        selectedReturningTimeEnd = getDefaultReturningDate(),
+                    )
+                )
+            } else {
+                copy(
+                    filterState = filterState.copy(
+                        selectedDateChip = date,
+                        selectedHasExactRange = false,
+                        selectedLeavingTimeStart = date.atStartOfDayIn(tz),
+                        selectedReturningTimeEnd = LocalDateTime(date, LocalTime(23, 59, 59)).toInstant(tz),
+                    )
+                )
+            }
+        }
+    }
+
+    /**
+     * 2026-10-09 (design handoff, screens 7 and 9): "Borrar filtros" resets all four filters
+     * (category, budget, dates, text) to the initial-load defaults, closes the sheet and reloads
+     * -- previously the sheet's button only reverted pending edits and the empty state's button
+     * only reset the category.
+     */
+    private suspend fun resetAllFilters() {
+        val categories = state.value.categoryState.categories
+        val defaultCategory = categories.firstOrNull { it.description == POPULAR }
+            ?: CategoryModel(id = "", description = "Todo", isSelected = true)
+        setState {
+            copy(
+                shouldBottomModal = false,
+                filterState = ExploreFilterState(selectedCategoryModel = defaultCategory),
+                categoryState = categoryState.copy(
+                    selectedCategoryModel = defaultCategory,
+                    categories = updateCategoriesSelection(categories, defaultCategory),
+                    isLoadingSkeleton = true,
+                ),
+            )
+        }
+        getPaginatedTrips(
+            categoryId = defaultCategory.id,
+            showRefresh = true,
+            returningTimeEnd = getDefaultReturningDate()
+        )
+        setState { copy(categoryState = categoryState.copy(isLoadingSkeleton = false)) }
     }
 
     private suspend fun onErrorHappened(value: Boolean, title: String = "", message: String = "") {
@@ -374,7 +445,9 @@ class ExploreViewModel(
                                     leavingTimeStart = filterState.selectedLeavingTimeStart,
                                     returningTimeEnd = filterState.selectedReturningTimeEnd,
                                     currentAmount = filterState.selectedAmount,
-                                    currentSearch = filterState.searchText
+                                    currentSearch = filterState.searchText,
+                                    currentDateChip = filterState.selectedDateChip,
+                                    currentHasExactRange = filterState.selectedHasExactRange,
                                 )
                             )
                         }
@@ -410,11 +483,17 @@ class ExploreViewModel(
                 }
 
                 is ExploreEvent.LoadMoreTrips -> {
+                    // 2026-10-09: next pages now use the APPLIED filter (current* values and the
+                    // applied date window). Previously they used the sheet's pending values and
+                    // always the default date window, so scrolling a filtered feed could append
+                    // trips that didn't match it.
+                    val filter = state.value.filterState
                     getPaginatedTrips(
-                        returningTimeEnd = getDefaultReturningDate(),
-                        categoryId = state.value.filterState.selectedCategoryModel?.id ?: "",
-                        endingAmount = state.value.filterState.selectedAmount.toInt(),
-                        search = state.value.filterState.searchText,
+                        leavingTimeStart = filter.leavingTimeStart,
+                        returningTimeEnd = filter.returningTimeEnd,
+                        categoryId = state.value.categoryState.selectedCategoryModel?.id ?: "",
+                        endingAmount = filter.currentAmount.toInt(),
+                        search = filter.currentSearch,
                         showRefresh = false
                     )
                 }
@@ -423,10 +502,17 @@ class ExploreViewModel(
                     copy(
                         filterState = filterState.copy(
                             selectedReturningTimeEnd = event.returningDate,
-                            selectedLeavingTimeStart = event.leavingDate
+                            selectedLeavingTimeStart = event.leavingDate,
+                            // 2026-10-09: an exact range (Calendario) replaces any date chip.
+                            selectedHasExactRange = true,
+                            selectedDateChip = null,
                         )
                     )
                 }
+
+                is ExploreEvent.OnFilterDateChipSelected -> selectDateChip(event.date)
+
+                is ExploreEvent.OnFilterResetAll -> resetAllFilters()
             }
         }
     }
@@ -445,6 +531,10 @@ sealed interface ExploreEvent {
     data class OnFilterSearchChanged(val search: String) : ExploreEvent
     data class OnFilterSelectedDateRange(val leavingDate: Instant, val returningDate: Instant) :
         ExploreEvent
+
+    // 2026-10-09 (design handoff, screens 7 and 9)
+    data class OnFilterDateChipSelected(val date: LocalDate?) : ExploreEvent
+    data object OnFilterResetAll : ExploreEvent
 
     data object RefreshContent : ExploreEvent
     data object LoadMoreTrips : ExploreEvent

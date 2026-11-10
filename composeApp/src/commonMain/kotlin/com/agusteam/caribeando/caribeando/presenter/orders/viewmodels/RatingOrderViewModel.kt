@@ -13,53 +13,25 @@ import kotlinx.coroutines.launch
 class RatingOrderViewModel(
     private val ratingOrderUseCase: RatingOrderUseCase,
     private val logger: CrashReporter
-) :
-    GenericViewModel<RatingOrderViewModel.RatingOrderState, RatingOrderViewModel.RatingOrderEvents>(
-        RatingOrderState(rating = 0, comment = "")
-    ) {
-    private suspend fun onErrorHappened(value: Boolean, title: String = "", message: String = "") {
-        val errorModel = if (!value) {
-            null
-        } else {
-            ErrorModel(title = title, message = message)
-        }
-        setState {
-            copy(
-                errorModel = errorModel
-            )
-        }
-    }
+) : GenericViewModel<RatingOrderViewModel.RatingOrderState, RatingOrderViewModel.RatingOrderEvents>(
+    RatingOrderState(rating = 0, comment = "")
+) {
 
     fun handlerEvent(event: RatingOrderEvents) {
         viewModelScope.launch {
             when (event) {
-
                 is RatingOrderEvents.ErrorCleared -> {
                     onErrorHappened(false)
                     if (event.modalType == ModalType.SUCCESS) {
                         sendEvent(RatingOrderEvents.RatedOrder)
                     }
                 }
-
-                is RatingOrderEvents.OnOrderLoad -> {
-                    setState { copy(orderId = event.orderId) }
-                }
-
-                is RatingOrderEvents.OnRatingChanged -> {
-                    setRating(event.rating)
-                }
-
-                is RatingOrderEvents.OnCommentChanged -> {
-                    setComments(event.comment)
-                }
-
+                is RatingOrderEvents.OnOrderLoad -> setState { copy(orderId = event.orderId) }
+                is RatingOrderEvents.OnRatingChanged -> setRating(event.rating)
+                is RatingOrderEvents.OnCommentChanged -> setComments(event.comment)
                 is RatingOrderEvents.CommentOrder -> {
-                    val result = ratingOrderUseCase(
-                        rating = state.value.rating,
-                        comment = state.value.comment,
-                        orderId = state.value.orderId
-                    )
-                    when (result) {
+                    val current = state.value
+                    when (val result = ratingOrderUseCase(current.rating, current.orderId, current.comment)) {
                         is OperationResult.Success -> {
                             onErrorHappened(
                                 true,
@@ -68,7 +40,6 @@ class RatingOrderViewModel(
                             )
                             setState { copy(modalType = ModalType.SUCCESS) }
                         }
-
                         is OperationResult.Error -> {
                             setState { copy(modalType = ModalType.ERROR) }
                             logger.recordException(result.exception)
@@ -80,14 +51,15 @@ class RatingOrderViewModel(
                         }
                     }
                 }
-
-                RatingOrderEvents.RatedOrder -> {
-
-                }
+                is RatingOrderEvents.RatedOrder -> Unit
             }
         }
     }
 
+    private suspend fun onErrorHappened(value: Boolean, title: String = "", message: String = "") {
+        val errorModel = if (value) ErrorModel(title, message) else null
+        setState { copy(errorModel = errorModel) }
+    }
 
     private suspend fun setRating(rating: Int) {
         setState { copy(rating = rating) }
@@ -95,17 +67,6 @@ class RatingOrderViewModel(
 
     private suspend fun setComments(comment: String) {
         setState { copy(comment = comment) }
-    }
-
-    sealed interface RatingOrderEvents {
-        data class OnRatingChanged(val rating: Int) : RatingOrderEvents
-        data class OnCommentChanged(val comment: String) : RatingOrderEvents
-        data object CommentOrder : RatingOrderEvents
-        data object RatedOrder : RatingOrderEvents
-        data class OnOrderLoad(val orderId: String) : RatingOrderEvents
-        data class ErrorCleared(val modalType: ModalType) : RatingOrderEvents
-
-
     }
 
     data class RatingOrderState(
@@ -116,6 +77,15 @@ class RatingOrderViewModel(
         val isLoading: Boolean = false,
         val modalType: ModalType = ModalType.SUCCESS
     ) : ViewModelState {
-        fun isValid() = rating >= 0 && comment.isNotBlank()
+        val isValid: Boolean get() = rating >= 0 && comment.isNotBlank()
+    }
+
+    sealed interface RatingOrderEvents {
+        data class OnRatingChanged(val rating: Int) : RatingOrderEvents
+        data class OnCommentChanged(val comment: String) : RatingOrderEvents
+        data object CommentOrder : RatingOrderEvents
+        data object RatedOrder : RatingOrderEvents
+        data class OnOrderLoad(val orderId: String) : RatingOrderEvents
+        data class ErrorCleared(val modalType: ModalType) : RatingOrderEvents
     }
 }

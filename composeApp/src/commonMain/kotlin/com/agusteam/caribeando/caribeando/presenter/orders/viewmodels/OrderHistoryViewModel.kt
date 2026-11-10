@@ -13,8 +13,7 @@ class OrderHistoryViewModel(
     private val logger: CrashReporter,
     private val useCase: GetUpcomingTripOrderUseCase,
     private val getPastTripOrderUseCase: GetPastTripOrderUseCase
-) :
-    GenericViewModel<OrderHistoryState, OrderHistoryViewModel.OrderHistoryEvent>(OrderHistoryState()) {
+) : GenericViewModel<OrderHistoryState, OrderHistoryViewModel.OrderHistoryEvent>(OrderHistoryState()) {
 
     init {
         viewModelScope.launch {
@@ -23,11 +22,10 @@ class OrderHistoryViewModel(
         }
     }
 
-
     fun handlerEvent(event: OrderHistoryEvent) {
         viewModelScope.launch {
-            if (event is OrderHistoryEvent.RefreshContent) {
-                refresh()
+            when (event) {
+                is OrderHistoryEvent.RefreshContent -> refresh()
             }
         }
     }
@@ -42,26 +40,16 @@ class OrderHistoryViewModel(
     private suspend fun getUpcomingTrips() {
         setState { copy(upcomingTripSkeletonView = true, oldItemsTripSkeletonView = true) }
         when (val result = useCase()) {
-            is OperationResult.Error -> {
-                logger.recordException(result.exception)
-            }
-
-            is OperationResult.Success -> {
-                setState { copy(upcomingItems = result.data) }
-            }
+            is OperationResult.Error -> logger.recordException(result.exception)
+            is OperationResult.Success -> setState { copy(upcomingItems = result.data) }
         }
         setState { copy(upcomingTripSkeletonView = false) }
     }
 
     private suspend fun getPastTrip() {
         when (val result = getPastTripOrderUseCase()) {
-            is OperationResult.Error -> {
-                logger.recordException(result.exception)
-            }
-
-            is OperationResult.Success -> {
-                setState { copy(oldItems = result.data) }
-            }
+            is OperationResult.Error -> logger.recordException(result.exception)
+            is OperationResult.Success -> setState { copy(oldItems = result.data) }
         }
         setState { copy(oldItemsTripSkeletonView = false) }
     }

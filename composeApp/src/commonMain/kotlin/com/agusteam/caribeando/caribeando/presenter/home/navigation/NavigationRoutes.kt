@@ -8,6 +8,9 @@ sealed class NavigationRoutes(val route: String) {
     data object ProfileScreen : NavigationRoutes("profile_screen")
     data object WishListScreen : NavigationRoutes("wishlist_screen")
     data object OrderHistoryScreen : NavigationRoutes("order_history_screen")
+    // 2026-08-20 (design handoff pass, part 2): screen 30, "Contáctanos" -- pushed from Perfil,
+    // lives in this same NavHost (see HomeScreen.kt) since it needs no route params.
+    data object ContactUsScreen : NavigationRoutes("contact_us_screen")
 }
 
 @Serializable

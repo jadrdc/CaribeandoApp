@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
+import kotlin.time.Clock
 
 fun Month.nameInSpanish(): String = when (this) {
     Month.JANUARY -> "Enero"
