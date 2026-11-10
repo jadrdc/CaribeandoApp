@@ -16,7 +16,6 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.encodedPath
@@ -47,8 +46,11 @@ fun createHttpClient(
 
     return HttpClient(engine) {
         // Logging
+        // INFO logs only method, URL and status. Never ALL/BODY/HEADERS: those would print
+        // credentials and personal data. Authorization is also redacted as a second safeguard.
         install(Logging) {
-            level = LogLevel.ALL
+            level = LogLevel.INFO
+            sanitizeHeader { header -> header.equals(HttpHeaders.Authorization, ignoreCase = true) }
             logger = object : Logger {
                 override fun log(message: String) {
                     println("KTOR CLIENT: $message")
@@ -61,22 +63,6 @@ fun createHttpClient(
             val currentToken = Token.token
             if (currentToken.isNotBlank()) {
                 header(HttpHeaders.Authorization, "Bearer $currentToken")
-                println("➡️ ADDING AUTH HEADER: Bearer $currentToken")
-            }
-        }
-
-        // Response observer logs responses and detects 401
-        install(ResponseObserver) {
-            onResponse { response ->
-                println("⬅ RESPONSE: ${response.status.value} ${response.status.description}")
-                println("⬅️ HEADERS:")
-                response.headers.forEach { name, values ->
-                    println("   $name: ${values.joinToString()}")
-                }
-                if (response.status.value == 401) {
-                    println("❌ AUTHENTICATION ERROR: Token may be invalid or expired")
-                    println("🔑 CURRENT TOKEN: ${Token.token}")
-                }
             }
         }
 
@@ -99,7 +85,6 @@ fun createHttpClient(
         install(Auth) {
             bearer {
                 loadTokens {
-                    println("🔄 LOADING TOKENS - Access: ${Token.token.takeIf { it.isNotBlank() } ?: "BLANK"}")
                     BearerTokens(
                         accessToken = Token.token,
                         refreshToken = Token.refreshToken
@@ -107,10 +92,7 @@ fun createHttpClient(
                 }
 
                 refreshTokens {
-                    println("🔄 ATTEMPTING TO REFRESH TOKEN")
-
                     if (Token.refreshToken.isBlank()) {
-                        println("❌ NO REFRESH TOKEN AVAILABLE")
                         return@refreshTokens null
                     }
 
@@ -120,7 +102,6 @@ fun createHttpClient(
                             service.refresh(RefreshTokenRequest(Token.refreshToken))
                         when (response) {
                             is OperationResult.Error -> {
-                                println("❌ TOKEN REFRESH FAILED: $response")
                                 null
                             }
 
@@ -130,9 +111,6 @@ fun createHttpClient(
                                 Token.token = response.data.accessToken
                                 Token.refreshToken = response.data.refreshToken
 
-                                println("✅ TOKEN REFRESHED SUCCESSFULLY")
-                                println("🔑 NEW ACCESS TOKEN: ${Token.token}...")
-
                                 BearerTokens(
                                     accessToken = Token.token,
                                     refreshToken = Token.refreshToken
@@ -140,8 +118,6 @@ fun createHttpClient(
                             }
                         }
                     } catch (e: Exception) {
-                        println("❌ TOKEN REFRESH FAILED: ${e.message}")
-                        e.printStackTrace()
                         null
                     }
                 }
