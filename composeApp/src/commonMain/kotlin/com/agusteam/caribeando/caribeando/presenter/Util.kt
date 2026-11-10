@@ -1,5 +1,21 @@
 package com.agusteam.caribeando.presenter
 
+import caribeando.composeapp.generated.resources.Res
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.getStringArray
+import org.jetbrains.compose.resources.stringResource
+import caribeando.composeapp.generated.resources.months_short
+import caribeando.composeapp.generated.resources.time_today
+import caribeando.composeapp.generated.resources.time_past_date
+import caribeando.composeapp.generated.resources.time_months_one
+import caribeando.composeapp.generated.resources.time_months_other
+import caribeando.composeapp.generated.resources.time_days_one
+import caribeando.composeapp.generated.resources.time_days_other
+import caribeando.composeapp.generated.resources.time_period_months
+import caribeando.composeapp.generated.resources.time_period_month
+import caribeando.composeapp.generated.resources.time_period_year
+import caribeando.composeapp.generated.resources.time_period_years
 import com.agusteam.caribeando.data.network.ApiConfig
 import kotlin.time.Clock
 import kotlin.time.Instant
@@ -31,22 +47,18 @@ fun Double.toIntOrNullSafe(): Int {
     }
 }
 
-fun formatInstant(
+suspend fun formatInstant(
     instant: Instant,
     zoneId: TimeZone = TimeZone.currentSystemDefault()
 ): String {
     // Convert Instant to LocalDateTime in the provided TimeZone
     val dateTime = instant.toLocalDateTime(zoneId)
 
-    // Define the months in Spanish
-    val monthsInSpanish = listOf(
-        "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
-    )
+    val monthsShort = getStringArray(Res.array.months_short)
 
     // Extract day, month, year, hour, and minute
     val day = dateTime.date.dayOfMonth
-    val month = monthsInSpanish[dateTime.date.monthNumber - 1]
+    val month = monthsShort[dateTime.date.monthNumber - 1]
     val year = dateTime.date.year
     val hour = dateTime.time.hour
     val minute = dateTime.time.minute
@@ -71,7 +83,7 @@ fun getTimePeriodUnit(month: Int): String {
     return roundedResult.toString()  // Format the result to 1 decimal point
 }
 
-fun formatDateRange(
+suspend fun formatDateRange(
     start: Instant,
     end: Instant,
     zoneId: TimeZone = TimeZone.currentSystemDefault()
@@ -80,34 +92,31 @@ fun formatDateRange(
     val startDate = start.toLocalDateTime(zoneId).date
     val endDate = end.toLocalDateTime(zoneId).date
 
-    // Define the months in Spanish manually
-    val monthsInSpanish = listOf(
-        "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
-    )
+    val monthsShort = getStringArray(Res.array.months_short)
 
     // Extract day, month, and year from start and end dates
     val startDay = startDate.dayOfMonth
-    val startMonth = monthsInSpanish[startDate.monthNumber - 1]
+    val startMonth = monthsShort[startDate.monthNumber - 1]
     val startYear = startDate.year
 
     val endDay = endDate.dayOfMonth
-    val endMonth = monthsInSpanish[endDate.monthNumber - 1]
+    val endMonth = monthsShort[endDate.monthNumber - 1]
     val endYear = endDate.year
 
     // Return the formatted range string
     return "$startDay $startMonth - $endDay $endMonth $startYear"
 }
 
+@Composable
 fun getTimePeriod(month: Int): String {
     return if (month == 0 || month in 2..11) {
-        "Meses"
+        stringResource(Res.string.time_period_months)
     } else if (month == 1) {
-        "Mes"
+        stringResource(Res.string.time_period_month)
     } else if (month == 12) {
-        "Año"
+        stringResource(Res.string.time_period_year)
     } else if (month > 12) {
-        "Años"
+        stringResource(Res.string.time_period_years)
     } else {
         ""
     }
@@ -151,25 +160,31 @@ fun formatPhone(phone: String): String {
 }
 
 
-fun timeUntil(targetDate: Instant): String {
+suspend fun timeUntil(targetDate: Instant): String {
     val currentDate = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
     val targetLocalDate = targetDate.toLocalDateTime(TimeZone.UTC).date
 
     return when {
-        targetLocalDate == currentDate -> "Hoy"
+        targetLocalDate == currentDate -> getString(Res.string.time_today)
         targetLocalDate > currentDate -> {
             val totalDays = currentDate.daysUntil(targetLocalDate)
             val months = totalDays / 30 // Aproximación
             val days = totalDays % 30
 
             when {
-                months > 0 -> "$months mes${if (months > 1) "es" else ""}"
-                days > 0 -> "$days día${if (days > 1) "s" else ""}"
-                else -> "Hoy"
+                months > 0 -> getString(
+                    if (months > 1) Res.string.time_months_other else Res.string.time_months_one,
+                    months
+                )
+                days > 0 -> getString(
+                    if (days > 1) Res.string.time_days_other else Res.string.time_days_one,
+                    days
+                )
+                else -> getString(Res.string.time_today)
             }
         }
 
-        else -> "Fecha pasada"
+        else -> getString(Res.string.time_past_date)
     }
 }
 

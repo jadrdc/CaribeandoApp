@@ -227,4 +227,47 @@
     <string name="rating_error_message">No se pudo enviar tu evaluación. Por favor, intenta nuevamente más tarde.</string>
     <string name="pay_balance_failed_message">No pudimos completar tu pago. Por favor, inténtalo nuevamente.</string>
     <string name="ticket_qr_caption">Muestra este código al operador el día de tu excursión.</string>
+
+    <!-- 2026-11-09: date, time and error copy moved out of Kotlin -->
+    <string-array name="months_short">
+        <item>Ene</item><item>Feb</item><item>Mar</item><item>Abr</item><item>May</item><item>Jun</item>
+        <item>Jul</item><item>Ago</item><item>Sep</item><item>Oct</item><item>Nov</item><item>Dic</item>
+    </string-array>
+    <string-array name="months_full">
+        <item>Enero</item><item>Febrero</item><item>Marzo</item><item>Abril</item><item>Mayo</item><item>Junio</item>
+        <item>Julio</item><item>Agosto</item><item>Septiembre</item><item>Octubre</item><item>Noviembre</item><item>Diciembre</item>
+    </string-array>
+    <string-array name="weekdays_short">
+        <item>Lun</item><item>Mar</item><item>Mié</item><item>Jue</item><item>Vie</item><item>Sáb</item><item>Dom</item>
+    </string-array>
+    <string name="time_today">Hoy</string>
+    <string name="time_past_date">Fecha pasada</string>
+    <string name="time_months_one">%1$d mes</string>
+    <string name="time_months_other">%1$d meses</string>
+    <string name="time_days_one">%1$d día</string>
+    <string name="time_days_other">%1$d días</string>
+    <string name="time_period_months">Meses</string>
+    <string name="time_period_month">Mes</string>
+    <string name="time_period_year">Año</string>
+    <string name="time_period_years">Años</string>
+    <string name="select_month">Selecciona el mes</string>
+    <string name="select_year">Selecciona el año</string>
+    <string name="select_year_description">Seleccionar año</string>
+    <string name="range_start">Inicio</string>
+    <string name="range_end">Fin</string>
+    <string name="code_short">Código</string>
+    <string name="error_connection">Error de conexión: No se pudo conectar al servidor</string>
+    <string name="error_unexpected_prefix">Error inesperado: %1$s</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="error_http_409">Ya existe un registro con esta información. Intenta con otros datos.</string>
+    <string name="error_http_400">Solicitud incorrecta: Los datos enviados son inválidos</string>
+    <string name="error_http_401">No autorizado: Credenciales incorrectas</string>
+    <string name="error_http_403">Prohibido: No tienes permisos para esta acción</string>
+    <string name="error_http_404">No encontrado: El recurso solicitado no existe</string>
+    <string name="error_http_500">Error del servidor: Problema interno del servidor</string>
+    <string name="error_http_other">Error HTTP %1$d: Error desconocido</string>
+    <string name="validation_passwords_must_match">Debes usar la misma contraseña para ambos campos</string>
+    <string name="validation_email_invalid">El correo no es válido</string>
+    <string name="validation_phone_invalid">El teléfono no es válido</string>
+    <string name="validation_password_invalid">La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo (@$!%*?&amp;)</string>
 </resources>

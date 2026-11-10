@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter.shopping.screen
 
+import caribeando.composeapp.generated.resources.payment_confirmation_code
 import org.jetbrains.compose.resources.stringResource
 import caribeando.composeapp.generated.resources.amount_paid
 import caribeando.composeapp.generated.resources.keep_exploring
@@ -129,7 +130,7 @@ fun PaymentSuccessScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "CÓDIGO DE CONFIRMACIÓN",
+                text = stringResource(Res.string.payment_confirmation_code).uppercase(),
                 color = colors.textSecondary,
                 fontSize = 10.5.sp,
                 fontWeight = FontWeight.Normal

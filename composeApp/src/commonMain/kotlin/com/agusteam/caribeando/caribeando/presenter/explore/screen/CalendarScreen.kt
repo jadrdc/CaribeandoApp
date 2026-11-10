@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.explore.screen
 
+import org.jetbrains.compose.resources.stringArrayResource
+import caribeando.composeapp.generated.resources.months_short
+import caribeando.composeapp.generated.resources.weekdays_short
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +43,7 @@ import com.agusteam.caribeando.presenter.common.BackIcon
 import com.agusteam.caribeando.presenter.common.TextLink
 import com.agusteam.caribeando.presenter.common.YearMonth
 import com.agusteam.caribeando.presenter.common.bounceClick
-import com.agusteam.caribeando.presenter.common.nameInSpanish
+import com.agusteam.caribeando.presenter.common.displayName
 import com.agusteam.caribeando.presenter.theme.caribeandoColors
 import com.agusteam.caribeando.presenter.theme.caribeandoTextStyles
 import kotlinx.datetime.DayOfWeek
@@ -116,7 +119,7 @@ fun CalendarScreen(
     }
     val rangeLabel = start?.let { s ->
         val e = end
-        if (e == null || e == s) s.shortSpanish() else "${s.shortSpanish()} – ${e.shortSpanish()}"
+        if (e == null || e == s) s.shortLabel() else "${s.shortLabel()} – ${e.shortLabel()}"
     } ?: stringResource(Res.string.calendar_pick_dates)
 
     Column(Modifier.fillMaxSize().background(colors.pageBackground)) {
@@ -223,7 +226,7 @@ private fun MonthBlock(
 
     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(
-            text = "${month.month.nameInSpanish()} ${month.year}",
+            text = "${month.month.displayName()} ${month.year}",
             color = colors.textPrimary,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
@@ -276,21 +279,17 @@ private fun MonthBlock(
     }
 }
 
-private val SPANISH_SHORT_MONTHS = listOf("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic")
 
-/** "22 ago" -- the handoff's range-label format. */
-internal fun LocalDate.shortSpanish(): String = "$dayOfMonth ${SPANISH_SHORT_MONTHS[month.ordinal]}"
+/** "22 ago" / "22 aug" -- the handoff's range-label format. */
+@Composable
+internal fun LocalDate.shortLabel(): String {
+    val months = stringArrayResource(Res.array.months_short)
+    return "$dayOfMonth ${months[month.ordinal].lowercase()}"
+}
 
-/** "Sáb 11 oct" -- used by the filter sheet's concrete date chips. */
-internal fun LocalDate.chipSpanish(): String {
-    val dow = when (dayOfWeek) {
-        DayOfWeek.MONDAY -> "Lun"
-        DayOfWeek.TUESDAY -> "Mar"
-        DayOfWeek.WEDNESDAY -> "Mié"
-        DayOfWeek.THURSDAY -> "Jue"
-        DayOfWeek.FRIDAY -> "Vie"
-        DayOfWeek.SATURDAY -> "Sáb"
-        else -> "Dom"
-    }
-    return "$dow ${shortSpanish()}"
+/** "Sáb 11 oct" / "Sat 11 oct" -- used by the filter sheet's concrete date chips. */
+@Composable
+internal fun LocalDate.chipLabel(): String {
+    val weekdays = stringArrayResource(Res.array.weekdays_short)
+    return "${weekdays[dayOfWeek.ordinal]} ${shortLabel()}"
 }

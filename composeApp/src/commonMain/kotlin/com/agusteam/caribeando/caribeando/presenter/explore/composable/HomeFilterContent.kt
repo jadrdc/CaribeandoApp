@@ -24,8 +24,8 @@ import com.agusteam.caribeando.presenter.common.Chip
 import com.agusteam.caribeando.presenter.common.SearchField
 import com.agusteam.caribeando.presenter.common.TextLink
 import com.agusteam.caribeando.presenter.common.bounceClick
-import com.agusteam.caribeando.presenter.explore.screen.chipSpanish
-import com.agusteam.caribeando.presenter.explore.screen.shortSpanish
+import com.agusteam.caribeando.presenter.explore.screen.chipLabel
+import com.agusteam.caribeando.presenter.explore.screen.shortLabel
 import com.agusteam.caribeando.presenter.explore.state.ExploreState
 import com.agusteam.caribeando.presenter.explore.viewmodels.ExploreEvent
 import com.agusteam.caribeando.presenter.theme.caribeandoColors
@@ -211,7 +211,7 @@ fun HomeFilterContent(
                     val s = filter.selectedLeavingTimeStart.toLocalDateTime(tz).date
                     val e = filter.selectedReturningTimeEnd.toLocalDateTime(tz).date
                     Chip(
-                        title = if (s == e) s.shortSpanish() else "${s.shortSpanish()} – ${e.shortSpanish()}",
+                        title = if (s == e) s.shortLabel() else "${s.shortLabel()} – ${e.shortLabel()}",
                         isSelected = true,
                         onClick = onOpenCalendar
                     )
@@ -223,7 +223,7 @@ fun HomeFilterContent(
                 )
                 upcomingWeekendDays.forEach { day ->
                     Chip(
-                        title = day.chipSpanish(),
+                        title = day.chipLabel(),
                         isSelected = filter.selectedDateChip == day,
                         onClick = { onEventChanged(ExploreEvent.OnFilterDateChipSelected(day)) }
                     )

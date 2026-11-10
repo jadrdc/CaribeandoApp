@@ -1,5 +1,11 @@
 package com.agusteam.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
+import caribeando.composeapp.generated.resources.range_start
+import caribeando.composeapp.generated.resources.range_end
+import caribeando.composeapp.generated.resources.select_year_description
+import caribeando.composeapp.generated.resources.select_year
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDp
@@ -106,7 +112,7 @@ fun ModernDateRangePicker(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "${selectedStart?.formatShort() ?: "Inicio"} - ${selectedEnd?.formatShort() ?: "Fin"}",
+                        text = "${selectedStart?.formatShort() ?: stringResource(Res.string.range_start)} - ${selectedEnd?.formatShort() ?: stringResource(Res.string.range_end)}",
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -144,13 +150,13 @@ fun ModernDateRangePicker(
                             modifier = Modifier.clickable { yearSelectorExpanded = true }
                         ) {
                             Text(
-                                text = "${selectedMonth.month.nameInSpanish()} ${selectedMonth.year}",
+                                text = "${selectedMonth.month.displayName()} ${selectedMonth.year}",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold
                             )
                             Icon(
                                 imageVector = Icons.Rounded.KeyboardArrowDown,
-                                contentDescription = "Seleccionar año",
+                                contentDescription = stringResource(Res.string.select_year_description),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -274,7 +280,7 @@ fun YearPickerDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Selecciona un año") },
+        title = { Text(stringResource(Res.string.select_year)) },
         text = {
             Column(modifier = Modifier.height(250.dp)) {
                 yearRange.forEach { year ->

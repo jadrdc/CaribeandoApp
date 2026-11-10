@@ -19,7 +19,10 @@ class FieldValidatorTest {
     @Test
     fun emailAcceptsValidAndRejectsInvalid() {
         assertFalse(validator.validateField(ValidatorType.EMAIL, "user@example.com").isError)
-        assertTrue(validator.validateField(ValidatorType.EMAIL, "user@example").isError)
+        assertEquals(
+            ValidationError.EMAIL_INVALID,
+            validator.validateField(ValidatorType.EMAIL, "user@example").error
+        )
         assertTrue(validator.validateField(ValidatorType.EMAIL, "not-an-email").isError)
     }
 
@@ -45,5 +48,6 @@ class FieldValidatorTest {
         val mismatch = validator.validateField(ValidatorType.PASSWORD_SAME, "Test1234@", "Other1234@")
         assertTrue(mismatch.isError)
         assertEquals(ValidatorType.PASSWORD_SAME, mismatch.validatorType)
+        assertEquals(ValidationError.PASSWORDS_MISMATCH, mismatch.error)
     }
 }

@@ -11,6 +11,7 @@ import com.agusteam.caribeando.domain.models.ErrorModel
 import com.agusteam.caribeando.domain.usecase.RequestResetPasswordEmailUseCase
 import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
+import com.agusteam.caribeando.presenter.signup.message
 import com.agusteam.caribeando.presenter.signup.state.ForgotPasswordState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -29,7 +30,8 @@ class ForgotPasswordViewModel(
     private suspend fun onEmailChanged(value: String) {
         setState { copy(email = value) }
         val result = validator.validateField(ValidatorType.EMAIL, value = value)
-        setState { copy(emailError = result.errorMessage, isEmailError = result.isError) }
+        val validationMessage = result.message()
+        setState { copy(emailError = validationMessage, isEmailError = result.isError) }
     }
 
     private suspend fun onErrorHappened(value: Boolean, title: String = "", message: String = "") {

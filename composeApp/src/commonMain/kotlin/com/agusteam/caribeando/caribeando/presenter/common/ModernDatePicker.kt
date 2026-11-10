@@ -1,5 +1,10 @@
 package com.agusteam.caribeando.presenter.common
 
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.resources.stringArrayResource
+import caribeando.composeapp.generated.resources.months_full
+import caribeando.composeapp.generated.resources.select_month
+import caribeando.composeapp.generated.resources.select_year
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.birthdate
 import org.jetbrains.compose.resources.stringResource
@@ -30,21 +35,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
 import kotlin.time.Clock
 
-fun Month.nameInSpanish(): String = when (this) {
-    Month.JANUARY -> "Enero"
-    Month.FEBRUARY -> "Febrero"
-    Month.MARCH -> "Marzo"
-    Month.APRIL -> "Abril"
-    Month.MAY -> "Mayo"
-    Month.JUNE -> "Junio"
-    Month.JULY -> "Julio"
-    Month.AUGUST -> "Agosto"
-    Month.SEPTEMBER -> "Septiembre"
-    Month.OCTOBER -> "Octubre"
-    Month.NOVEMBER -> "Noviembre"
-    Month.DECEMBER -> "Diciembre"
-    else -> ""
-}
+@Composable
+fun Month.displayName(): String = stringArrayResource(Res.array.months_full)[ordinal]
 
 
 fun isLeapYear(year: Int): Boolean = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
@@ -180,7 +172,7 @@ fun ModernDatePicker(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = selectedMonth.month.nameInSpanish(),
+                            text = selectedMonth.month.displayName(),
                             modifier = Modifier
                                 .clip(RoundedCornerShape(4.dp))
                                 .clickable { showMonthDialog = true }
@@ -277,14 +269,14 @@ fun ModernDatePicker(
     if (showMonthDialog) {
         AlertDialog(
             onDismissRequest = { showMonthDialog = false },
-            title = { Text("Selecciona el mes") },
+            title = { Text(stringResource(Res.string.select_month)) },
             text = {
                 Column {
                     Month.values().forEach { month ->
                         val newMonth = YearMonth(selectedMonth.year, month)
                         if (newMonth.year < maxAllowedDate.year || (newMonth.year == maxAllowedDate.year && month <= maxAllowedDate.month)) {
                             Text(
-                                text = month.nameInSpanish(),
+                                text = month.displayName(),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
@@ -306,7 +298,7 @@ fun ModernDatePicker(
 
         AlertDialog(
             onDismissRequest = { showYearDialog = false },
-            title = { Text("Selecciona el a\u00f1o") },
+            title = { Text(stringResource(Res.string.select_year)) },
             text = {
                 Column(modifier = Modifier.height(200.dp)) {
                     LazyColumn {

@@ -13,6 +13,7 @@ import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
 import com.agusteam.caribeando.domain.usecase.SignUpUseCase
 import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
+import com.agusteam.caribeando.presenter.signup.message
 import com.agusteam.caribeando.presenter.signup.state.SignupState
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
@@ -100,11 +101,12 @@ class SignUpViewModel(
         validatorType: ValidatorType, value: String, value2: String = ""
     ) {
         val result = validator.validateField(validatorType, value = value, value2 = value2)
+        val validationMessage = result.message()
         when (result.validatorType) {
             ValidatorType.EMAIL -> {
                 setState {
                     copy(
-                        emailError = result.errorMessage, isEmailError = result.isError
+                        emailError = validationMessage, isEmailError = result.isError
                     )
                 }
             }
@@ -112,7 +114,7 @@ class SignUpViewModel(
             ValidatorType.PHONE -> {
                 setState {
                     copy(
-                        phoneError = result.errorMessage, isPhoneError = result.isError
+                        phoneError = validationMessage, isPhoneError = result.isError
                     )
 
                 }
@@ -124,7 +126,7 @@ class SignUpViewModel(
                 }
                 setState {
                     copy(
-                        passwordError = result.errorMessage, isPasswordError = result.isError
+                        passwordError = validationMessage, isPasswordError = result.isError
                     )
                 }
             }
@@ -132,7 +134,7 @@ class SignUpViewModel(
             ValidatorType.PASSWORD_SAME -> {
                 setState {
                     copy(
-                        samePasswordError = result.errorMessage,
+                        samePasswordError = validationMessage,
                         isSamePasswordError = result.isError
                     )
                 }

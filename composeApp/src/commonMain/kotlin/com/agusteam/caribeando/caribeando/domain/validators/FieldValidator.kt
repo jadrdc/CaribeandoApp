@@ -34,7 +34,7 @@ class FieldValidator {
             ValidationResult(validatorType = ValidatorType.PASSWORD_SAME)
         } else {
             ValidationResult(
-                validatorType, "Debes usar la misma contraseña para ambos campos", true
+                validatorType, ValidationError.PASSWORDS_MISMATCH
             )
         }
     }
@@ -46,7 +46,7 @@ class FieldValidator {
             ValidationResult(validatorType = ValidatorType.EMAIL)
         } else {
             ValidationResult(
-                ValidatorType.EMAIL, "Email no es valido", true
+                ValidatorType.EMAIL, ValidationError.EMAIL_INVALID
             )
         }
     }
@@ -59,7 +59,7 @@ class FieldValidator {
             ValidationResult(validatorType = ValidatorType.PHONE)
         } else {
             ValidationResult(
-                ValidatorType.PHONE, "Telefono no es valido", true
+                ValidatorType.PHONE, ValidationError.PHONE_INVALID
             )
         }
     }
@@ -71,13 +71,19 @@ class FieldValidator {
             ValidationResult(validatorType = ValidatorType.PASSWORD)
         } else {
             ValidationResult(
-                ValidatorType.PASSWORD, "Contraseñas no es valida", true
+                ValidatorType.PASSWORD, ValidationError.PASSWORD_INVALID
             )
         }
     }
 }
 
 
+/** Why a field is invalid. The presentation layer turns this into localized text. */
+enum class ValidationError { PASSWORDS_MISMATCH, EMAIL_INVALID, PHONE_INVALID, PASSWORD_INVALID }
+
 data class ValidationResult(
-    val validatorType: ValidatorType, val errorMessage: String = "", val isError: Boolean = false
-)
+    val validatorType: ValidatorType,
+    val error: ValidationError? = null
+) {
+    val isError: Boolean get() = error != null
+}

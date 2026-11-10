@@ -19,6 +19,7 @@ import com.agusteam.caribeando.domain.usecase.RequestResetPasswordEmailUseCase
 import com.agusteam.caribeando.domain.usecase.SaveTokenDataUseCase
 import com.agusteam.caribeando.domain.validators.FieldValidator
 import com.agusteam.caribeando.domain.validators.ValidatorType
+import com.agusteam.caribeando.presenter.signup.message
 import com.agusteam.caribeando.presenter.signup.state.LoginState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -38,11 +39,12 @@ class LoginViewModel(
         value2: String = ""
     ) {
         val result = validator.validateField(validatorType, value = value, value2 = value2)
+        val validationMessage = result.message()
         when (result.validatorType) {
             ValidatorType.EMAIL -> {
                 setState {
                     copy(
-                        emailError = result.errorMessage, isEmailError = result.isError
+                        emailError = validationMessage, isEmailError = result.isError
                     )
                 }
             }

@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.orders.composable
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
+import caribeando.composeapp.generated.resources.code_short
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -109,7 +112,7 @@ fun UpcomingTripItem(
             ) {
                 Column {
                     Text(
-                        text = "CÓDIGO",
+                        text = stringResource(Res.string.code_short).uppercase(),
                         color = colors.textSecondary,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Normal

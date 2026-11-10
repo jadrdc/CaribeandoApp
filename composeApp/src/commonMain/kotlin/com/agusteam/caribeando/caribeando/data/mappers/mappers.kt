@@ -1,5 +1,17 @@
 package com.agusteam.caribeando.data.mappers
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.getString
+import caribeando.composeapp.generated.resources.error_connection
+import caribeando.composeapp.generated.resources.error_unexpected_prefix
+import caribeando.composeapp.generated.resources.error_unknown
+import caribeando.composeapp.generated.resources.error_http_409
+import caribeando.composeapp.generated.resources.error_http_400
+import caribeando.composeapp.generated.resources.error_http_401
+import caribeando.composeapp.generated.resources.error_http_403
+import caribeando.composeapp.generated.resources.error_http_404
+import caribeando.composeapp.generated.resources.error_http_500
+import caribeando.composeapp.generated.resources.error_http_other
 import com.agusteam.caribeando.core.base.NetworkUnavailableException
 import coil3.network.HttpException
 import com.agusteam.caribeando.core.base.OperationResult
@@ -27,7 +39,7 @@ fun UpcomingOrders.toDomain(): TripModel {
     )
 }
 
-fun TripListPaginationResponseItem.toDomain(): TripModel {
+suspend fun TripListPaginationResponseItem.toDomain(): TripModel {
     return TripModel(
         reviewCount = reviewCount,
         rating = rating,
@@ -60,7 +72,7 @@ fun TripListPaginationResponseItem.toDomain(): TripModel {
     )
 }
 
-fun List<TripProviderUpcomingTripsResponseItem>.toDomain(): List<TripModel> {
+suspend fun List<TripProviderUpcomingTripsResponseItem>.toDomain(): List<TripModel> {
     return map {
         TripModel(
             date = formatInstant(it.leaving_time),
@@ -98,29 +110,35 @@ suspend inline fun <reified T> mapResponse(response: HttpResponse): OperationRes
     }
 }
 
-fun mapExceptions(e: Exception): OperationResult<Nothing> {
+suspend fun mapExceptions(e: Exception): OperationResult<Nothing> {
     return when (e) {
-        is IOException -> OperationResult.Error(NetworkUnavailableException("Error de conexión: No se pudo conectar al servidor"))
+        is IOException -> OperationResult.Error(NetworkUnavailableException(getString(Res.string.error_connection)))
         is HttpException -> {
             val mensajeError = getErrorCode(e.response.code)
             OperationResult.Error(Exception(mensajeError))
         }
 
-        else -> OperationResult.Error(Exception("Error inesperado: ${e.message ?: e.message ?: "Error desconocido"}"))
+        else -> OperationResult.Error(
+            Exception(
+                getString(
+                    Res.string.error_unexpected_prefix,
+                    e.message ?: getString(Res.string.error_unknown)
+                )
+            )
+        )
     }
 }
 
-fun getErrorCode(
+suspend fun getErrorCode(
     code: Int
 ): String {
     return when (code) {
-        409 -> "Ya existe un registro con esta información. Intenta con otros datos."
-        400 -> "Solicitud incorrecta: Los datos enviados son inválidos"
-        401 -> "No autorizado: Credenciales incorrectas"
-        403 -> "Prohibido: No tienes permisos para esta acción"
-        404 -> "No encontrado: El recurso solicitado no existe"
-        500 -> "Error del servidor: Problema interno del servidor"
-        else -> "Error HTTP ${code}: Error desconocido"
+        409 -> getString(Res.string.error_http_409)
+        400 -> getString(Res.string.error_http_400)
+        401 -> getString(Res.string.error_http_401)
+        403 -> getString(Res.string.error_http_403)
+        404 -> getString(Res.string.error_http_404)
+        500 -> getString(Res.string.error_http_500)
+        else -> getString(Res.string.error_http_other, code)
     }
-
 }
