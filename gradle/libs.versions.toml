@@ -79,6 +79,7 @@
 #     runtime-behavior opt-in. Android SDK Platform 37 may need to be installed via the SDK
 #     Manager if Android Studio hasn't already fetched it.
 [versions]
+ktlint-plugin = "12.1.2"
 kvault = "1.12.0"
 qrcode-kotlin = "4.4.1"
 agp = "9.2.0"
@@ -184,6 +185,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-plugin" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 
 [bundles]

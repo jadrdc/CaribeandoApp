@@ -143,7 +143,6 @@ class ExploreViewModel(
                         futureDate,
                         futureTime
                     ).toInstant(TimeZone.currentSystemDefault())
-                    //TODO TEMAS DEL FAVORITO
                     getPaginatedTrips(
                         showRefresh = true,
                         categoryId = popular?.id ?: "",

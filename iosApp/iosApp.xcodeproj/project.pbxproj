@@ -21,12 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05659D9F2DF39B8200F2317D /* book_error_2.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = book_error_2.xml; sourceTree = "<group>"; };
 		05659DA02DF39B8200F2317D /* cancel.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cancel.xml; sourceTree = "<group>"; };
-		05659DA12DF39B8200F2317D /* caribeandoapp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caribeandoapp.png; sourceTree = "<group>"; };
 		05659DA22DF39B8200F2317D /* chevron_right_small.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = chevron_right_small.xml; sourceTree = "<group>"; };
-		05659DA32DF39B8200F2317D /* compose-multiplatform.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "compose-multiplatform.xml"; sourceTree = "<group>"; };
-		05659DA42DF39B8200F2317D /* empty_state.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_state.png; sourceTree = "<group>"; };
 		05659DA52DF39B8200F2317D /* google.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google.png; sourceTree = "<group>"; };
 		05659DA62DF39B8200F2317D /* ic_address.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ic_address.xml; sourceTree = "<group>"; };
 		05659DA72DF39B8200F2317D /* ic_arrow_back.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ic_arrow_back.xml; sourceTree = "<group>"; };
@@ -219,7 +215,6 @@
 		05659E772DF39B8200F2317D /* TripItemLoading.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TripItemLoading.kt; sourceTree = "<group>"; };
 		05659E782DF39B8200F2317D /* TripItemLoadingSection.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TripItemLoadingSection.kt; sourceTree = "<group>"; };
 		05659E7A2DF39B8200F2317D /* ActionButton.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActionButton.kt; sourceTree = "<group>"; };
-		05659E7B2DF39B8200F2317D /* AmoutSliderPicker.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = AmoutSliderPicker.kt; sourceTree = "<group>"; };
 		05659E7C2DF39B8200F2317D /* AnimationLoading.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = AnimationLoading.kt; sourceTree = "<group>"; };
 		05659E7D2DF39B8200F2317D /* BackButton.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = BackButton.kt; sourceTree = "<group>"; };
 		05659E7E2DF39B8200F2317D /* BackIcon.kt */ = {isa = PBXFileReference; lastKnownFileType = text; path = BackIcon.kt; sourceTree = "<group>"; };
@@ -423,12 +418,8 @@
 		05659DBB2DF39B8200F2317D /* drawable */ = {
 			isa = PBXGroup;
 			children = (
-				05659D9F2DF39B8200F2317D /* book_error_2.xml */,
 				05659DA02DF39B8200F2317D /* cancel.xml */,
-				05659DA12DF39B8200F2317D /* caribeandoapp.png */,
 				05659DA22DF39B8200F2317D /* chevron_right_small.xml */,
-				05659DA32DF39B8200F2317D /* compose-multiplatform.xml */,
-				05659DA42DF39B8200F2317D /* empty_state.png */,
 				05659DA52DF39B8200F2317D /* google.png */,
 				05659DA62DF39B8200F2317D /* ic_address.xml */,
 				05659DA72DF39B8200F2317D /* ic_arrow_back.xml */,
@@ -793,7 +784,6 @@
 				05659E742DF39B8200F2317D /* effects */,
 				05659E792DF39B8200F2317D /* loading */,
 				05659E7A2DF39B8200F2317D /* ActionButton.kt */,
-				05659E7B2DF39B8200F2317D /* AmoutSliderPicker.kt */,
 				05659E7C2DF39B8200F2317D /* AnimationLoading.kt */,
 				05659E7D2DF39B8200F2317D /* BackButton.kt */,
 				05659E7E2DF39B8200F2317D /* BackIcon.kt */,

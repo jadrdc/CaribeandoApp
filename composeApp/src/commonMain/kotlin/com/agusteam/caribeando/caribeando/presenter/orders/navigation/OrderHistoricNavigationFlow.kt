@@ -110,11 +110,7 @@ fun OrderHistoryNavigationFlow(
                         isUpcoming = isUpcoming,
                         paidAmount = order.paidAmount.toInt(),
                     )
-                    orderRoute?.let {
-                        navController.navigate(
-                            it
-                        )
-                    }
+                    navController.navigate(orderRoute)
                 })
         }
         composable<ShoppingOrderDetailScreenRoute> { backStackEntry ->

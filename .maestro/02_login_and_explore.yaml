@@ -1,0 +1,15 @@
+# Logs in with a test account and checks the tab bar. Credentials come from the environment, never the repo:
+#   maestro test -e EMAIL=you@example.com -e PASSWORD=secret .maestro/02_login_and_explore.yaml
+appId: com.agusteam.caribeando
+---
+- clearState
+- launchApp
+- tapOn: "Correo electrónico"
+- inputText: ${EMAIL}
+- tapOn: "Contraseña"
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Explorar"
+- tapOn: "Viajes"
+- assertVisible: "Viajes"

@@ -1,0 +1,7 @@
+# Smoke test: a fresh install lands on the login screen. Run: maestro test .maestro
+appId: com.agusteam.caribeando
+---
+- clearState
+- launchApp
+- assertVisible: "Excursiones en República Dominicana, reservadas en dos toques."
+- assertVisible: "Iniciar sesión"

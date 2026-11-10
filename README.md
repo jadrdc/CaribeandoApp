@@ -12,3 +12,8 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
 
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Quality checks
+
+- Lint: `./gradlew ktlintCheck` (existing violations live in `*/config/ktlint-baseline.xml`; fix new ones, don't grow the baseline).
+- Unit tests: `./gradlew :composeApp:testAndroidHostTest`.
+- E2E smoke tests (Maestro, app installed on a device/emulator): `maestro test .maestro`.
