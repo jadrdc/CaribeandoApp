@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.presenter.profile.composable
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
+import caribeando.composeapp.generated.resources.profile_image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -74,7 +77,7 @@ fun ProfileHeader(
             } else {
                 AsyncImage(
                     model = imageUrl,
-                    contentDescription = "Profile Image",
+                    contentDescription = stringResource(Res.string.profile_image),
                     modifier = Modifier
                         .size(120.dp)
                         .clip(CircleShape)

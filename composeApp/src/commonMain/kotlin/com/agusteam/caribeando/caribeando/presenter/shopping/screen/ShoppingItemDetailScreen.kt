@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter.shopping.screen
 
+import caribeando.composeapp.generated.resources.per_person_booking
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -232,7 +233,7 @@ fun ShoppingItemDetailScreen(
                             fontWeight = FontWeight.SemiBold
                         )
                         Text(
-                            text = "por persona · reserva ${formatMoney(state.initialPayment)}",
+                            text = stringResource(Res.string.per_person_booking, formatMoney(state.initialPayment)),
                             color = colors.textSecondary,
                             fontSize = 10.5.sp,
                             fontWeight = FontWeight.Normal

@@ -1,5 +1,8 @@
 package com.agusteam.caribeando.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.stringResource
+import caribeando.composeapp.generated.resources.star_description_single
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -27,7 +30,7 @@ fun RatingAndReviews(
     ) {
         Icon(
             imageVector = Icons.Filled.Star,
-            contentDescription = "Star",
+            contentDescription = stringResource(Res.string.star_description_single),
             tint = Color(0xFFFFB400), // Airbnb gold
             modifier = Modifier.size(20.dp)
         )

@@ -270,4 +270,12 @@
     <string name="validation_email_invalid">El correo no es válido</string>
     <string name="validation_phone_invalid">El teléfono no es válido</string>
     <string name="validation_password_invalid">La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo (@$!%*?&amp;)</string>
+
+    <string name="per_person">por persona</string>
+    <string name="per_person_booking">por persona · reserva %1$s</string>
+    <string name="star_description">Estrella %1$d</string>
+    <string name="star_description_single">Estrella</string>
+    <string name="previous_month">Mes anterior</string>
+    <string name="next_month">Mes siguiente</string>
+    <string name="profile_image">Imagen de perfil</string>
 </resources>

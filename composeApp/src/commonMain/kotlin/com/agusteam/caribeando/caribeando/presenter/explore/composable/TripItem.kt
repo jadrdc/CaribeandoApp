@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.presenter.explore.composable
 
+import caribeando.composeapp.generated.resources.per_person
 import caribeando.composeapp.generated.resources.Res
 import caribeando.composeapp.generated.resources.reviews_count
 import org.jetbrains.compose.resources.stringResource
@@ -150,7 +151,7 @@ fun TripItem(
                     )
                     Text(
                         modifier = Modifier.padding(start = 4.dp),
-                        text = "por persona",
+                        text = stringResource(Res.string.per_person),
                         color = colors.textSecondary,
                         fontWeight = FontWeight.Normal,
                         fontSize = 11.5.sp

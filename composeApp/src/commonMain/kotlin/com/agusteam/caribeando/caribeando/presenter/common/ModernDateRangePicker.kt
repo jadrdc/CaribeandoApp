@@ -1,5 +1,7 @@
 package com.agusteam.caribeando.presenter.common
 
+import caribeando.composeapp.generated.resources.previous_month
+import caribeando.composeapp.generated.resources.next_month
 import caribeando.composeapp.generated.resources.Res
 import org.jetbrains.compose.resources.stringResource
 import caribeando.composeapp.generated.resources.range_start
@@ -141,7 +143,7 @@ fun ModernDateRangePicker(
                         IconButton(onClick = { selectedMonth = selectedMonth.minus(1) }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                                contentDescription = "Mes anterior"
+                                contentDescription = stringResource(Res.string.previous_month)
                             )
                         }
 
@@ -164,7 +166,7 @@ fun ModernDateRangePicker(
                         IconButton(onClick = { selectedMonth = selectedMonth.plus(1) }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
-                                contentDescription = "Mes siguiente"
+                                contentDescription = stringResource(Res.string.next_month)
                             )
                         }
                     }
@@ -202,9 +204,11 @@ fun ModernDateRangePicker(
                         items(daysInMonth) { index ->
                             val day = index + 1
                             val date = LocalDate(selectedMonth.year, selectedMonth.month, day)
-                            val isSelected = date == selectedStart || date == selectedEnd
-                            val isInRange = selectedStart != null && selectedEnd != null &&
-                                    date > selectedStart!! && date < selectedEnd!!
+                            val rangeStart = selectedStart
+                            val rangeEnd = selectedEnd
+                            val isSelected = date == rangeStart || date == rangeEnd
+                            val isInRange = rangeStart != null && rangeEnd != null &&
+                                    date > rangeStart && date < rangeEnd
                             val isToday = date == today
 
                             Box(
@@ -225,18 +229,20 @@ fun ModernDateRangePicker(
                                         }
                                     )
                                     .clickable {
+                                        val start = selectedStart
+                                        val end = selectedEnd
                                         when {
-                                            selectedStart == null || (selectedStart != null && selectedEnd != null) -> {
+                                            start == null || end != null -> {
                                                 selectedStart = date
                                                 selectedEnd = null
                                             }
 
-                                            date < selectedStart!! -> {
-                                                selectedEnd = selectedStart
+                                            date < start -> {
+                                                selectedEnd = start
                                                 selectedStart = date
                                             }
 
-                                            date == selectedStart -> {
+                                            date == start -> {
                                                 selectedStart = date
                                                 selectedEnd = null
                                             }
@@ -246,10 +252,11 @@ fun ModernDateRangePicker(
                                             }
                                         }
 
-                                        if (selectedStart != null) {
+                                        val newStart = selectedStart
+                                        if (newStart != null) {
                                             onRangeSelected(
-                                                selectedStart!!.atStartOfDayIn(timeZone),
-                                                (selectedEnd ?: selectedStart)!!.atStartOfDayIn(timeZone)
+                                                newStart.atStartOfDayIn(timeZone),
+                                                (selectedEnd ?: newStart).atStartOfDayIn(timeZone)
                                             )
                                         }
                                     },

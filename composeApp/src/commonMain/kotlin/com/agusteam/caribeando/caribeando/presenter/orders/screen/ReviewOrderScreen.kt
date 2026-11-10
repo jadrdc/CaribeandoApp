@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.caribeando.presenter.orders.screen
 
+import caribeando.composeapp.generated.resources.star_description
 import caribeando.composeapp.generated.resources.how_was_trip
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -295,7 +296,7 @@ fun StarSelector(
         for (i in 1..maxStars) {
             Icon(
                 imageVector = if (i <= rating) Icons.Filled.Star else Icons.Outlined.Star,
-                contentDescription = "Estrella $i",
+                contentDescription = stringResource(Res.string.star_description, i),
                 tint = if (i <= rating) colors.star else colors.emptyStar,
                 modifier = Modifier
                     .size(42.dp)

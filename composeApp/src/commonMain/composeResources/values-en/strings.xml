@@ -254,4 +254,12 @@
     <string name="validation_email_invalid">The email isn’t valid</string>
     <string name="validation_phone_invalid">The phone number isn’t valid</string>
     <string name="validation_password_invalid">The password needs at least 8 characters, an uppercase letter, a number and a symbol (@$!%*?&amp;)</string>
+
+    <string name="per_person">per person</string>
+    <string name="per_person_booking">per person · booking %1$s</string>
+    <string name="star_description">Star %1$d</string>
+    <string name="star_description_single">Star</string>
+    <string name="previous_month">Previous month</string>
+    <string name="next_month">Next month</string>
+    <string name="profile_image">Profile image</string>
 </resources>
