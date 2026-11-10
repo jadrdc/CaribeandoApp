@@ -6,6 +6,8 @@ import androidx.compose.ui.window.ComposeUIViewController
 import com.agusteam.caribeando.caribeando.core.NativeViewFactory
 import com.agusteam.caribeando.caribeando.core.StripeNativeBridge
 import com.agusteam.caribeando.core.di.dataDiModule
+import com.agusteam.caribeando.data.network.ApiConfig
+import platform.Foundation.NSBundle
 import com.agusteam.caribeando.core.di.dataStorageDIModule
 import com.agusteam.caribeando.core.di.diDomainModule
 import com.agusteam.caribeando.core.di.networkModule
@@ -25,6 +27,10 @@ fun MainViewController(
     nativeViewFactory: NativeViewFactory,
     stripe: StripeNativeBridge
 ) = ComposeUIViewController(configure = {
+    // Optional backend override from Info.plist (ApiBaseUrl <- API_BASE_URL in Config.xcconfig).
+    (NSBundle.mainBundle.objectForInfoDictionaryKey("ApiBaseUrl") as? String)
+        ?.takeIf { it.isNotBlank() }
+        ?.let { ApiConfig.baseUrl = it }
     startKoin {
         modules(
             diDomainModule, viewModelModule, dataDiModule, networkModule,
