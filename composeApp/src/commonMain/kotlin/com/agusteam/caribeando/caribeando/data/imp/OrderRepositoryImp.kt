@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.data.imp
 
+import com.agusteam.caribeando.core.base.NetworkUnavailableException
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.mappers.mapExceptions
 import com.agusteam.caribeando.data.model.CancelOrderRequest
@@ -12,13 +13,30 @@ import com.agusteam.caribeando.data.model.UpcomingOrderTripModelResponse
 import com.agusteam.caribeando.data.network.services.OrderService
 import com.agusteam.caribeando.domain.interfaces.OrderRepository
 
-class OrderRepositoryImp(private val orderService: OrderService) : OrderRepository {
+class OrderRepositoryImp(
+    private val orderService: OrderService,
+    private val orderCache: OrderCache? = null
+) : OrderRepository {
     override suspend fun getUpcomingOrders(): OperationResult<List<UpcomingOrderTripModelResponse>> {
-        return try {
-            val orders = orderService.getUpcomingTripOrders()
-            orders
+        val result = try {
+            orderService.getUpcomingTripOrders()
         } catch (e: Exception) {
             mapExceptions(e)
+        }
+        return when (result) {
+            is OperationResult.Success -> {
+                // Caching must never break the screen, so a storage failure is ignored.
+                runCatching { orderCache?.save(result.data) }
+                result
+            }
+            is OperationResult.Error -> {
+                // Only a connectivity failure falls back to the last known orders; an auth or
+                // server error must still surface.
+                val cached = if (result.exception is NetworkUnavailableException) {
+                    runCatching { orderCache?.load() }.getOrNull()
+                } else null
+                if (cached != null) OperationResult.Success(cached) else result
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.agusteam.caribeando.core.di
 
 import com.agusteam.caribeando.data.imp.CategoryRepositoryImpl
 import com.agusteam.caribeando.data.imp.LocalStorageDataStore
+import com.agusteam.caribeando.data.imp.OrderCache
 import com.agusteam.caribeando.data.imp.LoginRepositoryImpl
 import com.agusteam.caribeando.data.imp.OrderRepositoryImp
 import com.agusteam.caribeando.data.imp.PaymentRepositoryImp
@@ -87,7 +88,7 @@ val diDomainModule = module {
     single<CancelPaymentOrderUseCase> { CancelPaymentOrderUseCase(get()) }
     single<GetUpcomingTripOrderUseCase> { GetUpcomingTripOrderUseCase(get()) }
     single<GetPastTripOrderUseCase> { GetPastTripOrderUseCase(get()) }
-    single<OrderRepository> { OrderRepositoryImp(get()) }
+    single<OrderRepository> { OrderRepositoryImp(get(), OrderCache(get())) }
     single<RequestOrderCancellationUseCase> { RequestOrderCancellationUseCase(get()) }
     single<PayOrderBalanceUseCase> { PayOrderBalanceUseCase(get()) }
     single<ReportOrderUseCase> { ReportOrderUseCase(get()) }

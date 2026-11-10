@@ -1,5 +1,6 @@
 package com.agusteam.caribeando.data.mappers
 
+import com.agusteam.caribeando.core.base.NetworkUnavailableException
 import coil3.network.HttpException
 import com.agusteam.caribeando.core.base.OperationResult
 import com.agusteam.caribeando.data.model.CategoryResponse
@@ -99,7 +100,7 @@ suspend inline fun <reified T> mapResponse(response: HttpResponse): OperationRes
 
 fun mapExceptions(e: Exception): OperationResult<Nothing> {
     return when (e) {
-        is IOException -> OperationResult.Error(Exception("Error de conexión: No se pudo conectar al servidor"))
+        is IOException -> OperationResult.Error(NetworkUnavailableException("Error de conexión: No se pudo conectar al servidor"))
         is HttpException -> {
             val mensajeError = getErrorCode(e.response.code)
             OperationResult.Error(Exception(mensajeError))
