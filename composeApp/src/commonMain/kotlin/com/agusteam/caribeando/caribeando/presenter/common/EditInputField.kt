@@ -60,7 +60,7 @@ fun EditInputField(
     val colors = caribeandoColors
     val textStyles = caribeandoTextStyles()
 
-    Column {
+    Column(modifier = modifier) {
         OutlinedTextField(
             visualTransformation = if (keyboardType == KeyboardType.Password && !passwordVisible) {
                 PasswordVisualTransformation()
@@ -92,7 +92,7 @@ fun EditInputField(
                     onQueryChange(it)
                 }
             },
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth(),
             label = {
                 Text(
